@@ -24,7 +24,7 @@ Q_INVOKABLE void ScreenListModel::reload() {
 }
 
 Q_INVOKABLE void ScreenListModel::add(QString text, int font) {
-    int id = repo.create(m_hymnId,text,font);
+    repo.create(m_hymnId,text,font);
     reload();
 }
 

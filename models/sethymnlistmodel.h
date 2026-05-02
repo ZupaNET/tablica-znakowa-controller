@@ -9,7 +9,7 @@ class SetHymnListModel : public BaseListModel
     Q_OBJECT
     Q_PROPERTY(int setId READ setId WRITE setSetId NOTIFY setIdChanged)
 public:
-    enum Roles { IdRole=Qt::UserRole+1, TextRole, OrderRole, FontRole };
+    enum Roles { IdRole=Qt::UserRole+1, NameRole, CategoryRole };
 
     explicit SetHymnListModel(QObject *parent = nullptr)
         : BaseListModel(parent) {}
@@ -27,7 +27,7 @@ public:
         };
     }
 
-    Q_INVOKABLE void load();
+    Q_INVOKABLE void reload() override;
     Q_INVOKABLE void addHymn(int hymnId);
     Q_INVOKABLE void removeHymn(int row);
     Q_INVOKABLE void move(int from, int to);
