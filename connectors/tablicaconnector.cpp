@@ -33,6 +33,30 @@ void TablicaConnector::setFont(quint8 font){
     sendCommand("f0"+QString::number(font));
 }
 
+bool TablicaConnector::sendScreen(Screen &scr) {
+    if(frozen) return false;
+    QStringList lines = scr.text.split("\n");
+    for(int i = 0; i < 12; i++)
+    {
+        QString line = " ";
+
+        if(i < lines.size())
+            line = lines.at(i) + line;
+
+        if(!sendLine(line,i)) return false;
+    }
+
+    setFont(scr.font);
+
+    if(!display()) return false;
+
+    setBrightness(brightness);
+
+    if(!submitCommand()) return false;
+
+    return true;
+}
+
 bool TablicaConnector::sendLine(QString line, quint8 lineNumber){
     QString command = "l"+QString::number(lineNumber).rightJustified(2, '0', true)+line+" ";
     return sendCommand(command);

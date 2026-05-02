@@ -4,7 +4,7 @@ project(TablicaZnakowa VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Core Gui Qml QuickControls2)
+find_package(Qt6 REQUIRED COMPONENTS Quick Core Gui Qml QuickControls2 Sql)
 
 qt_standard_project_setup(REQUIRES 6.10)
 
@@ -19,6 +19,16 @@ qt_add_qml_module(appTablicaZnakowa
         SOURCES connectors/tablicaconnector.h connectors/tablicaconnector.cpp
         QML_FILES ui/PresenterMode.qml
         SOURCES ui/PresenterMode.cpp
+        SOURCES connectors/databaseconnector.h connectors/databaseconnector.cpp
+        SOURCES models/dto.h
+        SOURCES repositories/hymnrepository.h repositories/hymnrepository.cpp
+        SOURCES repositories/screenrepository.h repositories/screenrepository.cpp
+        SOURCES repositories/setrepository.h repositories/setrepository.cpp
+        SOURCES repositories/categoryrepository.h repositories/categoryrepository.cpp
+        SOURCES models/baselistmodel.h models/baselistmodel.cpp
+        SOURCES models/hymnlistmodel.h models/hymnlistmodel.cpp
+        SOURCES models/screenlistmodel.h models/screenlistmodel.cpp
+        SOURCES models/sethymnlistmodel.h models/sethymnlistmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -39,6 +49,7 @@ target_link_libraries(appTablicaZnakowa
     Qt6::Gui
     Qt6::Qml
     Qt6::QuickControls2
+    Qt6::Sql
 )
 
 install(TARGETS appTablicaZnakowa
