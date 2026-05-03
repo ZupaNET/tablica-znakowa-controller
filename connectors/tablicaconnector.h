@@ -5,6 +5,7 @@
 #include <QHostAddress>
 #include <QTcpSocket>
 #include <QAbstractSocket>
+#include "models/dto.h"
 
 class TablicaConnector
 :public QObject
@@ -38,6 +39,7 @@ public slots:
     void setBrightness(quint8 brightness);
     void setFont(quint8 font);
 
+    bool sendScreen(Screen &scr);
     bool sendLine(QString line, quint8 lineNumber);
     bool display();
     bool shutdown();
