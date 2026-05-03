@@ -19,6 +19,7 @@ qt_add_qml_module(appTablicaZnakowa
         SOURCES connectors/tablicaconnector.h connectors/tablicaconnector.cpp
         QML_FILES ui/PresenterMode.qml
         SOURCES ui/PresenterMode.cpp
+        RESOURCES ui/resources/MiniForma2.ttf
         SOURCES connectors/databaseconnector.h connectors/databaseconnector.cpp
         SOURCES models/dto.h
         SOURCES repositories/hymnrepository.h repositories/hymnrepository.cpp
