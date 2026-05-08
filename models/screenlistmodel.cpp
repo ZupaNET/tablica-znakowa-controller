@@ -10,9 +10,23 @@ void ScreenListModel::setHymnId(int id) {
 QVariant ScreenListModel::data(const QModelIndex& index, int role) const {
     auto& s = m_data[index.row()];
     if (role==IdRole) return s.id;
+    if (role==ScreenRole) return QVariant::fromValue(s);
     if (role==TextRole) return s.text;
     if (role==OrderRole) return s.order;
     if (role==FontRole) return s.font;
+    if (role==HymnNameRole) return s.hymnName;
+    if (role==ExcerptRole){
+        QStringList lines = s.text.split('\n');
+
+        for (const auto& line : std::as_const(lines))
+        {
+            if (!line.trimmed().isEmpty())
+                return line.trimmed();
+        }
+
+        return "";
+    }
+
     return {};
 }
 

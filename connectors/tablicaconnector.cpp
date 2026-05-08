@@ -1,31 +1,71 @@
 #include "tablicaconnector.h"
 #include <QDebug>
+#include <QThread>
 
 TablicaConnector::TablicaConnector(QObject* parent)
-    : client(new QTcpSocket(this)){}
+    : client(new QTcpSocket(this)){
+}
 
+TablicaConnector::~TablicaConnector(){
+}
 
-void TablicaConnector::setFreeze(bool state){
-    frozen = state;
+void TablicaConnector::setBuffer(const Screen& buffer){
+    if(this->buffer == buffer){
+        return;
+    }
+    this->buffer = buffer;
+    emit bufferChanged();
+
+    sendScreen(buffer);
+}
+
+Screen TablicaConnector::getBuffer(){
+    return buffer;
+}
+
+void TablicaConnector::setEnabled(bool state){
+    if(enabled == state){
+        return;
+    }
+
+    enabled = state;
+    emit enabledChanged();
     qDebug()<<state;
 }
 
-bool TablicaConnector::isFrozen(){
-    return frozen;
+bool TablicaConnector::isEnabled(){
+    return enabled;
 }
 
 void TablicaConnector::setIpAddress(QString ipAddress){
+    if(this->ipAddress == QHostAddress(ipAddress)){
+        return;
+    }
+
     this->ipAddress = QHostAddress(ipAddress);
+    emit ipAddressChanged();
+}
+
+QString TablicaConnector::getIpAddress(){
+    return ipAddress.toString();
 }
 
 void TablicaConnector::setPort(quint16 port){
+    if(this->port == port){
+        return;
+    }
+
     this->port = port;
+    emit portChanged();
+}
+
+quint16 TablicaConnector::getPort(){
+    return port;
 }
 
 void TablicaConnector::setBrightness(quint8 brightness){
     this->brightness = brightness;
     sendCommand("j0"+QString::number(brightness));
-    submitCommand();
 }
 
 void TablicaConnector::setFont(quint8 font){
@@ -33,9 +73,13 @@ void TablicaConnector::setFont(quint8 font){
     sendCommand("f0"+QString::number(font));
 }
 
-bool TablicaConnector::sendScreen(Screen &scr) {
-    if(frozen) return false;
-    QStringList lines = scr.text.split("\n");
+bool TablicaConnector::sendScreen(const Screen& scr) {
+    if(!enabled) return false;
+    QString normalized = scr.text;
+    normalized.replace("\r\n", "\n");
+    normalized.replace('\r', '\n');
+
+    QStringList lines = normalized.split('\n');
     for(int i = 0; i < 12; i++)
     {
         QString line = " ";
@@ -63,7 +107,7 @@ bool TablicaConnector::sendLine(QString line, quint8 lineNumber){
 }
 
 bool TablicaConnector::display(){
-    if(frozen) return false;
+    if(!enabled) return false;
     return sendCommand("go0");
 }
 
@@ -84,12 +128,30 @@ bool TablicaConnector::submitCommand(){
 }
 
 bool TablicaConnector::sendCommand(QString command){
-    client->connectToHost(ipAddress, port);
-    client->waitForConnected(1000);
-    if(client->isOpen()){
+    QTcpSocket socket;
+    socket.connectToHost(ipAddress, port);
+    if(!socket.waitForConnected(1000))
+        return false;
+    if(socket.isOpen()){
         QString packet = command+"\n";
-        client->write(packet.toUtf8());
-        client->disconnect();
+        if(socket.write(packet.toUtf8()) == -1){
+            return false;
+        }
+        if(!socket.waitForBytesWritten(1000))
+            return false;
+        if(socket.waitForReadyRead(1000))
+        {
+            QByteArray response =
+                socket.readAll();
+            if(!(response == "ok\n")){
+                return false;
+            }
+        }
+        socket.disconnectFromHost();
+        if(socket.state() != QAbstractSocket::UnconnectedState)
+        {
+            socket.waitForDisconnected(1000);
+        }
         return true;
     }else{
         return false;

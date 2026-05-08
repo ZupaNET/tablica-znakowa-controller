@@ -13,7 +13,7 @@ public:
 
     void setHymnId(int id);
 
-    enum Roles { IdRole=Qt::UserRole+1, TextRole, OrderRole, FontRole };
+    enum Roles { IdRole=Qt::UserRole+1, ScreenRole, HymnNameRole, TextRole, OrderRole, FontRole, ExcerptRole };
 
     explicit ScreenListModel(QObject *parent = nullptr)
         : BaseListModel(parent) {}
@@ -23,9 +23,12 @@ public:
     QHash<int,QByteArray> roleNames() const override {
         return {
             {IdRole,"id"},
+            {ScreenRole,"screen"},
+            {HymnNameRole,"hymnName"},
             {TextRole,"text"},
             {OrderRole,"order"},
-            {FontRole,"font"}
+            {FontRole,"font"},
+            {ExcerptRole,"excerpt"}
         };
     }
 

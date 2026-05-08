@@ -12,6 +12,9 @@ qt_add_executable(appTablicaZnakowa
     main.cpp
 )
 
+set_source_files_properties(navigation/Navigation.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
 qt_add_qml_module(appTablicaZnakowa
     URI TablicaZnakowa
     QML_FILES
@@ -19,7 +22,7 @@ qt_add_qml_module(appTablicaZnakowa
         SOURCES connectors/tablicaconnector.h connectors/tablicaconnector.cpp
         QML_FILES ui/PresenterMode.qml
         SOURCES ui/PresenterMode.cpp
-        RESOURCES ui/resources/MiniForma2.ttf
+        RESOURCES ui/resources/fonts/MiniForma2.ttf
         SOURCES connectors/databaseconnector.h connectors/databaseconnector.cpp
         SOURCES models/dto.h
         SOURCES repositories/hymnrepository.h repositories/hymnrepository.cpp
@@ -30,6 +33,13 @@ qt_add_qml_module(appTablicaZnakowa
         SOURCES models/hymnlistmodel.h models/hymnlistmodel.cpp
         SOURCES models/screenlistmodel.h models/screenlistmodel.cpp
         SOURCES models/sethymnlistmodel.h models/sethymnlistmodel.cpp
+        RESOURCES ui/resources/fonts/ARIAL.TTF
+        RESOURCES ui/resources/fonts/ARIALBD.TTF
+        QML_FILES ui/SetViewItems.qml
+        QML_FILES ui/SetsManager.qml
+        QML_FILES ui/TablicaScreen.qml
+        QML_FILES navigation/Navigation.qml
+        SOURCES settings/appsettings.h settings/appsettings.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -41,6 +51,9 @@ set_target_properties(appTablicaZnakowa PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
+    QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
+
+    QT_ANDROID_APP_NAME "Tablica Znakowa"
 )
 
 target_link_libraries(appTablicaZnakowa
