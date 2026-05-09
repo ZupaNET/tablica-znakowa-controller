@@ -102,8 +102,8 @@ bool TablicaConnector::sendScreen(const Screen& scr) {
 }
 
 bool TablicaConnector::sendLine(QString line, quint8 lineNumber){
-    QString command = "l"+QString::number(lineNumber).rightJustified(2, '0', true)+line+" ";
-    return sendCommand(command);
+    QString command = "l"+QString::number(lineNumber).rightJustified(2, '0', true)+line+"";
+    return sendCommand(command+'\0');
 }
 
 bool TablicaConnector::display(){
@@ -133,7 +133,7 @@ bool TablicaConnector::sendCommand(QString command){
     if(!socket.waitForConnected(1000))
         return false;
     if(socket.isOpen()){
-        QString packet = command+"\n";
+        QString packet = command+'\n';
         if(socket.write(packet.toUtf8()) == -1){
             return false;
         }

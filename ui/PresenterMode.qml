@@ -8,7 +8,7 @@ import TablicaZnakowa
 Item {
     ScreenListModel {
         id: screensModel
-        hymnId: 99
+        hymnId: 152
         Component.onCompleted: reload()
     }
 
