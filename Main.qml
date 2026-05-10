@@ -8,6 +8,8 @@ ApplicationWindow {
     height: 800
     visible: true
     title: qsTr("Tryb prezentacji")
+    color: "#202020"
+    bottomPadding: SafeArea.margins.bottom
 
     Item {
         anchors.fill: parent
@@ -16,6 +18,7 @@ ApplicationWindow {
         StackView {
             id: stack
             anchors.fill: parent
+            clip: true
 
             initialItem: SetsManager{}
         }

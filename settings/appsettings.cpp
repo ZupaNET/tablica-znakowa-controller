@@ -8,6 +8,11 @@ AppSettings::AppSettings(QObject *parent)
                                     "screenView"
                                     ).toString();
 
+    m_screenViewButtons = m_settings.value(
+                              "screenViewButtons",
+                              "open"
+                              ).toString();
+
     m_setView = m_settings.value(
                                 "setView",
                                 "open"
@@ -30,6 +35,24 @@ void AppSettings::setScreenView(const QString &mode){
         );
 
     emit screenViewChanged();
+}
+
+QString AppSettings::screenViewButtons() const{
+    return m_screenViewButtons;
+}
+
+void AppSettings::setScreenViewButtons(const QString &mode){
+    if (mode == m_screenViewButtons)
+        return;
+
+    m_screenViewButtons = mode;
+
+    m_settings.setValue(
+        "screenViewButtons",
+        mode
+        );
+
+    emit screenViewButtonsChanged();
 }
 
 QString AppSettings::setView() const{

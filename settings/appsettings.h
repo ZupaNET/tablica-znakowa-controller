@@ -15,6 +15,11 @@ class AppSettings : public QObject
                     WRITE setScreenView
                     NOTIFY screenViewChanged)
 
+    Q_PROPERTY(QString screenViewButtons
+                    READ screenViewButtons
+                    WRITE setScreenViewButtons
+                    NOTIFY screenViewButtonsChanged)
+
     Q_PROPERTY(QString setView
                     READ setView
                     WRITE setSetView
@@ -26,18 +31,23 @@ public:
     QString screenView() const;
     void setScreenView(const QString &mode);
 
+    QString screenViewButtons() const;
+    void setScreenViewButtons(const QString &state);
+
     QString setView() const;
     void setSetView(const QString &state);
 
 
 signals:
     void screenViewChanged();
+    void screenViewButtonsChanged();
     void setViewChanged();
 
 private:
     QSettings m_settings;
 
     QString m_screenView;
+    QString m_screenViewButtons;
     QString m_setView;
 };
 #endif // APPSETTINGS_H

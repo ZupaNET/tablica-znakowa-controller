@@ -13,6 +13,7 @@ Item {
     }
 
     Rectangle{
+        id: root
         anchors.fill: parent
         color: "#FFFFFF"
 
@@ -64,44 +65,46 @@ Item {
             id: mainView
             anchors {
                 top: topBar.bottom
-                right: buttonHideSetView.left
+                right: setView.left
                 bottom: parent.bottom
                 left: parent.left
-                rightMargin: 10
             }
 
-            Text{
-                id: textSetTitle
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    topMargin: 10
-                    leftMargin: 20
-                }
-                text: "Niedziela zwykła"
-                font.pixelSize: 30
-            }
+            // Text{
+            //     id: textSetTitle
+            //     anchors {
+            //         top: parent.top
+            //         left: parent.left
+            //         topMargin: 10
+            //         leftMargin: 20
+            //     }
+            //     text: "Niedziela zwykła"
+            //     font.pixelSize: 30
+            // }
 
-            Text{
-                id: textHymnTitle
-                anchors {
-                    top: textSetTitle.bottom
-                    left: parent.left
-                    topMargin: -3
-                    bottomMargin: 10
-                    leftMargin: 20
-                }
-                text: TablicaConnector.buffer.hymnName
-                font.pixelSize: 15
-            }
+            // Text{
+            //     id: textHymnTitle
+            //     anchors {
+            //         top: textSetTitle.bottom
+            //         left: parent.left
+            //         topMargin: -3
+            //         bottomMargin: 10
+            //         leftMargin: 20
+            //     }
+            //     text: TablicaConnector.buffer.hymnName
+            //     font.pixelSize: 15
+            // }
 
             Rectangle {
                 id: screenView
                 anchors {
-                    top: textHymnTitle.bottom
+                    top: parent.top
                     right: parent.right
-                    bottom: screenViewButtons.top
+                    bottom: parent.bottom
                     left: parent.left
+                    rightMargin: 50
+                    leftMargin: 50
+                    bottomMargin: screenViewButtonsDrawer.position * screenViewButtonsDrawer.height
                 }
 
                 TablicaScreen {
@@ -111,47 +114,76 @@ Item {
                 }
             }
 
-            Rectangle{
-                id: screenViewButtons
-                anchors {
-                    right: parent.right
-                    bottom: parent.bottom
-                    left: parent.left
+            Button{
+                id: buttonHideScreenOptions
+                x: 10
+                y: root.height - height - 20 - (screenViewButtonsDrawer.position * screenViewButtonsDrawer.height)
+                height: 75;
+                width: 50;
+                Text{
+                    anchors{
+                        top: parent.top
+                        topMargin: 5
+                        horizontalCenter: parent.horizontalCenter
+                    }
+
+                    text: "..."
+                    font.pixelSize: 24
                 }
+                onClicked: {
+                    if(screenViewButtonsDrawer.opened){
+                        screenViewButtonsDrawer.close()
+                    }else{
+                        screenViewButtonsDrawer.open()
+                    }
+                }
+            }
+
+            Drawer{
+                id: screenViewButtonsDrawer
+                edge: Qt.BottomEdge
+                width: parent.width
                 height: 65
+                modal: false
+                interactive: true
+                closePolicy: Popup.NoAutoClose
 
-                Button{
-                    id: buttonChangeView
-                    anchors {
-                        left: parent.left
-                        bottom: parent.bottom
-                        margins: 10
+                background: Rectangle{
+                        color: "#cfcfcf"
                     }
-                    text: "Widok"
-                    onClicked: {
-                        AppSettings.screenView === "screenView"? AppSettings.screenView = "textView" : AppSettings.screenView === "textView"? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
-                    }
-                }
 
-                Button{
-                    id: buttonSetItemProperties
-                    anchors {
-                        right: buttonScreenEdit.left
-                        bottom: parent.bottom
-                        margins: 10
+                    Button{
+                        id: buttonChangeView
+                        anchors {
+                            left: parent.left
+                            bottom: parent.bottom
+                            margins: 10
+                        }
+                        text: "Widok"
+                        onClicked: {
+                            AppSettings.screenView === "screenView"? AppSettings.screenView = "textView" : AppSettings.screenView === "textView"? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                        }
                     }
-                    text: "Właściwości"
-                }
 
-                Button{
-                    id: buttonScreenEdit
-                    anchors {
-                        right: parent.right
-                        bottom: parent.bottom
-                        margins: 10
+                    Button{
+                        id: buttonSetItemProperties
+                        anchors {
+                            right: buttonScreenEdit.left
+                            bottom: parent.bottom
+                            margins: 10
+                        }
+                        text: "Właściwości"
                     }
-                    text: "Edytuj slajd"
-                }
+
+                    Button{
+                        id: buttonScreenEdit
+                        anchors {
+                            right: parent.right
+                            bottom: parent.bottom
+                            margins: 10
+                        }
+                        text: "Edytuj slajd"
+                    }
             }
         }
 
