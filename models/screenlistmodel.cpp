@@ -58,3 +58,12 @@ Q_INVOKABLE void ScreenListModel::saveOrder() {
     for (auto& s: m_data) ids.append(s.id);
     repo.reorder(m_hymnId,ids);
 }
+
+Q_INVOKABLE Screen ScreenListModel::get(int index) const{
+    if(index < 0 || index >= m_data.size())
+        return {};
+
+    const auto& s = m_data[index];
+
+    return s;
+}

@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE void removeRow(int row);
     Q_INVOKABLE void move(int from, int to);
     Q_INVOKABLE void saveOrder();
+    Q_INVOKABLE Screen get(int index) const;
 
 signals:
     void hymnIdChanged();

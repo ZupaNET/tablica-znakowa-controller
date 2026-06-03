@@ -7,9 +7,9 @@ ApplicationWindow {
     width: 1280
     height: 800
     visible: true
+    id: mainwindow
     title: qsTr("Tryb prezentacji")
     color: "#202020"
-    bottomPadding: SafeArea.margins.bottom
 
     Item {
         anchors.fill: parent
@@ -20,7 +20,7 @@ ApplicationWindow {
             anchors.fill: parent
             clip: true
 
-            initialItem: SetsManager{}
+            initialItem: Menu{}
         }
 
         Component.onCompleted: {

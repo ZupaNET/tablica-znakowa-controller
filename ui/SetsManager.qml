@@ -38,7 +38,7 @@ Item {
             height: 50
 
             Button{
-                id: sss
+                id: backButton
                 anchors {
                     left: parent.left
                     leftMargin: 10
@@ -144,6 +144,9 @@ Item {
                     bottomMargin: 10
                 }
                 text: "Edytuj"
+                onClicked: {
+
+                }
             }
 
             Button {

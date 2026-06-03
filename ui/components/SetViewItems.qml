@@ -12,7 +12,7 @@ Item {
 
     signal clicked
 
-    implicitHeight: Math.max(60, Screen.pixelDensity * 12)
+    height: 60
 
     Rectangle {
         id: card
@@ -23,7 +23,7 @@ Item {
         property color baseColor: selected ? "#d0e6ff" : "#d7d7d7"
         property color pressedColor: "#cacaca"
 
-        color: tap.pressed ? pressedColor : baseColor
+        color: root.ListView.isCurrentItem ? "#ffffb3" : tap.pressed ? pressedColor : baseColor
         border.color: selected ? "#3399ff" : "#cccccc"
 
         Behavior on color {
@@ -65,6 +65,9 @@ Item {
                     color: "#595959"
                     wrapMode: Text.NoWrap
                     clip: true
+                    Behavior on color {
+                        ColorAnimation { duration: 250 }
+                    }
                 }
 
                 Text {

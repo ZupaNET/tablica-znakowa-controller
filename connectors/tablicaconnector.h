@@ -43,8 +43,8 @@ public:
 private:
     Screen buffer;
     bool enabled = false;
-    QHostAddress ipAddress = QHostAddress("192.168.0.100");
-    //QHostAddress ipAddress = QHostAddress("192.168.10.146");
+    //QHostAddress ipAddress = QHostAddress("192.168.0.100");
+    QHostAddress ipAddress = QHostAddress("192.168.10.146");
     quint16 port = 60023;
     quint8 brightness = 2;
     quint8 font = 1;

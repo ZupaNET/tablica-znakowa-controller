@@ -10,9 +10,11 @@ class DatabaseConnector : public QObject
 public:
     static DatabaseConnector& instance();
 
+    static QString getDatabasePath();
+
     QSqlDatabase db();
 
-    bool init(const QString& path = "tablica.db");
+    bool init(const QString& path = QString());
 
 private:
     QSqlDatabase m_db;

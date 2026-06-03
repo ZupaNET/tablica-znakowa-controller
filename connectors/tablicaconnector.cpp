@@ -29,8 +29,10 @@ void TablicaConnector::setEnabled(bool state){
     }
 
     enabled = state;
+    if(state == true){
+        sendScreen(buffer);
+    }
     emit enabledChanged();
-    qDebug()<<state;
 }
 
 bool TablicaConnector::isEnabled(){
@@ -44,6 +46,7 @@ void TablicaConnector::setIpAddress(QString ipAddress){
 
     this->ipAddress = QHostAddress(ipAddress);
     emit ipAddressChanged();
+    qDebug()<<"Zmieniono adres IP: " << this->ipAddress;
 }
 
 QString TablicaConnector::getIpAddress(){

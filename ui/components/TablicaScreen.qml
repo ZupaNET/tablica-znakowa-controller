@@ -82,11 +82,11 @@ Item {
 
         FontLoader{
             id: fontMiniForma2
-            source: "resources/fonts/MiniForma2.ttf"
+            source: "../resources/fonts/MiniForma2.ttf"
         }
         FontLoader{
             id: fontArialBold
-            source: "resources/fonts/ARIALBD.TTF"
+            source: "../resources/fonts/ARIALBD.TTF"
         }
 
         Text {
