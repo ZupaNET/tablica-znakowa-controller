@@ -7,6 +7,8 @@
 #include <QAbstractSocket>
 #include "models/dto.h"
 
+#include "settings/appsettings.h"
+
 class TablicaConnector : public QObject
 {
     Q_OBJECT
@@ -43,13 +45,14 @@ public:
 private:
     Screen buffer;
     bool enabled = false;
-    //QHostAddress ipAddress = QHostAddress("192.168.0.100");
-    QHostAddress ipAddress = QHostAddress("192.168.10.146");
+    QHostAddress ipAddress = QHostAddress("192.168.0.100");
     quint16 port = 60023;
     quint8 brightness = 2;
     quint8 font = 1;
 
     QTcpSocket* client;
+
+    AppSettings* appSettings;
 
     void setBrightness(quint8 brightness);
     void setFont(quint8 font);
@@ -59,7 +62,7 @@ private:
     bool display();
 
     bool submitCommand();
-    bool sendCommand(QString command);
+    bool sendCommand(QString command); 
 
 signals:
     void connected();
@@ -77,16 +80,20 @@ public:
     void setEnabled(bool state);
     bool isEnabled();
 
-    void setIpAddress(QString ipAddress);
     QString getIpAddress();
 
-    void setPort(quint16 port);
     quint16 getPort();
 
     Q_INVOKABLE bool shutdown();
 
     Q_INVOKABLE bool testDisplay(quint8 testNumber);
     Q_INVOKABLE bool testStop();
+
+public slots:
+    void setBrightnessNow(quint8 brightness);
+    void setIpAddress(QString ipAddress);
+    void setPort(quint16 port);
+
 };
 
 #endif // TABLICACONNECTOR_H

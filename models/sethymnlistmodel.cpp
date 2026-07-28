@@ -22,6 +22,7 @@ QVariant SetHymnListModel::data(const QModelIndex &index, int role) const {
     case IdRole: return h.id;
     case NameRole: return h.name;
     case CategoryRole: return h.categoryId;
+    case ShownScreensRole: return h.shownScreens;
     default: return {};
     }
 }
@@ -65,4 +66,10 @@ Q_INVOKABLE void SetHymnListModel::saveOrder() {
         ids.append(h.id);
 
     repo.reorder(m_setId, ids);
+}
+
+Q_INVOKABLE void SetHymnListModel::saveShownScreens() {
+    for (const auto &h : m_data){
+        repo.changeShownScreens(m_setId, h.id, h.shownScreens);
+    }
 }

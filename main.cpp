@@ -10,7 +10,10 @@
 #include <connectors/tablicaconnector.h>
 #include "connectors/databaseconnector.h"
 #include "managers/databaseimporter.h"
+#include "models/presentationmodel.h"
 #include "models/screenlistmodel.h"
+#include "models/sethymnlistmodel.h"
+#include "models/setlistmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,11 +23,12 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Material");
 
     app.setApplicationName("Tablica Znakowa");
-    //app.setOrganizationName("Example");
-    //app.setOrganizationDomain("example.one.net");
+    app.setOrganizationName("ZupaNET");
+    app.setOrganizationDomain("zupanet.ddns.net");
     //app.setWindowIcon(QIcon(":/icons/appicon.png"));
 
     QQmlApplicationEngine engine;
+
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
@@ -33,12 +37,12 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     //Registering AppSettings singleton - it holds setiings :)
-    AppSettings appSettings;
+    AppSettings* appSettings = &AppSettings::instance();
     qmlRegisterSingletonInstance(
         "TablicaZnakowa",
         1, 0,
         "AppSettings",
-        &appSettings
+        appSettings
     );
 
     //Registering TablicaConnector singleton - it is used to communicate with Tablisa
@@ -72,11 +76,32 @@ int main(int argc, char *argv[])
         "DTO only"
     );
 
+    //Registering PresentationMode - it holds screens list for presentation mode
+    qmlRegisterType<PresentationModel>(
+        "TablicaZnakowa",
+        1, 0,
+        "PresentationModel"
+        );
+
     //Registering ScreenListModel - it holds screens list
     qmlRegisterType<ScreenListModel>(
         "TablicaZnakowa",
         1, 0,
         "ScreenListModel"
+    );
+
+    //Registering SetHymnListModel - it holds hymns in each list
+    qmlRegisterType<SetHymnListModel>(
+        "TablicaZnakowa",
+        1, 0,
+        "SetHymnListModel"
+        );
+
+    //Registering SetListModel - it holds sets list
+    qmlRegisterType<SetListModel>(
+        "TablicaZnakowa",
+        1, 0,
+        "SetListModel"
     );
 
     engine.loadFromModule("TablicaZnakowa", "Main");

@@ -7,10 +7,12 @@ import TablicaZnakowa
 
 Item {
     id: root1
-    ScreenListModel {
+
+    property int currentSet
+
+    PresentationModel {
         id: screensModel
-        //418 had many screens
-        hymnId: 1
+        setId: root1.currentSet
         Component.onCompleted: reload()
     }
 
@@ -334,7 +336,7 @@ Item {
 
                     let target = Math.max(0, currentIndex - 1)
 
-                    contentY = target * (60 + screensView.spacing)
+                    contentY = Math.max(0,Math.min(target * (60 + screensView.spacing),contentHeight-height))
                 }
             }
         }

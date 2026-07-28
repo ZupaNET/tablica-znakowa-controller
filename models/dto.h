@@ -3,11 +3,13 @@
 
 #include <QObject>
 #include <QString>
+#include <QVariantList>
 
 struct Hymn {
     int id;
     QString name;
     int categoryId;
+    QVariantList shownScreens;
 };
 
 struct Screen {

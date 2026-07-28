@@ -2,7 +2,7 @@
 #define SETREPOSITORY_H
 
 #include "models/dto.h"
-#include <QList>
+#include <QVariantList>
 
 class SetRepository
 {
@@ -15,6 +15,7 @@ public:
     void addHymn(int setId, int hymnId);
     void removeHymn(int setId, int hymnId);
     void reorder(int setId, QList<int> ids);
+    void changeShownScreens(int setId, int hymnId, QVariantList shownScreens);
 };
 
 #endif // SETREPOSITORY_H

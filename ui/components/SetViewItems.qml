@@ -60,7 +60,7 @@ Item {
                 Text {
                     id: titleText
                     width: parent.width
-                    text: "["+ root.vid + "] " + root.title
+                    text: (root.vid !== "-1" ? "["+ root.vid + "] " : "") + root.title
                     font.bold: true
                     color: "#595959"
                     wrapMode: Text.NoWrap

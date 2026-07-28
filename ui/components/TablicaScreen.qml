@@ -20,11 +20,8 @@ Item {
             }
             PropertyChanges {
                 target: screenText
-                font.family: fontMiniForma2.font.family
-                font.pixelSize: Math.min(
-                    screen.width / screen.columns*1.15,
-                    screen.height / screen.rows*1.15
-                )
+                font.family: screen.screenFont
+                font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactor
                 font.bold: false
                 color: "#FF0000"
             }
@@ -38,10 +35,7 @@ Item {
             PropertyChanges {
                 target: screenText
                 font.family: fontArialBold.font.family
-                font.pixelSize: Math.min(
-                    screen.width / screen.columns*1.4,
-                    screen.height / screen.rows*1.4
-                )
+                font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactorArial
                 color: "#FFFFFF"
             }
         },
@@ -54,10 +48,7 @@ Item {
             PropertyChanges {
                 target: screenText
                 font.family: fontArialBold.font.family
-                font.pixelSize: Math.min(
-                    screen.width / screen.columns*1.4,
-                    screen.height / screen.rows*1.4
-                )
+                font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactorArial
                 color: "#000000"
             }
         }
@@ -66,14 +57,45 @@ Item {
     Rectangle {
         id: screen
         anchors.centerIn: parent
-        property int columns: 24
-        property int rows: 16
+        property real fontScaleFactor: {
+            switch(root.hymnFont){
+                case 0: return 0.65
+                case 1: return 0.60
+                case 2: return 0.81
+            }
+        }
+
+        property real fontScaleFactorArial: {
+            switch(root.hymnFont){
+                case 0: return 0.75
+                case 1: return 0.70
+                case 2: return 0.81
+            }
+        }
+
+        property int rows: {
+            switch(root.hymnFont){
+                case 0: return 12
+                case 1: return 10
+                case 2: return 9
+            }
+        }
+        property int columns: Math.ceil(rows*1.5)
+
         property int margins: 20
+        property string screenFont: {
+            switch(root.hymnFont){
+                case 0: return fontMiniSet2.font.family
+                case 1: return fontMiniForma2.font.family
+                case 2: return fontMicrosoftSansSerif.font.family
+            }
+        }
+
         width: Math.min(
                 parent.width - 2 * margins,
-                (parent.height - 2 * margins) * columns / rows
+                (parent.height - 2 * margins) * 1.5
         )
-        height: width * rows / columns
+        height: width /1.5
 
         border.color: "#474747"
         border.width: 2
@@ -81,8 +103,16 @@ Item {
         clip: true
 
         FontLoader{
+            id: fontMiniSet2
+            source: "../resources/fonts/MiniSet2.ttf"
+        }
+        FontLoader{
             id: fontMiniForma2
             source: "../resources/fonts/MiniForma2.ttf"
+        }
+        FontLoader{
+            id: fontMicrosoftSansSerif
+            source: "../resources/fonts/micross.ttf"
         }
         FontLoader{
             id: fontArialBold
@@ -95,12 +125,8 @@ Item {
             anchors.margins: 10
             text: content
             color: "#FF0000"
-            //wrapMode: Text.Wrap
-            font.family: fontMiniForma2.font.family
-            font.pixelSize: Math.min(
-                screen.width / screen.columns,
-                screen.height / screen.rows
-            )
+            font.family: screen.screenFont
+            font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactor
         }
     }
 

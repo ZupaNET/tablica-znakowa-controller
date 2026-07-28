@@ -3,7 +3,15 @@
 #include <QThread>
 
 TablicaConnector::TablicaConnector(QObject* parent)
-    : client(new QTcpSocket(this)){
+    : client(new QTcpSocket(this))
+    , appSettings(&AppSettings::instance()){
+    this->ipAddress = QHostAddress(appSettings->ipAddress());
+    this->port = appSettings->port();
+    this->brightness = appSettings->brightness();
+
+    connect(appSettings, &AppSettings::ipAddressChanged, this, &TablicaConnector::setIpAddress);
+    connect(appSettings, &AppSettings::portChanged, this, &TablicaConnector::setPort);
+    connect(appSettings, &AppSettings::brightnessChanged, this, &TablicaConnector::setBrightnessNow);
 }
 
 TablicaConnector::~TablicaConnector(){
@@ -70,6 +78,12 @@ void TablicaConnector::setBrightness(quint8 brightness){
     this->brightness = brightness;
     sendCommand("j0"+QString::number(brightness));
 }
+
+void TablicaConnector::setBrightnessNow(quint8 brightness){
+    setBrightness(brightness);
+    submitCommand();
+}
+
 
 void TablicaConnector::setFont(quint8 font){
     this->font = font;

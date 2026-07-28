@@ -44,6 +44,11 @@ qt_add_qml_module(appTablicaZnakowa
         QML_FILES ui/Settings.qml
         SOURCES managers/databaseimporter.h managers/databaseimporter.cpp
         QML_FILES ui/Menu.qml
+        SOURCES models/categorylistmodel.h models/categorylistmodel.cpp
+        SOURCES models/setlistmodel.h models/setlistmodel.cpp
+        SOURCES models/categoryhymnlistmodel.h models/categoryhymnlistmodel.cpp
+        SOURCES models/presentationmodel.h models/presentationmodel.cpp
+        RESOURCES ui/resources/fonts/micross.ttf ui/resources/fonts/MiniSet2.ttf
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

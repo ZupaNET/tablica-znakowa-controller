@@ -9,7 +9,7 @@ class SetHymnListModel : public BaseListModel
     Q_OBJECT
     Q_PROPERTY(int setId READ setId WRITE setSetId NOTIFY setIdChanged)
 public:
-    enum Roles { IdRole=Qt::UserRole+1, NameRole, CategoryRole };
+    enum Roles { IdRole=Qt::UserRole+1, NameRole, CategoryRole, ShownScreensRole };
 
     explicit SetHymnListModel(QObject *parent = nullptr)
         : BaseListModel(parent) {}
@@ -23,7 +23,8 @@ public:
         return {
             {IdRole, "id"},
             {NameRole, "name"},
-            {CategoryRole, "categoryId"}
+            {CategoryRole, "categoryId"},
+            {ShownScreensRole, "shownScreens"}
         };
     }
 
@@ -32,6 +33,7 @@ public:
     Q_INVOKABLE void removeHymn(int row);
     Q_INVOKABLE void move(int from, int to);
     Q_INVOKABLE void saveOrder();
+    Q_INVOKABLE void saveShownScreens();
 
 signals:
     void setIdChanged();

@@ -4,6 +4,16 @@ import QtQuick.Controls 2.15
 import TablicaZnakowa
 
 Item {
+    SetHymnListModel{
+        id: setHymnListModel
+        Component.onCompleted: reload()
+    }
+
+    SetListModel{
+        id: setListModel
+        Component.onCompleted: reload()
+    }
+
     Rectangle{
         anchors.fill: parent
         color: "#FFFFFF"
@@ -88,12 +98,21 @@ Item {
                     }
                 }
 
-                model: [{title: "Lista pierwsza"}, {title: "Lista druga"}, {title: "Lista trecia"}]
+                model: setListModel
 
                 delegate: Button{
+                    id: setsViewDelegate
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: modelData.title
+                    text: model.name
                     width: parent.width - 50
+                    onClicked: {
+                        setHymnListModel.setId = model.id
+                        setsView.currentIndex = index
+                    }
+                }
+
+                highlight: Rectangle{
+                    color: "blue"
                 }
             }
         }
@@ -118,6 +137,36 @@ Item {
                 color: "#595959"
                 font.pixelSize: 20
                 font.bold: true
+            }
+
+            Rectangle{
+                anchors{
+                    top: textSetDetails.bottom
+                    right: parent.right
+                    bottom: buttonRemoveSet.top
+                    left: parent.left
+                }
+
+                ListView{
+                    id: setComponents
+                    anchors {
+                        fill: parent
+                        topMargin: 10
+                        rightMargin: 3
+                        bottomMargin: 10
+                        leftMargin: 10
+                    }
+                    spacing: 6
+                    clip: true
+
+                    model: setHymnListModel
+                    delegate: Button{
+                        id: setsComponentsDelegate
+                        anchors.horizontalCenter: parent?.horizontalCenter
+                        text: model.name
+                        width: parent?.width - 50
+                    }
+                }
             }
 
             Button {
@@ -158,7 +207,7 @@ Item {
                 }
                 text: "Prezentuj >"
                 onClicked: {
-                    Navigation.push(Qt.resolvedUrl("PresenterMode.qml"))
+                    Navigation.push(Qt.resolvedUrl("PresenterMode.qml"),{"currentSet":setHymnListModel.setId})
                 }
             }
         }

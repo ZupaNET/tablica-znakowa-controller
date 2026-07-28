@@ -47,7 +47,7 @@ Item {
 
                 TextField {
                     id: ipField
-                    text: TablicaConnector.ipAddress
+                    text: AppSettings.ipAddress
                     width: 200
                     activeFocusOnPress: true
                     focusPolicy: Qt.StrongFocus
@@ -55,6 +55,10 @@ Item {
                     validator: RegularExpressionValidator {
                         regularExpression:
                             /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/
+                    }
+                    onTextEdited: {
+                        ipChangeDialog.standardButton(Dialog.Ok).enabled = ipField.acceptableInput
+                        ipChangeDialogError.visible = !ipField.acceptableInput
                     }
                 }
 
@@ -69,14 +73,10 @@ Item {
             onAccepted: {
                 if(ipField.acceptableInput)
                 {
-                    TablicaConnector.ipAddress = ipField.text
+                    AppSettings.ipAddress = ipField.text
                 }
                 focus = false
                 Qt.inputMethod.hide()
-            }
-            onTextChanged: {
-                standardButton(Dialog.Ok).enabled = ipField.acceptableInput
-                ipChangeDialogError.visible = !ipField.acceptableInput
             }
         }
 
@@ -106,7 +106,7 @@ Item {
 
                 TextField {
                     id: portField
-                    text: TablicaConnector.port
+                    text: AppSettings.port
                     width: 200
                     activeFocusOnPress: true
                     focusPolicy: Qt.StrongFocus
@@ -116,6 +116,11 @@ Item {
                     validator: IntValidator {
                         bottom: 1
                         top: 65535
+                    }
+
+                    onTextEdited: {
+                        portChangeDialog.standardButton(Dialog.Ok).enabled = portField.acceptableInput
+                        portChangeDialogError.visible = !portField.acceptableInput
                     }
                 }
 
@@ -130,14 +135,53 @@ Item {
             onAccepted: {
                 if(portField.acceptableInput)
                 {
-                    TablicaConnector.port = portField.text
+                    AppSettings.port = parseInt(portField.text)
                 }
                 focus = false
                 Qt.inputMethod.hide()
             }
-            onTextChanged: {
-                standardButton(Dialog.Ok).enabled = portField.acceptableInput
-                portChangeDialogError.visible = !portField.acceptableInput
+        }
+        Dialog {
+            id: brightnessChangeDialog
+
+            x: (parent.width - width) / 2
+            y: Qt.inputMethod.visible ? parent.height * 0.05 : (parent.height-height)/2
+
+            Behavior on y {
+
+                NumberAnimation {
+                    duration: 200
+                }
+            }
+
+            title: "Zmień jasność tablicy"
+            modal: true
+            focus: true
+
+            standardButtons: Dialog.Ok | Dialog.Cancel
+
+            property alias text: portField.text
+
+            Column{
+                spacing: 6
+
+                ComboBox {
+                    id: brightnessField
+                    currentValue: AppSettings.brightness
+                    width: 200
+                    //activeFocusOnPress: true
+                    focusPolicy: Qt.StrongFocus
+
+                    inputMethodHints: Qt.ImhDigitsOnly
+
+                    model: [1, 2, 3, 4]
+                }
+            }
+
+            onAccepted: {
+                AppSettings.brightness = brightnessField.currentText
+                focus = false
+                Qt.inputMethod.hide()
             }
         }
 
@@ -193,6 +237,12 @@ Item {
                     text: "Ustaw port tablicy"
                     onClicked: {
                         portChangeDialog.open()
+                    }
+                }
+                Button{
+                    text: "Ustaw jasność"
+                    onClicked: {
+                        brightnessChangeDialog.open()
                     }
                 }
             }
