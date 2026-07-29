@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE void reload() override;
     Q_INVOKABLE void add(QString name);
     Q_INVOKABLE void removeRow(int row);
+    Q_INVOKABLE Category get(int index) const;
 
 private:
     CategoryRepository repo;

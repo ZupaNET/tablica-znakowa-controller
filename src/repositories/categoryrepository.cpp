@@ -13,6 +13,7 @@ QList<Category> CategoryRepository::getAll() {
     );
     q.prepare("SELECT Id, Name FROM Categories");
     q.exec();
+    list.append({-1, "Bez kategorii"});
     while (q.next())
         list.append({q.value(0).toInt(), q.value(1).toString()});
 
@@ -53,14 +54,23 @@ QList<Hymn> CategoryRepository::getHymns(int categoryId) {
     QSqlQuery q(
         DatabaseConnector::instance().db()
     );
-    q.prepare(R"(
-            SELECT h.Id, h.Name, h.CategoryId
-            FROM Hymns h
-            WHERE h.CategoryId=?
-            ORDER BY h.Name
+    if (categoryId >= 0) {
+        q.prepare(R"(
+        SELECT h.Id, h.Name, h.CategoryId
+        FROM Hymns h
+        WHERE h.CategoryId = ?
+        ORDER BY h.Name
         )");
 
-    q.addBindValue(categoryId);
+        q.addBindValue(categoryId);
+    } else {
+        q.prepare(R"(
+        SELECT h.Id, h.Name, h.CategoryId
+        FROM Hymns h
+        WHERE h.CategoryId IS NULL
+        ORDER BY h.Name
+        )");
+    }
     q.exec();
 
     while (q.next()) {

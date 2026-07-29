@@ -12,9 +12,9 @@ QtObject {
 
     function push(page, props) {
         if (!stackView)
-            return
+            return null
 
-        stackView.push(page, props || {})
+        return stackView.push(page, props || {})
     }
 
     function pop() {

@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {
@@ -8,6 +9,7 @@ int main(int argc, char *argv[])
 
     //Setting style
     QQuickStyle::setStyle("Material");
+    QFontDatabase::addApplicationFont(":/fonts/materialdesignicons-webfont.ttf");
 
     app.setApplicationName(APP_NAME);
     app.setOrganizationName(APP_COMPANY);

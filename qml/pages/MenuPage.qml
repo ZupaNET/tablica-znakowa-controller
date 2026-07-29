@@ -24,6 +24,13 @@ Item {
             spacing: 6
             Button{
                 Layout.alignment: "AlignCenter"
+                text: "Biblioteka pieśni"
+                onClicked: {
+                    Navigation.push(Qt.resolvedUrl("HymnListPage.qml"))
+                }
+            }
+            Button{
+                Layout.alignment: "AlignCenter"
                 text: "Zestawy"
                 onClicked: {
                     Navigation.push(Qt.resolvedUrl("SetListPage.qml"))

@@ -21,8 +21,21 @@ QList<Hymn> HymnRepository::getByCategory(int categoryId) {
     QSqlQuery q(
         DatabaseConnector::instance().db()
     );
-    q.prepare("SELECT Id, Name, CategoryId FROM Hymns WHERE CategoryId IS ?");
-    q.addBindValue(categoryId == -1 ? QVariant(QMetaType::fromType<int>()) : categoryId);
+    if (categoryId == -1) {
+        q.prepare(R"(
+        SELECT Id, Name, CategoryId
+        FROM Hymns
+        WHERE CategoryId IS NULL
+    )");
+    } else {
+        q.prepare(R"(
+        SELECT Id, Name, CategoryId
+        FROM Hymns
+        WHERE CategoryId = ?
+    )");
+        q.addBindValue(categoryId);
+    }
+
     q.exec();
 
     while (q.next()) {

@@ -53,6 +53,7 @@ set(APP_QML_SINGLETONS
 
 set(APP_QML
     qml/Main.qml
+    qml/Icon.js
 
     ${APP_QML_SINGLETONS}
 
@@ -60,9 +61,14 @@ set(APP_QML
     qml/pages/SettingsPage.qml
     qml/pages/SetListPage.qml
     qml/pages/PresentationPage.qml
+    qml/pages/HymnListPage.qml
+    qml/pages/ScreenEditorPage.qml
 
     qml/components/SetViewItems.qml
     qml/components/TablicaScreen.qml
+    qml/components/CategoryPanel.qml
+    qml/components/HymnPanel.qml
+    qml/components/ScreenPanel.qml
 )
 
 set(APP_RESOURCES
@@ -92,10 +98,6 @@ qt_add_qml_module(prezenter
     SOURCES
         ${APP_SOURCES}
         ${APP_HEADERS}
-        SOURCES src/models/entitylistmodel.h
-        SOURCES src/models/roles/screenroles.h
-        SOURCES src/models/hymnrelationmodel.h
-        SOURCES src/services/presentationservice.h src/services/presentationservice.cpp
 )
 
 target_include_directories(prezenter PRIVATE

@@ -1,54 +1,81 @@
-import QtQuick 2.15
+import QtQuick
+import QtQuick.Controls
 import Prezenter
 
 Item {
     id: root
+
     anchors.fill: parent
 
-    property string content
-    property int hymnFont
+    property string content: ""
+    property int hymnFont: 0
 
-    signal clicked
+    property bool editable: false
+
+    signal contentTextChanged(string text)
 
     state: AppSettings.screenView
     states: [
         State {
             name: "screenView"
+
             PropertyChanges {
                 target: screen
                 color: "#111111"
             }
+
             PropertyChanges {
                 target: screenText
+
                 font.family: screen.screenFont
-                font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactor
+                font.pixelSize:
+                    (screen.height / screen.rows)
+                    * screen.fontScaleFactor
+
                 font.bold: false
+
                 color: "#FF0000"
             }
         },
+
         State {
             name: "textView"
+
             PropertyChanges {
                 target: screen
                 color: "#000000"
             }
+
             PropertyChanges {
                 target: screenText
+
                 font.family: fontArialBold.font.family
-                font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactorArial
+
+                font.pixelSize:
+                    (screen.height / screen.rows)
+                    * screen.fontScaleFactorArial
+
                 color: "#FFFFFF"
             }
         },
+
         State {
             name: "textViewRev"
+
             PropertyChanges {
                 target: screen
                 color: "#FFFFFF"
             }
+
             PropertyChanges {
                 target: screenText
+
                 font.family: fontArialBold.font.family
-                font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactorArial
+
+                font.pixelSize:
+                    (screen.height / screen.rows)
+                    * screen.fontScaleFactorArial
+
                 color: "#000000"
             }
         }
@@ -57,77 +84,147 @@ Item {
     Rectangle {
         id: screen
         anchors.centerIn: parent
+
         property real fontScaleFactor: {
             switch(root.hymnFont){
-                case 0: return 0.65
-                case 1: return 0.60
-                case 2: return 0.81
+            case 0: return 0.70
+            case 1: return 0.65
+            case 2: return 0.86
             }
+            return 0.65
         }
 
         property real fontScaleFactorArial: {
             switch(root.hymnFont){
-                case 0: return 0.75
-                case 1: return 0.70
-                case 2: return 0.81
+            case 0: return 0.75
+            case 1: return 0.70
+            case 2: return 0.81
             }
+            return 0.75
         }
 
         property int rows: {
             switch(root.hymnFont){
-                case 0: return 12
-                case 1: return 10
-                case 2: return 9
+            case 0: return 12
+            case 1: return 10
+            case 2: return 9
             }
+            return 12
         }
-        property int columns: Math.ceil(rows*1.5)
+
+        property int columns: Math.ceil(rows * 1.5)
 
         property int margins: 20
+
         property string screenFont: {
             switch(root.hymnFont){
-                case 0: return fontMiniSet2.font.family
-                case 1: return fontMiniForma2.font.family
-                case 2: return fontMicrosoftSansSerif.font.family
+            case 0: return fontMiniSet2.font.family
+            case 1: return fontMiniForma2.font.family
+            case 2: return fontMicrosoftSansSerif.font.family
             }
+            return fontMiniSet2.font.family
         }
 
-        width: Math.min(
+        width:
+            Math.min(
                 parent.width - 2 * margins,
                 (parent.height - 2 * margins) * 1.5
-        )
-        height: width /1.5
+            )
+        height: width / 1.5
 
         border.color: "#474747"
         border.width: 2
         radius: 10
+
         clip: true
 
-        FontLoader{
+        FontLoader {
             id: fontMiniSet2
             source: "qrc:/fonts/MiniSet2.ttf"
         }
-        FontLoader{
+
+        FontLoader {
             id: fontMiniForma2
             source: "qrc:/fonts/MiniForma2.ttf"
         }
-        FontLoader{
+
+        FontLoader {
             id: fontMicrosoftSansSerif
             source: "qrc:/fonts/micross.ttf"
         }
-        FontLoader{
+
+        FontLoader {
             id: fontArialBold
             source: "qrc:/fonts/ARIALBD.TTF"
         }
 
-        Text {
+        TextArea {
             id: screenText
+
             anchors.fill: parent
-            anchors.margins: 10
-            text: content
+            leftPadding: screen.height * 0.02
+            topPadding: screen.height * 0.02
+
+            Binding {
+                target: screenText
+                property: "text"
+                value: root.content
+                when: !root.editable || (root.editable && !screenText.activeFocus)
+            }
+
+            readOnly:
+                !root.editable
+
+            wrapMode:
+                TextEdit.NoWrap
+
             color: "#FF0000"
-            font.family: screen.screenFont
-            font.pixelSize: (screen.height / screen.rows) * screen.fontScaleFactor
+
+            font.family:
+                screen.screenFont
+
+            font.pixelSize:
+                (screen.height / screen.rows)
+                * screen.fontScaleFactor
+
+            horizontalAlignment:
+                Text.AlignLeft
+
+            verticalAlignment:
+                Text.AlignTop
+
+            background: null
+
+            padding: 0
+
+            selectByMouse:
+                root.editable
+
+            onTextChanged: {
+
+                if (!root.editable)
+                    return
+
+                let value = text
+
+                let lines = value.split("\n")
+
+                if(lines.length > screen.rows)
+                {
+                    value = lines
+                        .slice(0, screen.rows)
+                        .join("\n")
+
+                    if(text !== value)
+                        text = value
+                }
+
+                if(root.content !== value)
+                {
+                    root.content = value
+                    root.contentTextChanged(value)
+                }
+            }
         }
     }
-
 }

@@ -3,6 +3,7 @@
 
 #include "hymnrelationmodel.h"
 #include "repositories/categoryrepository.h"
+#include "repositories/hymnrepository.h"
 
 class CategoryHymnModel : public HymnRelationModel
 {
@@ -18,6 +19,9 @@ public:
     QHash<int,QByteArray> roleNames() const override;
 
     Q_INVOKABLE void reload() override;
+    Q_INVOKABLE void add(QString name);
+    Q_INVOKABLE void removeRow(int row);
+    Q_INVOKABLE Hymn get(int index) const;
 
 protected:
 
@@ -26,7 +30,8 @@ protected:
 
 private:
 
-    CategoryRepository repo;
+    CategoryRepository categoryRepo;
+    HymnRepository hymnRepo;
 };
 
 #endif // CATEGORYHYMNMODEL_H
