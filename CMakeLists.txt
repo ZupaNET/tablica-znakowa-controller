@@ -1,71 +1,141 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(TablicaZnakowa VERSION 0.1 LANGUAGES CXX)
+# --------------------------------------
+# Version
+# --------------------------------------
 
+include(cmake/version.cmake)
+
+# --------------------------------------
+# Project settings
+# --------------------------------------
+
+project(TablicaPrezenter VERSION ${APP_VERSION_STRING} LANGUAGES CXX)
+
+set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# --------------------------------------
+# Application information
+# --------------------------------------
+
+set(APP_NAME "Tablica Znakowa")
+set(APP_COMPANY "ŻupaNET Development")
+set(APP_COMPANY_DOMAIN "zupanet.ddns.net")
+string(TOLOWER "${APP_NAME}" APP_PACKAGE_NAME)
+string(REGEX REPLACE "[^a-z0-9]+" "-" APP_PACKAGE_NAME "${APP_PACKAGE_NAME}")
+string(REGEX REPLACE "^-|-$" "" APP_PACKAGE_NAME "${APP_PACKAGE_NAME}")
+
+# --------------------------------------
+# Qt packages and project configuration
+# --------------------------------------
 
 find_package(Qt6 REQUIRED COMPONENTS Quick Core Gui Qml QuickControls2 Sql)
-
 qt_standard_project_setup(REQUIRES 6.10)
 
-qt_add_executable(appTablicaZnakowa
-    main.cpp
+# --------------------------------------
+# Application source files
+# --------------------------------------
+
+file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS
+    src/*.cpp
 )
 
-set_source_files_properties(navigation/Navigation.qml
-    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+file(GLOB_RECURSE APP_HEADERS CONFIGURE_DEPENDS
+    src/*.h
+)
 
-qt_add_qml_module(appTablicaZnakowa
-    URI TablicaZnakowa
+set(APP_QML_SINGLETONS
+    qml/navigation/Navigation.qml
+)
+
+set(APP_QML
+    qml/Main.qml
+
+    ${APP_QML_SINGLETONS}
+
+    qml/pages/MenuPage.qml
+    qml/pages/SettingsPage.qml
+    qml/pages/SetListPage.qml
+    qml/pages/PresentationPage.qml
+
+    qml/components/SetViewItems.qml
+    qml/components/TablicaScreen.qml
+)
+
+set(APP_RESOURCES
+    resources/resources.qrc
+)
+
+# --------------------------------------
+# Application executable definition
+# --------------------------------------
+
+qt_add_executable(prezenter
+    src/main.cpp
+    ${APP_RESOURCES}
+)
+
+set_source_files_properties(
+    ${APP_QML_SINGLETONS}
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
+
+qt_add_qml_module(prezenter
+    URI Prezenter
+
     QML_FILES
-        Main.qml
-        SOURCES connectors/tablicaconnector.h connectors/tablicaconnector.cpp
-        QML_FILES ui/PresenterMode.qml
-        SOURCES
-        RESOURCES ui/resources/fonts/MiniForma2.ttf
-        SOURCES connectors/databaseconnector.h connectors/databaseconnector.cpp
-        SOURCES models/dto.h
-        SOURCES repositories/hymnrepository.h repositories/hymnrepository.cpp
-        SOURCES repositories/screenrepository.h repositories/screenrepository.cpp
-        SOURCES repositories/setrepository.h repositories/setrepository.cpp
-        SOURCES repositories/categoryrepository.h repositories/categoryrepository.cpp
-        SOURCES models/baselistmodel.h models/baselistmodel.cpp
-        SOURCES models/hymnlistmodel.h models/hymnlistmodel.cpp
-        SOURCES models/screenlistmodel.h models/screenlistmodel.cpp
-        SOURCES models/sethymnlistmodel.h models/sethymnlistmodel.cpp
-        RESOURCES ui/resources/fonts/ARIAL.TTF
-        RESOURCES ui/resources/fonts/ARIALBD.TTF
-        QML_FILES ui/components/SetViewItems.qml
-        QML_FILES ui/SetsManager.qml
-        QML_FILES ui/components/TablicaScreen.qml
-        QML_FILES navigation/Navigation.qml
-        SOURCES settings/appsettings.h settings/appsettings.cpp
-        RESOURCES tablica.db
-        QML_FILES ui/Settings.qml
-        SOURCES managers/databaseimporter.h managers/databaseimporter.cpp
-        QML_FILES ui/Menu.qml
-        SOURCES models/categorylistmodel.h models/categorylistmodel.cpp
-        SOURCES models/setlistmodel.h models/setlistmodel.cpp
-        SOURCES models/categoryhymnlistmodel.h models/categoryhymnlistmodel.cpp
-        SOURCES models/presentationmodel.h models/presentationmodel.cpp
-        RESOURCES ui/resources/fonts/micross.ttf ui/resources/fonts/MiniSet2.ttf
+        ${APP_QML}
+
+    SOURCES
+        ${APP_SOURCES}
+        ${APP_HEADERS}
+        SOURCES src/models/entitylistmodel.h
+        SOURCES src/models/roles/screenroles.h
+        SOURCES src/models/hymnrelationmodel.h
+        SOURCES src/services/presentationservice.h src/services/presentationservice.cpp
 )
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-set_target_properties(appTablicaZnakowa PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appTablicaZnakowa
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
+target_include_directories(prezenter PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/database
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/networking
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/settings
+)
+
+# --------------------------------------
+# Application compile definitions
+# --------------------------------------
+
+target_compile_definitions(prezenter PRIVATE
+    APP_NAME="${APP_NAME}"
+    APP_COMPANY="${APP_COMPANY}"
+    APP_COMPANY_DOMAIN="${APP_COMPANY_DOMAIN}"
+    APP_VERSION_STRING="${APP_VERSION_STRING}"
+    APP_VERSION_MAJOR=${APP_VERSION_MAJOR}
+    APP_VERSION_MINOR=${APP_VERSION_MINOR}
+    APP_VERSION_PATCH=${APP_VERSION_PATCH}
+)
+
+# --------------------------------------
+# Application target definitions
+# --------------------------------------
+
+set_target_properties(prezenter PROPERTIES
     WIN32_EXECUTABLE TRUE
-    QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
 
-    QT_ANDROID_APP_NAME "Tablica Znakowa"
+    QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android"
+    QT_ANDROID_APP_NAME "${APP_NAME}"
 )
 
-target_link_libraries(appTablicaZnakowa
+# --------------------------------------
+# Application libraries
+# --------------------------------------
+
+target_link_libraries(prezenter
     PRIVATE
     Qt6::Quick
     Qt6::Core
@@ -75,8 +145,11 @@ target_link_libraries(appTablicaZnakowa
     Qt6::Sql
 )
 
-install(TARGETS appTablicaZnakowa
-    BUNDLE DESTINATION .
+# --------------------------------------
+# Application installation
+# --------------------------------------
+
+install(TARGETS prezenter
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )

@@ -1,0 +1,42 @@
+#ifndef SCREENMODEL_H
+#define SCREENMODEL_H
+
+#include "entitylistmodel.h"
+#include "roles/screenroles.h"
+#include "repositories/screenrepository.h"
+
+class ScreenModel : public EntityListModel<Screen>, public ScreenRoles
+{
+    Q_OBJECT
+    QML_ELEMENT
+
+    Q_PROPERTY(int hymnId READ hymnId WRITE setHymnId NOTIFY hymnIdChanged)
+
+public:
+
+    explicit ScreenModel(QObject *parent = nullptr)
+        : EntityListModel<Screen>(parent) {}
+
+    int hymnId() const;
+
+    void setHymnId(int id);
+
+    QVariant data(const QModelIndex& index, int role) const override;
+    QHash<int,QByteArray> roleNames() const override;
+
+    Q_INVOKABLE void reload() override;
+    Q_INVOKABLE void add(QString text, int font);
+    Q_INVOKABLE void removeRow(int row);
+    Q_INVOKABLE void move(int from, int to);
+    Q_INVOKABLE void saveOrder();
+    Q_INVOKABLE Screen get(int index) const;
+
+signals:
+    void hymnIdChanged();
+
+private:
+    int m_hymnId = -1;
+    ScreenRepository repo;
+};
+
+#endif // SCREENMODEL_H
