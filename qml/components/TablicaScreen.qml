@@ -7,12 +7,19 @@ Item {
 
     anchors.fill: parent
 
-    property string content: ""
+    property alias content: screenText.text
     property int hymnFont: 0
+
+    property real outerMargin: 20
+    property real textPadding: 8
+    property real aspectRatio: 3 / 2
 
     property bool editable: false
 
-    signal contentTextChanged(string text)
+    FontMetricsUtility
+    {
+        id: fontUtility
+    }
 
     state: AppSettings.screenView
     states: [
@@ -28,11 +35,8 @@ Item {
                 target: screenText
 
                 font.family: screen.screenFont
-                font.pixelSize:
-                    (screen.height / screen.rows)
-                    * screen.fontScaleFactor
-
                 font.bold: false
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 0)
 
                 color: "#FF0000"
             }
@@ -49,11 +53,9 @@ Item {
             PropertyChanges {
                 target: screenText
 
-                font.family: fontArialBold.font.family
-
-                font.pixelSize:
-                    (screen.height / screen.rows)
-                    * screen.fontScaleFactorArial
+                font.family: "Arimo"
+                font.bold: true
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1)
 
                 color: "#FFFFFF"
             }
@@ -70,11 +72,9 @@ Item {
             PropertyChanges {
                 target: screenText
 
-                font.family: fontArialBold.font.family
-
-                font.pixelSize:
-                    (screen.height / screen.rows)
-                    * screen.fontScaleFactorArial
+                font.family: "Arimo"
+                font.bold: true
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1)
 
                 color: "#000000"
             }
@@ -85,24 +85,6 @@ Item {
         id: screen
         anchors.centerIn: parent
 
-        property real fontScaleFactor: {
-            switch(root.hymnFont){
-            case 0: return 0.70
-            case 1: return 0.65
-            case 2: return 0.86
-            }
-            return 0.65
-        }
-
-        property real fontScaleFactorArial: {
-            switch(root.hymnFont){
-            case 0: return 0.75
-            case 1: return 0.70
-            case 2: return 0.81
-            }
-            return 0.75
-        }
-
         property int rows: {
             switch(root.hymnFont){
             case 0: return 12
@@ -112,25 +94,23 @@ Item {
             return 12
         }
 
-        property int columns: Math.ceil(rows * 1.5)
-
-        property int margins: 20
-
         property string screenFont: {
             switch(root.hymnFont){
-            case 0: return fontMiniSet2.font.family
-            case 1: return fontMiniForma2.font.family
-            case 2: return fontMicrosoftSansSerif.font.family
+            case 0: return "MiniSet2"
+            case 1: return "MiniForma2"
+            case 2: return "FreeSans"
             }
-            return fontMiniSet2.font.family
+            return "MiniSet2"
         }
 
-        width:
-            Math.min(
-                parent.width - 2 * margins,
-                (parent.height - 2 * margins) * 1.5
-            )
-        height: width / 1.5
+        property real availableWidth: parent.width - 2 * root.outerMargin
+        property real availableHeight: parent.height - 2 * root.outerMargin
+
+        width: Math.min(availableWidth, availableHeight * root.aspectRatio)
+        height: width / root.aspectRatio
+
+        property real textWidth: width - 2 * root.textPadding
+        property real textHeight: height - 2 * root.textPadding
 
         border.color: "#474747"
         border.width: 2
@@ -138,93 +118,30 @@ Item {
 
         clip: true
 
-        FontLoader {
-            id: fontMiniSet2
-            source: "qrc:/fonts/MiniSet2.ttf"
-        }
-
-        FontLoader {
-            id: fontMiniForma2
-            source: "qrc:/fonts/MiniForma2.ttf"
-        }
-
-        FontLoader {
-            id: fontMicrosoftSansSerif
-            source: "qrc:/fonts/micross.ttf"
-        }
-
-        FontLoader {
-            id: fontArialBold
-            source: "qrc:/fonts/ARIALBD.TTF"
-        }
-
         TextArea {
             id: screenText
 
             anchors.fill: parent
-            leftPadding: screen.height * 0.02
-            topPadding: screen.height * 0.02
 
-            Binding {
-                target: screenText
-                property: "text"
-                value: root.content
-                when: !root.editable || (root.editable && !screenText.activeFocus)
-            }
+            enabled: root.editable
+            opacity: 1.0
+            palette.disabled.text: color
 
-            readOnly:
-                !root.editable
+            leftPadding: root.textPadding
+            rightPadding: root.textPadding
+            topPadding: root.textPadding
+            bottomPadding: root.textPadding
 
-            wrapMode:
-                TextEdit.NoWrap
+            readOnly: !root.editable
+            wrapMode: TextEdit.NoWrap
 
-            color: "#FF0000"
+            horizontalAlignment: Text.AlignLeft
 
-            font.family:
-                screen.screenFont
-
-            font.pixelSize:
-                (screen.height / screen.rows)
-                * screen.fontScaleFactor
-
-            horizontalAlignment:
-                Text.AlignLeft
-
-            verticalAlignment:
-                Text.AlignTop
+            verticalAlignment: Text.AlignTop
 
             background: null
 
-            padding: 0
-
-            selectByMouse:
-                root.editable
-
-            onTextChanged: {
-
-                if (!root.editable)
-                    return
-
-                let value = text
-
-                let lines = value.split("\n")
-
-                if(lines.length > screen.rows)
-                {
-                    value = lines
-                        .slice(0, screen.rows)
-                        .join("\n")
-
-                    if(text !== value)
-                        text = value
-                }
-
-                if(root.content !== value)
-                {
-                    root.content = value
-                    root.contentTextChanged(value)
-                }
-            }
+            selectByMouse: root.editable
         }
     }
 }

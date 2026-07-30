@@ -2,9 +2,9 @@
     <qresource prefix="/">
         <file>fonts/MiniSet2.ttf</file>
         <file>fonts/MiniForma2.ttf</file>
-        <file>fonts/micross.ttf</file>
-        <file>fonts/ARIAL.TTF</file>
-        <file>fonts/ARIALBD.TTF</file>
         <file>fonts/materialdesignicons-webfont.ttf</file>
+        <file>fonts/Arimo-Italic-VariableFont_wght.ttf</file>
+        <file>fonts/Arimo-VariableFont_wght.ttf</file>
+        <file>fonts/FreeSans.ttf</file>
     </qresource>
 </RCC>
