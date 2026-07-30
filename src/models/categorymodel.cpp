@@ -36,6 +36,21 @@ void CategoryModel::add(QString name)
     reload();
 }
 
+void CategoryModel::update(int row, const QString& name)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto &s = m_data[row];
+
+    s.name = name;
+
+    repo.update(s.id, s.name);
+
+    QModelIndex idx = index(row);
+
+    emit dataChanged(idx, idx, {NameRole});
+}
 
 void CategoryModel::removeRow(int row)
 {

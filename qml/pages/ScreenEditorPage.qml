@@ -98,23 +98,19 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                text: "Font"
+                text: "Font: "
             }
 
             ComboBox {
                 id: fontSelector
+
+                Layout.preferredWidth: 140
 
                 model: [
                     "MiniSet2",
                     "MiniForma2",
                     "Sans Serif"
                 ]
-
-                currentIndex: root.initialFont
-
-                onCurrentIndexChanged: {
-                    root.initialFont = currentIndex
-                }
             }
 
             Item {
@@ -139,11 +135,11 @@ Item {
                     }
 
 
-                    if (root.screenId < 0) {
+                    if (root.screenIdx < 0) {
                         root.screenModel.add(editor.content, fontSelector.currentIndex)
                     }
                     else {
-                        console.warn("Edycja istniejącego slajdu niezaimplementowana")
+                        root.screenModel.update(root.screenIdx, editor.content, fontSelector.currentIndex)
                     }
 
                     Navigation.pop()

@@ -65,11 +65,50 @@ QHash<int,QByteArray> ScreenModel::roleNames() const
 
 void ScreenModel::reload()
 {
-    updateData(repo.getByHymn(m_hymnId));
+    if(m_hymnId < 0) updateData(QList<Screen>());
+    else updateData(repo.getByHymn(m_hymnId));
 }
 
 Q_INVOKABLE void ScreenModel::add(QString text, int font) {
     repo.create(m_hymnId,text,font);
+    reload();
+}
+
+void ScreenModel::update(int row, const QString& text, int font)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto& s = m_data[row];
+
+    if (!text.isNull())
+        s.text = text;
+
+    if (font >= 0)
+        s.font = font;
+
+    repo.update(s.id, s.text, s.font);
+
+    QModelIndex idx = index(row);
+
+    emit dataChanged(
+        idx,
+        idx,
+        {
+            TextRole,
+            FontRole
+        }
+        );
+}
+
+void ScreenModel::duplicate(int row)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto& s = m_data[row];
+
+    repo.create(m_hymnId, s.text, s.font);
     reload();
 }
 

@@ -35,6 +35,21 @@ void CategoryHymnModel::add(QString name)
 }
 
 
+void CategoryHymnModel::update(int row, const QString& name)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto& s = m_data[row];
+    s.name = name;
+
+    hymnRepo.update(s.id, s.name, s.categoryId);
+
+    QModelIndex idx = index(row);
+
+    emit dataChanged(idx, idx, {NameRole});
+}
+
 void CategoryHymnModel::removeRow(int row)
 {
     if(row < 0 || row >= m_data.size())
@@ -49,7 +64,8 @@ void CategoryHymnModel::removeRow(int row)
 
 void CategoryHymnModel::reload()
 {
-    updateData(fetch(parentId()));
+    if(parentId() < -1) updateData(QList<Hymn>());
+    else updateData(fetch(parentId()));
 }
 
 Q_INVOKABLE Hymn CategoryHymnModel::get(int index) const{

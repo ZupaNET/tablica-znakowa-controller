@@ -7,8 +7,15 @@
 #include <QVariantList>
 
 struct Set {
+    Q_GADGET
+
+    Q_PROPERTY(int setId MEMBER id)
+    Q_PROPERTY(QString setName MEMBER name)
+
+public:
     int id;
     QString name;
 };
+Q_DECLARE_METATYPE(Set)
 
 #endif // SET_H

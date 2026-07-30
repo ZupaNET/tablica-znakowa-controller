@@ -30,7 +30,8 @@ QHash<int,QByteArray> SetHymnModel::roleNames() const
 
 void SetHymnModel::reload()
 {
-    updateData(fetch(parentId()));
+    if(parentId() < 0) updateData(QList<Hymn>());
+    else updateData(fetch(parentId()));
 }
 
 QList<Hymn> SetHymnModel::fetch(int id)
@@ -72,8 +73,24 @@ Q_INVOKABLE void SetHymnModel::saveOrder() {
     repo.reorder(m_parentId, ids);
 }
 
-Q_INVOKABLE void SetHymnModel::saveShownScreens() {
-    foreach (const auto &h, m_data) {
-        repo.changeShownScreens(m_parentId, h.id, h.shownScreens);
-    }
+void SetHymnModel::updateShownScreens(int row, QVariantList screens)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto& hymn = m_data[row];
+
+    hymn.shownScreens = screens;
+
+    repo.changeShownScreens(
+        m_parentId,
+        hymn.id,
+        hymn.shownScreens
+        );
+
+    emit dataChanged(
+        index(row),
+        index(row),
+        {ShownScreensRole}
+        );
 }

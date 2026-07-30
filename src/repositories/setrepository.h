@@ -16,7 +16,7 @@ public:
     void addHymn(int setId, int hymnId);
     void removeHymn(int setId, int hymnId);
     void reorder(int setId, QList<int> ids);
-    void changeShownScreens(int setId, int hymnId, QVariantList shownScreens);
+    void changeShownScreens(int setId, int hymnId, const QVariantList& shownScreens);
 };
 
 #endif // SETREPOSITORY_H

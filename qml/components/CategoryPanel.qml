@@ -13,6 +13,7 @@ Item {
 
     signal selected(int id)
     signal addCategory(string name)
+    signal updateCategory(int row, string name)
     signal removeCategory(int row)
 
     Dialog {
@@ -45,6 +46,43 @@ Item {
             const name = categoryName.text.trim()
             if (name.length > 0)
                 root.addCategory(name)
+        }
+    }
+
+    Dialog {
+        id: updateDialog
+
+        title: "Zmiana nazwy kategorii"
+        modal: true
+
+        property string initialName: ""
+        property int categoryRow: -1
+
+        anchors.centerIn: Overlay.overlay
+
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        width: 320
+        padding: 20
+
+        contentItem: TextField {
+            id: newCategoryName
+
+            placeholderText: "Nazwa kategorii"
+
+            text: updateDialog.initialName
+
+            onAccepted: addDialog.accept()
+        }
+
+        onOpened: {
+            newCategoryName.forceActiveFocus()
+        }
+
+        onAccepted: {
+            const name = newCategoryName.text.trim()
+            if (name.length > 0)
+                root.updateCategory(categoryRow, name)
         }
     }
 
@@ -128,6 +166,22 @@ Item {
 
                         font.bold: ListView.isCurrentItem
                         elide: Text.ElideRight
+                    }
+
+                    ToolButton {
+                        text: MdiFont.Icon.pencil
+
+                        enabled: model.id >= 0
+                        visible: model.id >= 0
+
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 20
+
+                        onClicked: {
+                            updateDialog.initialName = model.name
+                            updateDialog.categoryRow = index
+                            updateDialog.open()
+                        }
                     }
 
                     ToolButton {

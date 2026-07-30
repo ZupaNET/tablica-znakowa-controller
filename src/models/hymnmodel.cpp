@@ -40,6 +40,32 @@ void HymnModel::add(QString name, int categoryId)
     reload();
 }
 
+void HymnModel::update(int row, const QString& name, int categoryId)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto& s = m_data[row];
+
+    if (!name.isNull())
+        s.name = name;
+
+    if (categoryId >= -1)
+        s.categoryId = categoryId;
+
+    repo.update(s.id, s.name, s.categoryId);
+
+    QModelIndex idx = index(row);
+
+    emit dataChanged(
+        idx,
+        idx,
+        {
+            NameRole,
+            CategoryRole
+        }
+    );
+}
 
 void HymnModel::removeRow(int row)
 {

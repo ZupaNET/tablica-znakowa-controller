@@ -20,6 +20,7 @@ public:
 
     Q_INVOKABLE void reload() override;
     Q_INVOKABLE void add(QString name, int categoryId);
+    Q_INVOKABLE void update(int row, const QString& name, int categoryId);
     Q_INVOKABLE void removeRow(int row);
 
 private:

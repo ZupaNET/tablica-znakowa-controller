@@ -22,7 +22,7 @@ public:
     Q_INVOKABLE void removeHymn(int row);
     Q_INVOKABLE void move(int from, int to);
     Q_INVOKABLE void saveOrder();
-    Q_INVOKABLE void saveShownScreens();
+    Q_INVOKABLE void updateShownScreens(int row, QVariantList screens);
 
 protected:
 

@@ -137,22 +137,28 @@ void SetRepository::reorder(int setId, QList<int> ids) {
     db.commit();
 }
 
-void SetRepository::changeShownScreens(int setId, int hymnId, QVariantList shownScreens) {
+void SetRepository::changeShownScreens(int setId, int hymnId, const QVariantList& shownScreens)
+{
     auto db = DatabaseConnector::instance().db();
-    db.transaction();
-
-    QStringList list;
-    for (QVariant value : shownScreens) {
-        list << QString::number(value.toInt());
-    }
-    QString a = list.join(',');
 
     QSqlQuery q(db);
-    q.prepare("UPDATE Sets_Hymns SET ShownScreens=? WHERE SetId=? AND HymnId=?");
-    q.addBindValue(a);
+
+    QStringList list;
+
+    for (const auto& value : shownScreens)
+        list << QString::number(value.toInt());
+
+    q.prepare(
+        "UPDATE Sets_Hymns "
+        "SET ShownScreens=? "
+        "WHERE SetId=? AND HymnId=?"
+        );
+
+    q.addBindValue(list.join(','));
     q.addBindValue(setId);
     q.addBindValue(hymnId);
-    q.exec();
 
-    db.commit();
+    if (!q.exec()) {
+        qWarning() << q.lastError().text();
+    }
 }

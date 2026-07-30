@@ -26,6 +26,8 @@ public:
 
     Q_INVOKABLE void reload() override;
     Q_INVOKABLE void add(QString text, int font);
+    Q_INVOKABLE void update(int row, const QString& text, int font);
+    Q_INVOKABLE void duplicate(int row);
     Q_INVOKABLE void removeRow(int row);
     Q_INVOKABLE void move(int from, int to);
     Q_INVOKABLE void saveOrder();

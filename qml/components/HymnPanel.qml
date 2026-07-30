@@ -13,6 +13,7 @@ Item {
 
     signal selected(int id)
     signal addHymn(string name)
+    signal updateHymn(int row, string name)
     signal removeHymn(int row)
 
     Dialog {
@@ -45,6 +46,43 @@ Item {
             const name = hymnName.text.trim()
             if (name.length > 0)
                 root.addHymn(name)
+        }
+    }
+
+    Dialog {
+        id: updateDialog
+
+        title: "Zmiana nazwy pieśni"
+        modal: true
+
+        property string initialName: ""
+        property int hymnRow: -1
+
+        anchors.centerIn: Overlay.overlay
+
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        width: 320
+        padding: 20
+
+        contentItem: TextField {
+            id: newHymnName
+
+            placeholderText: "Nazwa pieśni"
+
+            text: updateDialog.initialName
+
+            onAccepted: addDialog.accept()
+        }
+
+        onOpened: {
+            newHymnName.forceActiveFocus()
+        }
+
+        onAccepted: {
+            const name = newHymnName.text.trim()
+            if (name.length > 0)
+                root.updateHymn(updateDialog.hymnRow, name)
         }
     }
 
@@ -131,6 +169,19 @@ Item {
                     }
 
                     ToolButton {
+                        text: MdiFont.Icon.pencil
+
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 20
+
+                        onClicked: {
+                            updateDialog.initialName = model.name
+                            updateDialog.hymnRow = index
+                            updateDialog.open()
+                        }
+                    }
+
+                    ToolButton {
                         text: MdiFont.Icon.delete
 
                         font.family: "Material Design Icons"
@@ -156,6 +207,8 @@ Item {
 
         Button {
             text: "+ Dodaj pieśń"
+
+            enabled: model.parentId >= -1
 
             onClicked: addDialog.open()
         }

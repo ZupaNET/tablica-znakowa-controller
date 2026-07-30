@@ -111,8 +111,18 @@ Item {
                     categoryModel.add(name)
                 }
 
+                onUpdateCategory: (row, name) => {
+                    categoryModel.update(row, name)
+                }
+
                 onRemoveCategory: row => {
+                    if(categoryModel.get(row).categoryId === root.selectedCategoryId)
+                    {
+                        hymnModel.parentId = -1
+                        root.selectedCategoryId = -1
+                    }
                     categoryModel.removeRow(row)
+                    hymnModel.reload()
                 }
 
             }
@@ -134,7 +144,16 @@ Item {
                     hymnModel.add(name)
                 }
 
+                onUpdateHymn: (row, name) => {
+                    hymnModel.update(row, name)
+                }
+
                 onRemoveHymn: row => {
+                    if (hymnModel.get(row).hymnId === root.selectedHymnId) {
+                        root.selectedHymnId = -1
+                        screenModel.hymnId = -1
+                        screenModel.reload()
+                    }
                     hymnModel.removeRow(row)
                 }
             }
@@ -164,6 +183,10 @@ Item {
                             screenModel: screenModel,
                         }
                     )
+                }
+
+                onDuplicateScreen: row => {
+                    screenModel.duplicate(row)
                 }
 
                 onRemoveScreen: row => {

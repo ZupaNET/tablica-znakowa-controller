@@ -81,7 +81,7 @@ Item {
 
             delegate: Rectangle {
                 width: list.width - list.ScrollBar.vertical.width - 1
-                height: 290
+                height: 300
 
                 radius: 8
 
@@ -163,6 +163,8 @@ Item {
 
         Button {
             text: "+ Dodaj slajd"
+
+            enabled: model.hymnId >= 0
 
             onClicked: {
                 root.addScreen()
