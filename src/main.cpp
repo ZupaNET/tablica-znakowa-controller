@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/MiniSet2.ttf");
     QFontDatabase::addApplicationFont(":/fonts/FreeSans.ttf");
 
-    app.setApplicationName(APP_NAME);
-    app.setOrganizationName(APP_COMPANY);
-    app.setOrganizationDomain(APP_COMPANY_DOMAIN);
+    app.setApplicationName(QString::fromUtf8(QStringLiteral(APP_NAME).toLatin1()));
+    app.setOrganizationName(QString::fromUtf8(QStringLiteral(APP_COMPANY).toLatin1()));
+    app.setOrganizationDomain(QString::fromUtf8(QStringLiteral(APP_COMPANY_DOMAIN).toLatin1()));
 
     QQmlApplicationEngine engine;
     QObject::connect(
