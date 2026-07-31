@@ -101,15 +101,19 @@ Dialog {
                             width: ListView.view.width
 
                             property bool filteredOut: {
-                                if (root.categorySearchText.length === 0)
+                                let filter = root.categorySearchText.trim().toLowerCase()
+                                let text = model.name.toLowerCase()
+                                let ok = text.indexOf(filter) !== -1
+
+                                if (filter === "")
                                     return false
 
-                                return !model.name
-                                    .toLowerCase()
-                                    .includes(root.categorySearchText.toLowerCase())
+                                return !ok
                             }
 
+
                             height: filteredOut ? 0 : 49
+                            visible: !filteredOut
 
                             Behavior on height {
                                 NumberAnimation {
@@ -232,6 +236,7 @@ Dialog {
                             property bool hidden: isExisting || filteredOut
 
                             height: hidden ? 0 : 49
+                            visible: !hidden
 
                             Behavior on height {
                                 NumberAnimation {
