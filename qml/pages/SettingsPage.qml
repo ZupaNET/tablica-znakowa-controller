@@ -21,6 +21,24 @@ Item {
             }
         }
 
+        FileDialog {
+            id: dbExportDialog
+
+            title: "Zapisz kopię śpiewnika"
+
+            fileMode: FileDialog.SaveFile
+
+            nameFilters: [
+                "SQLite database (*.db)"
+            ]
+
+            defaultSuffix: "db"
+
+            onAccepted: {
+                DatabaseManager.exportDatabase(selectedFile)
+            }
+        }
+
         Dialog {
             id: ipChangeDialog
 
@@ -225,6 +243,12 @@ Item {
                     text: "Importuj bazę danych"
                     onClicked: {
                         dbImportDialog.open()
+                    }
+                }
+                Button{
+                    text: "Eksportuj bazę danych"
+                    onClicked: {
+                        dbExportDialog.open()
                     }
                 }
                 Button{

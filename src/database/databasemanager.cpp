@@ -1,11 +1,11 @@
-#include "databaseimporter.h"
+#include "databasemanager.h"
 #include "databaseconnector.h"
 #include <QFile>
 #include <QUrl>
 #include <QDebug>
 #include <QSqlDatabase>
 
-DatabaseImporter *DatabaseImporter::create(QQmlEngine *, QJSEngine *engine)
+DatabaseManager *DatabaseManager::create(QQmlEngine *, QJSEngine *engine)
 {
     // The instance has to exist before it is used. We cannot replace it.
     Q_ASSERT(&instance());
@@ -26,7 +26,7 @@ DatabaseImporter *DatabaseImporter::create(QQmlEngine *, QJSEngine *engine)
     return &instance();
 }
 
-bool DatabaseImporter::importDatabase(const QString& sourceUrl)
+bool DatabaseManager::importDatabase(const QString& sourceUrl)
 {
     qDebug() << "Ścieżka źródłowa:" << sourceUrl;
 
@@ -86,5 +86,58 @@ bool DatabaseImporter::importDatabase(const QString& sourceUrl)
     }
 
     qDebug() << "Importowanie zakończone powodzeniem.";
+    return true;
+}
+
+bool DatabaseManager::exportDatabase(const QString& destinationUrl)
+{
+    const QString sourcePath = DatabaseConnector::getDatabasePath();
+
+    QUrl url(destinationUrl);
+
+    QString destinationPath;
+
+    if (url.isLocalFile()) {
+        destinationPath = url.toLocalFile();
+    } else {
+        destinationPath = destinationUrl;
+    }
+
+    qDebug() << "Eksport bazy:";
+    qDebug() << "Źródło:" << sourcePath;
+    qDebug() << "Cel:" << destinationPath;
+
+    QSqlDatabase db = DatabaseConnector::instance().db();
+
+    if (db.isOpen()) {
+        db.close();
+    }
+
+    if (QFile::exists(destinationPath)) {
+        if (!QFile::remove(destinationPath)) {
+            qWarning() << "Nie można usunąć istniejącego pliku eksportu";
+            return false;
+        }
+    }
+
+    QFile source(sourcePath);
+    if (!source.exists()) {
+        qWarning() << "Nie znaleziono bazy:" << sourcePath;
+        return false;
+    }
+
+    if (!QFile::copy(sourcePath, destinationPath)) {
+        qWarning() << "Nie udało się skopiować bazy";
+        return false;
+    }
+
+    if (!DatabaseConnector::instance().init(sourcePath)) {
+        qWarning() << "Nie udało się ponownie otworzyć bazy";
+        return false;
+    }
+
+
+    qDebug() << "Eksport zakończony powodzeniem";
+
     return true;
 }
