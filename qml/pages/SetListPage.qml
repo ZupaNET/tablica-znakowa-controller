@@ -78,6 +78,8 @@ Item {
             Button {
                 text: "Prezentuj >"
 
+                enabled: root.selectedSetId >= 0
+
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
