@@ -111,6 +111,8 @@ Item {
                     "Średnia",
                     "Duża"
                 ]
+
+                currentIndex: root.initialFont
             }
 
             Item {

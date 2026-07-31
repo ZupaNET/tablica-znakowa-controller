@@ -9,11 +9,22 @@ Item {
     id: root1
 
     property int currentSet
+    property var currentScreen: null
 
     PresentationModel {
         id: screensModel
         setId: root1.currentSet
         Component.onCompleted: reload()
+    }
+
+    onVisibleChanged: {
+        if (visible && screensView.currentIndex >= 0) {
+            screensModel.reload()
+
+            let item = screensModel.get(screensView.currentIndex)
+
+            TablicaConnector.buffer = item
+        }
     }
 
     Rectangle {
@@ -208,12 +219,29 @@ Item {
 
                 Button {
                     id: buttonScreenEdit
+
                     anchors {
                         right: parent.right
                         bottom: parent.bottom
                         margins: 10
                     }
+
                     text: "Edytuj slajd"
+                    enabled: root1.currentScreen !== null && root1.currentScreen.screenId !== -1
+
+                    onClicked: {
+                        if (!enabled)
+                            return
+
+                        Navigation.push(
+                            Qt.resolvedUrl("ScreenEditorPage.qml"),
+                            {
+                                screenIdx: screensView.currentIndex,
+                                hymnId: root1.currentScreen.hymnId,
+                                screenModel: screensModel
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -332,6 +360,7 @@ Item {
                 }
                 onCurrentIndexChanged: {
                     let item = screensModel.get(currentIndex);
+                    root1.currentScreen = item;
                     TablicaConnector.buffer = item;
 
                     let target = Math.max(0, currentIndex - 1)

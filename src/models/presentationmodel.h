@@ -5,6 +5,8 @@
 #include "core/dto/screen.h"
 #include "roles/screenroles.h"
 #include "services/presentationservice.h"
+#include "repositories/screenrepository.h"
+#include "repositories/setrepository.h"
 
 class PresentationModel : public EntityListModel<Screen>, public ScreenRoles
 {
@@ -25,6 +27,8 @@ public:
     QHash<int,QByteArray> roleNames() const override;
 
     Q_INVOKABLE void reload() override;
+    Q_INVOKABLE void update(int row, const QString& text, int font);
+    Q_INVOKABLE void changeScreenVisibility(int row, bool shown);
     Q_INVOKABLE Screen get(int index) const;
 
 signals:
@@ -33,5 +37,7 @@ signals:
 private:
     int m_setId = -1;
     PresentationService service;
+    ScreenRepository screenRepo;
+    SetRepository setRepo;
 };
 #endif // PRESENTATIONMODEL_H

@@ -35,6 +35,43 @@ QHash<int,QByteArray> PresentationModel::roleNames() const
     return ScreenRoles::roleNames();
 }
 
+void PresentationModel::update(int row, const QString& text, int font)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto& s = m_data[row];
+
+    if (!text.isNull())
+        s.text = text;
+
+    if (font >= 0)
+        s.font = font;
+
+    screenRepo.update(s.id, s.text, s.font);
+
+    QModelIndex idx = index(row);
+
+    emit dataChanged(
+        idx,
+        idx,
+        {
+            TextRole,
+            FontRole
+        }
+        );
+}
+
+void PresentationModel::changeScreenVisibility(int row, bool shown)
+{
+    if(m_setId < 0)
+        return;
+
+    setRepo.changeScreenVisibility(m_setId, get(row).id, shown);
+
+    reload();
+}
+
 Q_INVOKABLE void PresentationModel::reload() {
     if (m_setId < 0) return;
     updateData(service.build(m_setId));
