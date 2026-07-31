@@ -56,6 +56,14 @@ Item {
         }
     }
 
+    Connections {
+        target: TablicaConnector
+
+        function onConnectionFailure() {
+            infoPopup.show("Nie można połączyć się z tablicą")
+        }
+    }
+
     onVisibleChanged: {
         if (visible && screensView.currentIndex >= 0) {
             screensModel.reload()
@@ -432,6 +440,40 @@ Item {
                     )
                 }
             }
+        }
+    }
+
+    Popup {
+        id: infoPopup
+
+        x: (parent.width - width) / 2
+        y: parent.height - height - 20
+
+        padding: 12
+        modal: false
+        focus: false
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            radius: 6
+            color: "#323232"
+        }
+
+        Label {
+            id: infoText
+            color: "white"
+        }
+
+        Timer {
+            id: hideTimer
+            interval: 2500
+            onTriggered: infoPopup.close()
+        }
+
+        function show(message) {
+            infoText.text = message
+            open()
+            hideTimer.restart()
         }
     }
 }

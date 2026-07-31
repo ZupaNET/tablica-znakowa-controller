@@ -83,14 +83,12 @@ private:
     inline static QJSEngine *s_engine = nullptr;
 
 signals:
-    void connected();
-    void disconnected();
-
     void bufferChanged();
     void enabledChanged();
     void ipAddressChanged();
     void portChanged();
 
+    void connectionFailure();
 public:
     void setBuffer(const Screen& buffer);
     Screen getBuffer();

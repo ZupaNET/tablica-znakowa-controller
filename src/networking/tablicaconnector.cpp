@@ -171,30 +171,49 @@ bool TablicaConnector::submitCommand(){
 bool TablicaConnector::sendCommand(QString command){
     QTcpSocket socket;
     socket.connectToHost(ipAddress, port);
+
     if(!socket.waitForConnected(1000))
-        return false;
-    if(socket.isOpen()){
-        QString packet = command+'\n';
-        if(socket.write(packet.toUtf8()) == -1){
-            return false;
-        }
-        if(!socket.waitForBytesWritten(1000))
-            return false;
-        if(socket.waitForReadyRead(1000))
-        {
-            QByteArray response =
-                socket.readAll();
-            if(!(response == "ok\n")){
-                return false;
-            }
-        }
-        socket.disconnectFromHost();
-        if(socket.state() != QAbstractSocket::UnconnectedState)
-        {
-            socket.waitForDisconnected(1000);
-        }
-        return true;
-    }else{
+    {
+        emit connectionFailure();
         return false;
     }
+
+    if(!socket.isOpen())
+    {
+        emit connectionFailure();
+        return false;
+    }
+
+    QString packet = command+'\n';
+
+    if(socket.write(packet.toUtf8()) == -1)
+    {
+        emit connectionFailure();
+        return false;
+    }
+
+    if(!socket.waitForBytesWritten(1000))
+    {
+        emit connectionFailure();
+        return false;
+    }
+
+    if(socket.waitForReadyRead(1000))
+    {
+        QByteArray response =
+            socket.readAll();
+        if(!(response == "ok\n"))
+        {
+            emit connectionFailure();
+            return false;
+        }
+    }
+
+    socket.disconnectFromHost();
+
+    if(socket.state() != QAbstractSocket::UnconnectedState)
+    {
+        socket.waitForDisconnected(1000);
+    }
+    return true;
 }
