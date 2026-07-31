@@ -68,7 +68,7 @@ void CategoryHymnModel::reload()
     else updateData(fetch(parentId()));
 }
 
-Q_INVOKABLE Hymn CategoryHymnModel::get(int index) const{
+Hymn CategoryHymnModel::get(int index) const{
     if(index < 0 || index >= m_data.size())
         return {};
 

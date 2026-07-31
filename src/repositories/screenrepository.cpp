@@ -63,20 +63,57 @@ void ScreenRepository::remove(int id) {
     q.exec();
 }
 
-void ScreenRepository::reorder(int hymnId, QList<int> ids) {
+void ScreenRepository::move(int hymnId, int screenId, int from, int to)
+{
     auto db = DatabaseConnector::instance().db();
+
     db.transaction();
 
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    for (int i = 0; i < ids.size(); ++i) {
-        q.prepare("UPDATE Screens SET DisplayOrder=? WHERE Id=? AND HymnId=?");
-        q.addBindValue(i);
-        q.addBindValue(ids[i]);
+    QSqlQuery q(db);
+
+    if (from < to)
+    {
+        q.prepare(R"(
+            UPDATE Screens
+            SET DisplayOrder = DisplayOrder - 1
+            WHERE HymnId = ?
+              AND DisplayOrder > ?
+              AND DisplayOrder <= ?
+        )");
+
         q.addBindValue(hymnId);
+        q.addBindValue(from);
+        q.addBindValue(to);
+
         q.exec();
     }
+    else
+    {
+        q.prepare(R"(
+            UPDATE Screens
+            SET DisplayOrder = DisplayOrder + 1
+            WHERE HymnId = ?
+              AND DisplayOrder >= ?
+              AND DisplayOrder < ?
+        )");
+
+        q.addBindValue(hymnId);
+        q.addBindValue(to);
+        q.addBindValue(from);
+
+        q.exec();
+    }
+
+    q.prepare(R"(
+        UPDATE Screens
+        SET DisplayOrder = ?
+        WHERE Id = ?
+    )");
+
+    q.addBindValue(to);
+    q.addBindValue(screenId);
+
+    q.exec();
 
     db.commit();
 }

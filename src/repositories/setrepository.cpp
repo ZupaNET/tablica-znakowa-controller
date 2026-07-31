@@ -55,7 +55,7 @@ QList<Hymn> SetRepository::getHymns(int setId) {
         DatabaseConnector::instance().db()
     );
     q.prepare(R"(
-            SELECT h.Id, h.Name, h.CategoryId, sh.ShownScreens
+            SELECT h.Id, h.Name, h.CategoryId
             FROM Sets_Hymns sh
             JOIN Hymns h ON h.Id = sh.HymnId
             WHERE sh.SetId=?
@@ -66,32 +66,68 @@ QList<Hymn> SetRepository::getHymns(int setId) {
     q.exec();
 
     while (q.next()) {
-        QVariantList shownScreens;
-
-        if(q.value(3).isNull()){
-            QSqlQuery qs(
-                DatabaseConnector::instance().db()
-                );
-            qs.prepare(R"(
-                SELECT DisplayOrder
-                FROM Screens
-                WHERE HymnId=?
-                ORDER BY DisplayOrder
-            )");
-            qs.addBindValue(q.value(0).toInt());
-            qs.exec();
-
-            while(qs.next()){
-                shownScreens.append(qs.value(0).toInt());
-            }
-
-        }else{
-            for(const QString &number : q.value(3).toString().split(",")){
-                shownScreens.append(number.toInt());
-            }
-        }
-        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt(), shownScreens});
+        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
     }
+
+    return list;
+}
+
+QList<Screen> SetRepository::getScreens(int setId, int hymnId)
+{
+    QList<Screen> list;
+    QSqlQuery q(
+        DatabaseConnector::instance().db()
+    );
+    q.prepare(R"(
+        SELECT
+            s.Id,
+            h.Name AS HymnName,
+            h.Id AS HymnId,
+            s.Text,
+            s.DisplayOrder,
+            s.Font,
+            CASE
+                WHEN ss.ScreenId IS NOT NULL THEN 1
+                ELSE 0
+            END AS Shown
+        FROM Screens s
+        JOIN Hymns h
+            ON h.Id = s.HymnId
+        JOIN Sets_Hymns sh
+            ON sh.HymnId = h.Id
+           AND sh.SetId = ?
+        LEFT JOIN Sets_Screens ss
+            ON ss.SetId = ?
+           AND ss.ScreenId = s.Id
+        WHERE s.HymnId = ?
+        ORDER BY s.DisplayOrder
+    )");
+
+    q.addBindValue(setId);
+    q.addBindValue(setId);
+    q.addBindValue(hymnId);
+
+
+    if (!q.exec()) {
+        qWarning() << q.lastError();
+        return list;
+    }
+
+    while (q.next()) {
+
+        Screen screen;
+
+        screen.id = q.value("Id").toInt();
+        screen.hymnId = q.value("HymnId").toInt();
+        screen.hymnName = q.value("HymnName").toString();
+        screen.text = q.value("Text").toString();
+        screen.order = q.value("DisplayOrder").toInt();
+        screen.font = q.value("Font").toInt();
+        screen.shown = q.value("Shown").toBool();
+
+        list.append(screen);
+    }
+
     return list;
 }
 
@@ -111,54 +147,238 @@ void SetRepository::addHymn(int setId, int hymnId) {
     q.exec(); 
 }
 
-void SetRepository::removeHymn(int setId, int hymnId) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("DELETE FROM Sets_Hymns WHERE SetId=? AND HymnId=?");
-    q.addBindValue(setId);
-    q.addBindValue(hymnId);
-    q.exec();
-}
-
-void SetRepository::reorder(int setId, QList<int> ids) {
+void SetRepository::removeHymn(int setId, int hymnId)
+{
     auto db = DatabaseConnector::instance().db();
+
     db.transaction();
 
     QSqlQuery q(db);
-    for (int i = 0; i < ids.size(); ++i) {
-        q.prepare("UPDATE Sets_Hymns SET DisplayOrder=? WHERE SetId=? AND HymnId=?");
-        q.addBindValue(i);
-        q.addBindValue(setId);
-        q.addBindValue(ids[i]);
-        q.exec();
+
+    q.prepare(R"(
+        DELETE FROM Sets_Screens
+        WHERE SetId = ?
+          AND ScreenId IN (
+              SELECT Id
+              FROM Screens
+              WHERE HymnId = ?
+          )
+    )");
+
+    q.addBindValue(setId);
+    q.addBindValue(hymnId);
+
+    if (!q.exec()) {
+        qWarning() << q.lastError();
+        db.rollback();
+        return;
+    }
+
+    q.prepare(R"(
+        DELETE FROM Sets_Hymns
+        WHERE SetId = ?
+          AND HymnId = ?
+    )");
+
+    q.addBindValue(setId);
+    q.addBindValue(hymnId);
+
+    if (!q.exec()) {
+        qWarning() << q.lastError();
+        db.rollback();
+        return;
     }
 
     db.commit();
 }
 
-void SetRepository::changeShownScreens(int setId, int hymnId, const QVariantList& shownScreens)
+void SetRepository::move(int setId, int hymnId, int from, int to)
 {
     auto db = DatabaseConnector::instance().db();
 
+    db.transaction();
+
     QSqlQuery q(db);
 
-    QStringList list;
+    if (from < to)
+    {
+        q.prepare(R"(
+            UPDATE Sets_Hymns
+            SET DisplayOrder = DisplayOrder - 1
+            WHERE SetId = ?
+              AND DisplayOrder > ?
+              AND DisplayOrder <= ?
+        )");
 
-    for (const auto& value : shownScreens)
-        list << QString::number(value.toInt());
+        q.addBindValue(setId);
+        q.addBindValue(from);
+        q.addBindValue(to);
 
-    q.prepare(
-        "UPDATE Sets_Hymns "
-        "SET ShownScreens=? "
-        "WHERE SetId=? AND HymnId=?"
-        );
+        q.exec();
+    }
+    else
+    {
+        q.prepare(R"(
+            UPDATE Screens
+            SET DisplayOrder = DisplayOrder + 1
+            WHERE SetId = ?
+              AND DisplayOrder >= ?
+              AND DisplayOrder < ?
+        )");
 
-    q.addBindValue(list.join(','));
-    q.addBindValue(setId);
+        q.addBindValue(setId);
+        q.addBindValue(to);
+        q.addBindValue(from);
+
+        q.exec();
+    }
+
+    q.prepare(R"(
+        UPDATE Screens
+        SET DisplayOrder = ?
+        WHERE HymnId = ?
+    )");
+
+    q.addBindValue(to);
     q.addBindValue(hymnId);
 
-    if (!q.exec()) {
-        qWarning() << q.lastError().text();
+    q.exec();
+
+    db.commit();
+}
+
+void SetRepository::changeScreenVisibility(int setId, int screenId, bool hide)
+{
+    auto db = DatabaseConnector::instance().db();
+
+    {
+        QSqlQuery check(db);
+
+        check.prepare(R"(
+            SELECT 1
+            FROM Screens s
+            JOIN Sets_Hymns sh
+                ON sh.HymnId = s.HymnId
+            WHERE s.Id = ?
+              AND sh.SetId = ?
+            LIMIT 1
+        )");
+
+        check.addBindValue(screenId);
+        check.addBindValue(setId);
+
+        if (!check.exec() || !check.next())
+        {
+            qWarning() << "Screen is not in specified set!";
+            return;
+        }
+    }
+
+
+    if (hide)
+    {
+        QSqlQuery q(db);
+
+        q.prepare(R"(
+            DELETE FROM Sets_Screens
+            WHERE SetId = ?
+              AND ScreenId = ?
+        )");
+
+        q.addBindValue(setId);
+        q.addBindValue(screenId);
+
+        q.exec();
+    }
+    else
+    {
+        QSqlQuery q(db);
+
+        q.prepare(R"(
+            INSERT INTO Sets_Screens(SetId, ScreenId)
+            SELECT ?, ?
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM Sets_Screens
+                WHERE SetId = ?
+                  AND ScreenId = ?
+            )
+        )");
+
+        q.addBindValue(setId);
+        q.addBindValue(screenId);
+        q.addBindValue(setId);
+        q.addBindValue(screenId);
+
+        q.exec();
+    }
+}
+
+void SetRepository::changeScreenVisibilityByHymn(int setId, int hymnId, bool hide)
+{
+    auto db = DatabaseConnector::instance().db();
+    {
+        QSqlQuery check(db);
+
+        check.prepare(R"(
+            SELECT 1
+            FROM Sets_Hymns
+            WHERE SetId = ?
+              AND HymnId = ?
+            LIMIT 1
+        )");
+
+        check.addBindValue(setId);
+        check.addBindValue(hymnId);
+
+        if (!check.exec() || !check.next())
+        {
+            qWarning() << "Hymn is not in the set";
+            return;
+        }
+    }
+
+
+    if (hide)
+    {
+        QSqlQuery q(db);
+
+        q.prepare(R"(
+            DELETE FROM Sets_Screens
+            WHERE SetId = ?
+              AND ScreenId IN (
+                  SELECT Id
+                  FROM Screens
+                  WHERE HymnId = ?
+              )
+        )");
+
+        q.addBindValue(setId);
+        q.addBindValue(hymnId);
+
+        q.exec();
+    }
+    else
+    {
+        QSqlQuery q(db);
+
+        q.prepare(R"(
+            INSERT INTO Sets_Screens(SetId, ScreenId)
+            SELECT ?, s.Id
+            FROM Screens s
+            WHERE s.HymnId = ?
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM Sets_Screens ss
+                  WHERE ss.SetId = ?
+                    AND ss.ScreenId = s.Id
+              )
+        )");
+
+        q.addBindValue(setId);
+        q.addBindValue(hymnId);
+        q.addBindValue(setId);
+
+        q.exec();
     }
 }

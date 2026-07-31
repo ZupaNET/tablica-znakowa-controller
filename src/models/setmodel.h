@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE void add(QString name);
     Q_INVOKABLE void update(int row, const QString& name);
     Q_INVOKABLE void removeRow(int row);
+    Q_INVOKABLE Set get(int index) const;
 
 private:
     SetRepository repo;

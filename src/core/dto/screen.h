@@ -14,6 +14,7 @@ struct Screen {
     Q_PROPERTY(QString text MEMBER text)
     Q_PROPERTY(int order MEMBER order)
     Q_PROPERTY(int font MEMBER font)
+    Q_PROPERTY(bool shown MEMBER shown)
 
 public:
     int id;
@@ -22,6 +23,7 @@ public:
     QString text;
     int order;
     int font;
+    bool shown;
 
     bool operator==(const Screen& other) const
     {

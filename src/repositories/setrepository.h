@@ -3,6 +3,7 @@
 
 #include "core/dto/set.h"
 #include "core/dto/hymn.h"
+#include "core/dto/screen.h"
 #include <QVariantList>
 
 class SetRepository
@@ -13,10 +14,13 @@ public:
     void update(int id, QString name);
     void remove(int id);
     QList<Hymn> getHymns(int setId);
+    QList<Screen> getScreens(int setId, int hymnId);
     void addHymn(int setId, int hymnId);
     void removeHymn(int setId, int hymnId);
-    void reorder(int setId, QList<int> ids);
-    void changeShownScreens(int setId, int hymnId, const QVariantList& shownScreens);
+    void move(int setId, int hymnId, int from, int to);
+    void changeScreenVisibility(int setId, int screenId, bool hide);
+    void changeScreenVisibilityByHymn(int setId, int hymnId, bool hide);
+
 };
 
 #endif // SETREPOSITORY_H

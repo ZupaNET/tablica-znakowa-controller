@@ -3,7 +3,6 @@
 
 #include <QList>
 #include "core/dto/screen.h"
-#include "repositories/screenrepository.h"
 #include "repositories/setrepository.h"
 
 class PresentationService
@@ -13,8 +12,6 @@ public:
     QList<Screen> build(int setId);
 
 private:
-
-    ScreenRepository screenRepo;
     SetRepository setRepo;
 };
 

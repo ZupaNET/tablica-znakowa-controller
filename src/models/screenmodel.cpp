@@ -117,16 +117,19 @@ Q_INVOKABLE void ScreenModel::removeRow(int row) {
     reload();
 }
 
-Q_INVOKABLE void ScreenModel::move(int from, int to) {
-    beginMoveRows({},from,from,{},(from<to?to+1:to));
-    m_data.move(from,to);
-    endMoveRows();
-}
+void ScreenModel::move(int from, int to)
+{
+    if (from == to ||
+        from < 0 || from >= m_data.size() ||
+        to   < 0 || to   >= m_data.size())
+        return;
 
-Q_INVOKABLE void ScreenModel::saveOrder() {
-    QList<int> ids;
-    for (auto& s: m_data) ids.append(s.id);
-    repo.reorder(m_hymnId,ids);
+    beginMoveRows({}, from, from, {}, from < to ? to + 1 : to);
+    m_data.move(from, to);
+    endMoveRows();
+
+    int movedId = m_data[to].id;
+    repo.move(m_hymnId, movedId, from, to);
 }
 
 Q_INVOKABLE Screen ScreenModel::get(int index) const{

@@ -4,40 +4,31 @@ QList<Screen> PresentationService::build(int setId)
 {
     QList<Screen> result;
 
-    result.append({
+    auto emptyScreen = Screen{
         -1,
         -1,
         "Pusty",
         "",
         -1,
-        0
-    });
+        0,
+        false
+    };
+
+    result.append(emptyScreen);
 
     auto hymns = setRepo.getHymns(setId);
 
-    foreach(const auto& hymn, hymns)
+    foreach (const auto& hymn, hymns)
     {
-        auto screens =
-            screenRepo.getByHymn(hymn.id);
+        auto screens = setRepo.getScreens(setId, hymn.id);
 
-
-        foreach(const auto& screen, screens)
+        foreach (const auto& screen, screens)
         {
-            if(hymn.shownScreens.contains(screen.order))
-            {
+            if (screen.shown)
                 result.append(screen);
-            }
         }
 
-
-        result.append({
-            -1,
-            -1,
-            "Pusty",
-            "",
-            -1,
-            0
-        });
+        result.append(emptyScreen);
     }
 
     return result;

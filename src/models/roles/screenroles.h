@@ -18,6 +18,7 @@ public:
         TextRole,
         OrderRole,
         FontRole,
+        ShownRole,
         ExcerptRole
     };
 
@@ -31,6 +32,7 @@ public:
             {TextRole,"text"},
             {OrderRole,"order"},
             {FontRole,"font"},
+            {ShownRole, "shown"},
             {ExcerptRole,"excerpt"}
         };
     }

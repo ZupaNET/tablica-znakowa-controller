@@ -13,8 +13,7 @@ public:
     {
         IdRole = Qt::UserRole + 1,
         NameRole,
-        CategoryRole,
-        ShownScreensRole
+        CategoryRole
     };
 
 
@@ -23,8 +22,7 @@ public:
         return {
             {IdRole, "id"},
             {NameRole, "name"},
-            {CategoryRole, "categoryId"},
-            {ShownScreensRole, "shownScreens"}
+            {CategoryRole, "categoryId"}
         };
     }
 };

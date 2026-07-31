@@ -21,8 +21,7 @@ public:
     Q_INVOKABLE void addHymn(int hymnId);
     Q_INVOKABLE void removeHymn(int row);
     Q_INVOKABLE void move(int from, int to);
-    Q_INVOKABLE void saveOrder();
-    Q_INVOKABLE void updateShownScreens(int row, QVariantList screens);
+    Q_INVOKABLE Hymn get(int index) const;
 
 protected:
 
