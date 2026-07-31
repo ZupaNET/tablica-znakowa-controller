@@ -11,10 +11,13 @@ Item {
     property int selectedId: -1
     property int pendingRemoveRow: -1
 
+    property bool setMode: false
+
     signal selected(int id)
     signal addHymn(string name)
     signal updateHymn(int row, string name)
     signal removeHymn(int row)
+    signal moveHymn(int from, int to)
 
     Dialog {
         id: addDialog
@@ -117,7 +120,7 @@ Item {
         spacing: 8
 
         Label {
-            text: "Pieśni"
+            text: root.setMode ? "Składniki zestawu" : "Pieśni"
             font.pixelSize: 20
             font.bold: true
         }
@@ -169,6 +172,38 @@ Item {
                     }
 
                     ToolButton {
+                        visible: root.setMode
+
+                        text: MdiFont.Icon.arrowUp
+
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 20
+
+                        enabled: index > 0
+
+                        onClicked: {
+                            root.moveHymn(index, index - 1)
+                        }
+                    }
+
+                    ToolButton {
+                        visible: root.setMode
+
+                        text: MdiFont.Icon.arrowDown
+
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 20
+
+                        enabled: index < list.count - 1
+
+                        onClicked: {
+                            root.moveHymn(index, index + 1)
+                        }
+                    }
+
+                    ToolButton {
+                        visible: !root.setMode
+
                         text: MdiFont.Icon.pencil
 
                         font.family: "Material Design Icons"
@@ -194,12 +229,12 @@ Item {
                             deleteDialog.open()
                         }
                     }
-                }
 
-                TapHandler {
-                    onTapped: {
-                        list.currentIndex = index
-                        root.selected(model.id)
+                    TapHandler {
+                        onTapped: {
+                            list.currentIndex = index
+                            root.selected(model.id)
+                        }
                     }
                 }
             }
