@@ -69,6 +69,7 @@ set(APP_QML
     qml/components/CategoryPanel.qml
     qml/components/HymnPanel.qml
     qml/components/ScreenPanel.qml
+    qml/components/SetPanel.qml
 )
 
 set(APP_RESOURCES
