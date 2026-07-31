@@ -67,7 +67,7 @@ Item {
             Text {
                 anchors.centerIn: parent
 
-                text: "Biblioteka pieśni"
+                text: "Lista pieśni"
 
                 color: "white"
 
@@ -191,6 +191,10 @@ Item {
 
                 onRemoveScreen: row => {
                     screenModel.removeRow(row)
+                }
+
+                onMoveScreen: (from, to) => {
+                    screenModel.move(from, to)
                 }
             }
         }
