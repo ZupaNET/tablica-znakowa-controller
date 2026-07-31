@@ -1,6 +1,9 @@
-import QtQuick 2.15
-import QtQuick.Layouts 2.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Effects
+
+import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -10,7 +13,11 @@ Item {
     property string vid
     property bool selected: false
 
+    property bool showAll: false
+    property bool shown: false
+
     signal clicked
+    signal visibilityChanged(bool shown)
 
     height: 60
 
@@ -20,7 +27,12 @@ Item {
 
         radius: 12
 
-        property color baseColor: selected ? "#d0e6ff" : "#d7d7d7"
+        property color baseColor: {
+            if (!root.shown && root.showAll)
+                return "#aaaaaa"
+
+            return selected ? "#d0e6ff" : "#d7d7d7"
+        }
         property color pressedColor: "#cacaca"
 
         color: root.ListView.isCurrentItem ? "#ffffb3" : tap.pressed ? pressedColor : baseColor
@@ -107,6 +119,37 @@ Item {
                         color: card.color
                     }
                 }
+            }
+        }
+
+        ToolButton {
+            visible: root.showAll
+
+            width: 36
+            height: 36
+
+            anchors {
+                right: parent.right
+                rightMargin: 8
+                verticalCenter: parent.verticalCenter
+            }
+
+            flat: true
+
+            text: !root.shown
+                  ? MdiFont.Icon.eyeOff
+                  : MdiFont.Icon.eye
+
+            font.family: "Material Design Icons"
+            font.pixelSize: 20
+
+            ToolTip.visible: hovered
+            ToolTip.text: !root.shown
+                          ? "Slajd ukryty"
+                          : "Slajd widoczny"
+
+            onClicked: {
+                root.visibilityChanged(!root.shown)
             }
         }
     }

@@ -7,6 +7,14 @@ void PresentationModel::setSetId(int id) {
     reload();
 }
 
+void PresentationModel::setShowAll(bool show)
+{
+    if(m_showAll == show) return;
+    m_showAll = show;
+    emit showAllChanged();
+    reload();
+}
+
 QVariant PresentationModel::data(const QModelIndex& index, int role) const {
     auto& s = m_data[index.row()];
     if (role==IdRole) return s.id;
@@ -15,6 +23,7 @@ QVariant PresentationModel::data(const QModelIndex& index, int role) const {
     if (role==OrderRole) return s.order;
     if (role==FontRole) return s.font;
     if (role==HymnNameRole) return s.hymnName;
+    if (role==ShownRole) return s.shown;
     if (role==ExcerptRole){
         QStringList lines = s.text.split('\n');
 
@@ -74,7 +83,7 @@ void PresentationModel::changeScreenVisibility(int row, bool shown)
 
 Q_INVOKABLE void PresentationModel::reload() {
     if (m_setId < 0) return;
-    updateData(service.build(m_setId));
+    updateData(service.build(m_setId, m_showAll));
 }
 
 Q_INVOKABLE Screen PresentationModel::get(int index) const{

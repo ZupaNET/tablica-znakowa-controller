@@ -10,11 +10,50 @@ Item {
 
     property int currentSet
     property var currentScreen: null
+    property int selectedScreenId: -1
 
     PresentationModel {
         id: screensModel
         setId: root1.currentSet
         Component.onCompleted: reload()
+    }
+
+    function restoreSelection() {
+        if (root1.selectedScreenId < 0)
+            return
+
+        for (let i = 0; i < screensModel.rowCount(); i++) {
+            if (screensModel.get(i).screenId === root1.selectedScreenId) {
+                screensView.currentIndex = i
+                return
+            }
+        }
+    }
+
+    function changeScreen(direction) {
+        let index = screensView.currentIndex + direction;
+
+        while (index >= 0 && index < screensModel.rowCount()) {
+
+            let screen = screensModel.get(index);
+
+            if (!screensModel.showAll || screen.shown) {
+                screensView.currentIndex = index;
+                return;
+            }
+
+            index += direction;
+        }
+    }
+
+    Connections {
+        target: screensModel
+
+        function onShowAllChanged() {
+            Qt.callLater(() => {
+                restoreSelection()
+            })
+        }
     }
 
     onVisibleChanged: {
@@ -119,13 +158,10 @@ Item {
                             let delta = centroid.position.x - startX;
 
                             if (delta < -100) {
-                                if (screensView.currentIndex < screensModel.rowCount() - 1) {
-                                    screensView.currentIndex++;
-                                }
-                            } else if (delta > 100) {
-                                if (screensView.currentIndex > 0) {
-                                    screensView.currentIndex--;
-                                }
+                                root1.changeScreen(1);
+                            }
+                            else if (delta > 100) {
+                                root1.changeScreen(-1);
                             }
                         }
                     }
@@ -207,14 +243,22 @@ Item {
                     }
                 }
 
-                Button {
-                    id: buttonSetItemProperties
+                Switch {
+                    id: buttonShowAll
+
                     anchors {
                         right: buttonScreenEdit.left
-                        bottom: parent.bottom
-                        margins: 10
+                        rightMargin: 10
+                        verticalCenter: parent.verticalCenter
                     }
-                    text: "Właściwości"
+
+                    text: "Pokaż wszystkie slajdy"
+
+                    checked: screensModel.showAll
+
+                    onToggled: {
+                        screensModel.showAll = checked
+                    }
                 }
 
                 Button {
@@ -354,18 +398,38 @@ Item {
                     title: model.hymnName
                     subtitle: model.excerpt
 
+                    showAll: screensModel.showAll
+                    shown: model.shown
+
+
                     onClicked: {
                         screensView.currentIndex = index;
                     }
+
+                    onVisibilityChanged: shown => {
+                        screensModel.changeScreenVisibility(index, shown)
+                    }
                 }
                 onCurrentIndexChanged: {
-                    let item = screensModel.get(currentIndex);
-                    root1.currentScreen = item;
-                    TablicaConnector.buffer = item;
+                    if (currentIndex < 0)
+                        return
+
+                    let item = screensModel.get(currentIndex)
+
+                    root1.currentScreen = item
+                    root1.selectedScreenId = item.screenId
+
+                    TablicaConnector.buffer = item
 
                     let target = Math.max(0, currentIndex - 1)
 
-                    contentY = Math.max(0,Math.min(target * (60 + screensView.spacing),contentHeight-height))
+                    contentY = Math.max(
+                        0,
+                        Math.min(
+                            target * (60 + screensView.spacing),
+                            contentHeight - height
+                        )
+                    )
                 }
             }
         }

@@ -1,6 +1,6 @@
 #include "presentationservice.h"
 
-QList<Screen> PresentationService::build(int setId)
+QList<Screen> PresentationService::build(int setId, bool showAll)
 {
     QList<Screen> result;
 
@@ -11,7 +11,7 @@ QList<Screen> PresentationService::build(int setId)
         "",
         -1,
         0,
-        false
+        true
     };
 
     result.append(emptyScreen);
@@ -24,7 +24,7 @@ QList<Screen> PresentationService::build(int setId)
 
         foreach (const auto& screen, screens)
         {
-            if (screen.shown)
+            if (screen.shown || showAll)
                 result.append(screen);
         }
 

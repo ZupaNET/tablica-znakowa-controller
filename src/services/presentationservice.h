@@ -9,7 +9,7 @@ class PresentationService
 {
 public:
 
-    QList<Screen> build(int setId);
+    QList<Screen> build(int setId, bool showAll);
 
 private:
     SetRepository setRepo;
