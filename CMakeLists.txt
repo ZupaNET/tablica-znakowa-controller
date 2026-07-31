@@ -63,6 +63,7 @@ set(APP_QML
     qml/pages/PresentationPage.qml
     qml/pages/HymnListPage.qml
     qml/pages/ScreenEditorPage.qml
+    qml/pages/QuickScreenPage.qml
 
     qml/components/SetViewItems.qml
     qml/components/TablicaScreen.qml

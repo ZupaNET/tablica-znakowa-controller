@@ -38,6 +38,13 @@ Item {
             }
             Button{
                 Layout.alignment: "AlignCenter"
+                text: "Wyświetl dowolny tekst"
+                onClicked: {
+                    Navigation.push(Qt.resolvedUrl("QuickScreenPage.qml"))
+                }
+            }
+            Button{
+                Layout.alignment: "AlignCenter"
                 text: "Ustawienia"
                 onClicked: {
                     Navigation.push(Qt.resolvedUrl("SettingsPage.qml"))

@@ -32,6 +32,7 @@ public:
     Q_INVOKABLE void move(int from, int to);
     Q_INVOKABLE Screen get(int index) const;
 
+    Q_INVOKABLE Screen emptyScreen() const { return Screen{}; }
 signals:
     void hymnIdChanged();
 
