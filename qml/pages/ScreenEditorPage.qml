@@ -98,7 +98,7 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                text: "Font: "
+                text: "Rozmiar czcionki: "
             }
 
             ComboBox {
@@ -107,9 +107,9 @@ Item {
                 Layout.preferredWidth: 140
 
                 model: [
-                    "MiniSet2",
-                    "MiniForma2",
-                    "Sans Serif"
+                    "Mała",
+                    "Średnia",
+                    "Duża"
                 ]
             }
 
