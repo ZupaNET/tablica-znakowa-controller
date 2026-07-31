@@ -22,7 +22,9 @@ Item {
         title: "Nowa kategoria"
         modal: true
 
-        anchors.centerIn: Overlay.overlay
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        dim: true
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -58,7 +60,9 @@ Item {
         property string initialName: ""
         property int categoryRow: -1
 
-        anchors.centerIn: Overlay.overlay
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        dim: true
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -92,7 +96,9 @@ Item {
         title: "Usunąć kategorię?"
         modal: true
 
-        anchors.centerIn: Overlay.overlay
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        dim: true
 
         standardButtons: Dialog.Yes | Dialog.No
 

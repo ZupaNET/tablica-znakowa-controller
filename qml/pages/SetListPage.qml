@@ -1,215 +1,199 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 import Prezenter
 
 Item {
-    SetHymnModel{
-        id: setHymnModel
-        Component.onCompleted: reload()
-    }
+    id: root
 
-    SetModel{
+    property int selectedSetId: -1
+    property int selectedHymnId: -1
+
+    SetModel {
         id: setModel
-        Component.onCompleted: reload()
+
+        Component.onCompleted:
+            reload()
     }
 
-    Rectangle{
+    SetHymnModel {
+        id: hymnModel
+
+        Component.onCompleted:
+            reload()
+    }
+
+    SetScreenModel {
+        id: screenModel
+    }
+
+    Rectangle {
         anchors.fill: parent
-        color: "#FFFFFF"
+        color: "#ffffff"
 
-        Dialog {
-            id: dialogDelete
-            anchors.centerIn: parent
-
-            title: "Usunąć listę?"
-            modal: true
-            focus: true
-
-            standardButtons: Dialog.Yes | Dialog.No
-
-            onAccepted: {
-                console.log("Usunięto")
-            }
-
-            onRejected: {
-                console.log("Anulowano")
-            }
-        }
-
-        Rectangle{
+        // Top Bar
+        Rectangle {
             id: topBar
-            anchors {
-                top: parent.top
-                right: parent.right
-                left: parent.left
-            }
-            color: "#474747"
+
             height: 50
 
-            Button{
-                id: backButton
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+
+            color: "#474747"
+
+
+            Button {
+                text: "Powrót"
+
                 anchors {
                     left: parent.left
-                    leftMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: "Powrót"
+
                 flat: true
+
                 Material.foreground: "white"
+
                 onClicked: {
-                    stack.pop()
+                    Navigation.pop()
                 }
             }
-        }
-        Rectangle{
-            id: setsViewContainer
-            anchors {
-                top: topBar.bottom
-                right: setDetails.left
-                bottom: parent.bottom
-                left: parent.left
-            }
 
-            ListView{
-                id: setsView
-                anchors {
-                    fill: parent
-                    topMargin: 10
-                    rightMargin: 3
-                    bottomMargin: 10
-                    leftMargin: 10
-                }
-                spacing: 6
-                clip: true
-                rightMargin: 8
+            Text {
+                anchors.centerIn: parent
 
-                ScrollBar.vertical: ScrollBar{
-                    width: 6
-                    policy: ScrollBar.AlwaysOn
+                text: "Zestawy"
 
-                    contentItem: Rectangle {
-                        radius: 3
-                        color: "#888888"
-                    }
+                color: "white"
 
-                    background: Rectangle {
-                        color: "transparent"
-                    }
-                }
-
-                model: setModel
-
-                delegate: Button{
-                    id: setsViewDelegate
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: model.name
-                    width: parent.width - 50
-                    onClicked: {
-                        setHymnModel.parentId = model.id
-                        setsView.currentIndex = index
-                    }
-                }
-
-                highlight: Rectangle{
-                    color: "blue"
-                }
-            }
-        }
-        Rectangle{
-            id: setDetails
-            anchors {
-                top: topBar.bottom
-                right: parent.right
-                bottom: parent.bottom
-            }
-            width: parent.width * 0.4
-            color: "#f2f2f2"
-
-            Text{
-                id: textSetDetails
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    margins: 10
-                }
-                text: "Składniki zestawu:"
-                color: "#595959"
-                font.pixelSize: 20
+                font.pixelSize: 22
                 font.bold: true
             }
 
-            Rectangle{
-                anchors{
-                    top: textSetDetails.bottom
-                    right: parent.right
-                    bottom: buttonRemoveSet.top
-                    left: parent.left
-                }
-
-                ListView{
-                    id: setComponents
-                    anchors {
-                        fill: parent
-                        topMargin: 10
-                        rightMargin: 3
-                        bottomMargin: 10
-                        leftMargin: 10
-                    }
-                    spacing: 6
-                    clip: true
-
-                    model: setHymnModel
-                    delegate: Button{
-                        id: setsComponentsDelegate
-                        anchors.horizontalCenter: parent?.horizontalCenter
-                        text: model.name
-                        width: parent?.width - 50
-                    }
-                }
-            }
-
             Button {
-                id: buttonRemoveSet
-                anchors {
-                    left: parent.left
-                    bottom: parent.bottom
-                    margins: 10
-                }
-                Material.foreground: "red"
-                text: "Skasuj"
-
-                onClicked: {
-                    dialogDelete.open()
-                }
-            }
-
-            Button {
-                id: buttonEditSet
-                anchors {
-                    right: buttonPresent.left
-                    bottom: parent.bottom
-                    rightMargin: 30
-                    bottomMargin: 10
-                }
-                text: "Edytuj"
-                onClicked: {
-
-                }
-            }
-
-            Button {
-                id: buttonPresent
-                anchors {
-                    right: parent.right
-                    bottom: parent.bottom
-                    margins: 10
-                }
                 text: "Prezentuj >"
+
+                anchors {
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                }
+
+                flat: true
+
+                Material.foreground: "white"
+
                 onClicked: {
-                    Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet":setHymnModel.parentId})
+                    Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet": root.selectedSetId})
+                }
+            }
+        }
+
+        // Body
+        RowLayout {
+            anchors {
+                top: topBar.bottom
+                bottom: parent.bottom
+
+                left: parent.left
+                right: parent.right
+
+                margins: 10
+            }
+
+            spacing: 10
+
+            SetPanel {
+                Layout.fillHeight: true
+                Layout.preferredWidth:  parent.width * 0.25
+
+                model: setModel
+
+                selectedId: root.selectedSetId
+
+                onSelected: id => {
+                    root.selectedSetId = id
+
+                    hymnModel.parentId = id
+                    screenModel.setId = id
+
+                    root.selectedHymnId = -1
+                    screenModel.hymnId = -1
+                }
+
+                onAddSet: name => {
+                    setModel.add(name)
+                }
+
+                onUpdateSet: (row, name) => {
+                    setModel.update(row, name)
+                }
+
+                onRemoveSet: row => {
+                    if(setModel.get(row).setId === root.selectedSetId)
+                    {
+                        screenModel.setId = -1
+                        hymnModel.parentId = -1
+                        root.selectedSetId = -1
+                    }
+                    setModel.removeRow(row)
+                    hymnModel.reload()
+                }
+
+            }
+
+            HymnPanel {
+                Layout.fillHeight: true
+                Layout.preferredWidth: parent.width * 0.35
+
+                setMode: true
+
+                model: hymnModel
+
+                selectedId: root.selectedHymnId
+
+                onSelected: id => {
+                    root.selectedHymnId = id
+                    screenModel.hymnId = id
+                }
+
+                onAddHymnToSet: id => {
+                    hymnModel.addHymn(id)
+                }
+
+                onRemoveHymn: row => {
+                    if (hymnModel.get(row).hymnId === root.selectedHymnId) {
+                        root.selectedHymnId = -1
+                        screenModel.hymnId = -1
+                        screenModel.reload()
+                    }
+                    hymnModel.removeHymn(row)
+                }
+
+                onMoveHymn: (from, to) => {
+                    hymnModel.move(from, to)
+                }
+            }
+
+            SlimScreenPanel {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                model: screenModel
+
+                onChangeAllScreens: visible => {
+                    screenModel.changeAllScreenVisibility(visible)
+                }
+
+                onToggleScreen: (row, visible) => {
+                    screenModel.changeScreenVisibility(row,visible)
                 }
             }
         }
     }
+
 }

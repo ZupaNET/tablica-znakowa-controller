@@ -219,7 +219,7 @@ void SetRepository::move(int setId, int hymnId, int from, int to)
     else
     {
         q.prepare(R"(
-            UPDATE Screens
+            UPDATE Sets_Hymns
             SET DisplayOrder = DisplayOrder + 1
             WHERE SetId = ?
               AND DisplayOrder >= ?
@@ -234,7 +234,7 @@ void SetRepository::move(int setId, int hymnId, int from, int to)
     }
 
     q.prepare(R"(
-        UPDATE Screens
+        UPDATE Sets_Hymns
         SET DisplayOrder = ?
         WHERE HymnId = ?
     )");
@@ -247,7 +247,7 @@ void SetRepository::move(int setId, int hymnId, int from, int to)
     db.commit();
 }
 
-void SetRepository::changeScreenVisibility(int setId, int screenId, bool hide)
+void SetRepository::changeScreenVisibility(int setId, int screenId, bool shown)
 {
     auto db = DatabaseConnector::instance().db();
 
@@ -275,7 +275,7 @@ void SetRepository::changeScreenVisibility(int setId, int screenId, bool hide)
     }
 
 
-    if (hide)
+    if (!shown)
     {
         QSqlQuery q(db);
 
@@ -314,7 +314,7 @@ void SetRepository::changeScreenVisibility(int setId, int screenId, bool hide)
     }
 }
 
-void SetRepository::changeScreenVisibilityByHymn(int setId, int hymnId, bool hide)
+void SetRepository::changeScreenVisibilityByHymn(int setId, int hymnId, bool shown)
 {
     auto db = DatabaseConnector::instance().db();
     {
@@ -339,7 +339,7 @@ void SetRepository::changeScreenVisibilityByHymn(int setId, int hymnId, bool hid
     }
 
 
-    if (hide)
+    if (!shown)
     {
         QSqlQuery q(db);
 

@@ -15,6 +15,7 @@ Item {
 
     signal selected(int id)
     signal addHymn(string name)
+    signal addHymnToSet(int hymnId)
     signal updateHymn(int row, string name)
     signal removeHymn(int row)
     signal moveHymn(int from, int to)
@@ -25,7 +26,9 @@ Item {
         title: "Nowa pieśń"
         modal: true
 
-        anchors.centerIn: Overlay.overlay
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        dim: true
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -52,6 +55,16 @@ Item {
         }
     }
 
+    HymnPickerDialog {
+        id: hymnPicker
+
+        existingModel: root.model
+
+        onSelected: hymnId => {
+            root.addHymnToSet(hymnId)
+        }
+    }
+
     Dialog {
         id: updateDialog
 
@@ -61,7 +74,9 @@ Item {
         property string initialName: ""
         property int hymnRow: -1
 
-        anchors.centerIn: Overlay.overlay
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        dim: true
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -95,7 +110,9 @@ Item {
         title: "Usunąć pieśń?"
         modal: true
 
-        anchors.centerIn: Overlay.overlay
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        dim: true
 
         standardButtons: Dialog.Yes | Dialog.No
 
@@ -243,9 +260,14 @@ Item {
         Button {
             text: "+ Dodaj pieśń"
 
-            enabled: model.parentId >= -1
+            enabled: model.parentId >= (root.setMode ? 0 : -1)
 
-            onClicked: addDialog.open()
+            onClicked: {
+                if(root.setMode)
+                    hymnPicker.open()
+                else
+                    addDialog.open()
+            }
         }
     }
 }

@@ -25,7 +25,9 @@ Item {
         title: "Usunąć slajd?"
         modal: true
 
-        anchors.centerIn: Overlay.overlay
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        dim: true
 
         standardButtons: Dialog.Yes | Dialog.No
 

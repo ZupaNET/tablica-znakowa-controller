@@ -18,8 +18,8 @@ public:
     void addHymn(int setId, int hymnId);
     void removeHymn(int setId, int hymnId);
     void move(int setId, int hymnId, int from, int to);
-    void changeScreenVisibility(int setId, int screenId, bool hide);
-    void changeScreenVisibilityByHymn(int setId, int hymnId, bool hide);
+    void changeScreenVisibility(int setId, int screenId, bool shown);
+    void changeScreenVisibilityByHymn(int setId, int hymnId, bool shown);
 
 };
 

@@ -14,6 +14,7 @@ public:
     {
         IdRole = Qt::UserRole + 1,
         ScreenRole,
+        HymnIdRole,
         HymnNameRole,
         TextRole,
         OrderRole,
@@ -28,6 +29,7 @@ public:
         return {
             {IdRole,"id"},
             {ScreenRole,"screen"},
+            {HymnIdRole,"hymnId"},
             {HymnNameRole,"hymnName"},
             {TextRole,"text"},
             {OrderRole,"order"},
