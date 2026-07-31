@@ -17,6 +17,7 @@ Item {
     signal addScreen()
     signal removeScreen(int row)
     signal duplicateScreen(int row)
+    signal moveScreen(int from, int to)
 
     Dialog {
         id: deleteDialog
@@ -120,6 +121,32 @@ Item {
 
                             font.bold: true
                         }
+
+                        ToolButton {
+                               text: MdiFont.Icon.arrowUp
+
+                               font.family: "Material Design Icons"
+                               font.pixelSize: 20
+
+                               enabled: index > 0
+
+                               onClicked: {
+                                   root.moveScreen(index, index - 1)
+                               }
+                           }
+
+                           ToolButton {
+                               text: MdiFont.Icon.arrowDown
+
+                               font.family: "Material Design Icons"
+                               font.pixelSize: 20
+
+                               enabled: index < list.count - 1
+
+                               onClicked: {
+                                   root.moveScreen(index, index + 1)
+                               }
+                           }
 
                         ToolButton {
                             text: MdiFont.Icon.contentCopy
