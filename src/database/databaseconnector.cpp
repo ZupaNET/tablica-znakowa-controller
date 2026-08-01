@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QFileInfo>
 
 DatabaseConnector *DatabaseConnector::create(QQmlEngine *, QJSEngine *engine)
 {
@@ -42,6 +43,40 @@ bool DatabaseConnector::init(const QString& path){
 
     if(realPath.isEmpty()){
         realPath = getDatabasePath();
+    }
+
+    if (!QFile::exists(realPath)) {
+
+        QFile defaultDb(":/database/default.db");
+
+        if (!defaultDb.exists()) {
+            qDebug() << "[DatabaseManager] Brak zasobu default.db";
+            return false;
+        }
+
+        QDir dir = QFileInfo(realPath).absoluteDir();
+
+        if (!dir.exists() && !dir.mkpath(".")) {
+            qDebug() << "[DatabaseManager] Nie można utworzyć katalogu:"
+                     << dir.absolutePath();
+            return false;
+        }
+
+        if (!defaultDb.copy(realPath)) {
+            qDebug() << "[DatabaseManager] Nie można skopiować default.db do:"
+                     << realPath;
+            return false;
+        }
+
+        QFile::setPermissions(
+            realPath,
+            QFileDevice::ReadOwner |
+                QFileDevice::WriteOwner |
+                QFileDevice::ReadUser |
+                QFileDevice::WriteUser
+        );
+
+        qDebug() << "[DatabaseManager] Utworzono bazę z default.db";
     }
 
     if(QSqlDatabase::contains("hymns"))

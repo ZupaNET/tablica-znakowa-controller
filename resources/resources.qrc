@@ -6,5 +6,6 @@
         <file>fonts/Arimo-Italic-VariableFont_wght.ttf</file>
         <file>fonts/Arimo-VariableFont_wght.ttf</file>
         <file>fonts/FreeSans.ttf</file>
+        <file>database/default.db</file>
     </qresource>
 </RCC>
