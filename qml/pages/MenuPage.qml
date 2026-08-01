@@ -50,6 +50,17 @@ Item {
                     Navigation.push(Qt.resolvedUrl("SettingsPage.qml"))
                 }
             }
+            Button{
+                Layout.alignment: "AlignCenter"
+                text: "Wyłącz tablicę"
+                onClicked: {
+                    if(TablicaConnector.shutdown())
+                        infoPopup.show("Pomyślnie wyłączono tablicę")
+                    else
+                        infoPopup.show("Nie można połączyć się z tablicą")
+
+                }
+            }
         }
 
         Text{
@@ -59,6 +70,40 @@ Item {
                 margins: 10
             }
             text: "Copyright © 2026 ŻupaNET Development"
+        }
+    }
+
+    Popup {
+        id: infoPopup
+
+        x: (parent.width - width) / 2
+        y: parent.height - height - 20
+
+        padding: 12
+        modal: false
+        focus: false
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            radius: 6
+            color: "#323232"
+        }
+
+        Label {
+            id: infoText
+            color: "white"
+        }
+
+        Timer {
+            id: hideTimer
+            interval: 2500
+            onTriggered: infoPopup.close()
+        }
+
+        function show(message) {
+            infoText.text = message
+            open()
+            hideTimer.restart()
         }
     }
 }
