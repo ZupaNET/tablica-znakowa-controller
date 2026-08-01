@@ -14,5 +14,6 @@
         <file>licenses/MaterialDesignIcons.txt</file>
         <file>licenses/MiniForma2.txt</file>
         <file>licenses/MiniSet2.txt</file>
+		<file>images/splash.png</file>
     </qresource>
 </RCC>
