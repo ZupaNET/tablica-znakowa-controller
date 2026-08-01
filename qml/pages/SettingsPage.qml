@@ -1,275 +1,436 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Dialogs
-import QtQuick.Layouts 2.15
 
 import Prezenter
+import "../Icon.js" as MdiFont
 
 Item {
-    Rectangle{
+    id: root
+
+    Rectangle {
         anchors.fill: parent
-        color: "#FFFFFF"
+        color: "#f3f5f7"
 
-        FileDialog{
+        FileDialog {
             id: dbImportDialog
-            title: "Wybierz plik śpiewnika"
-
-            nameFilters: ["SQLite database (*.db)"]
+            title: "Import śpiewwnika"
+            nameFilters: ["Śpiewnik (*.db)"]
 
             onAccepted: {
-                DatabaseImporter.importDatabase(selectedFiles[0])
+                if(!DatabaseManager.importDatabase(selectedFiles[0]))
+                    infoPopup.show("Wystąpił problem podczas wczytywania śpiewnika")
+                else
+                    infoPopup.show("Wczytano śpiewnik")
             }
         }
 
         FileDialog {
             id: dbExportDialog
 
-            title: "Zapisz kopię śpiewnika"
+            title: "Eksport śpiewnika"
 
             fileMode: FileDialog.SaveFile
-
-            nameFilters: [
-                "SQLite database (*.db)"
-            ]
-
             defaultSuffix: "db"
 
+            nameFilters: ["Śpiewnik (*.db)"]
+
             onAccepted: {
-                DatabaseManager.exportDatabase(selectedFile)
+                if(!DatabaseManager.exportDatabase(selectedFile))
+                    infoPopup.show("Wystąpił problem podczas zapisywania śpiewnika")
+                else
+                    infoPopup.show("Zapisano śpiewnik")
             }
         }
 
-        Dialog {
-            id: ipChangeDialog
-
-            x: (parent.width - width) / 2
-            y: Qt.inputMethod.visible ? parent.height * 0.05 : (parent.height-height)/2
-
-            Behavior on y {
-
-                NumberAnimation {
-                    duration: 200
-                }
-            }
-
-            title: "Zmień adres IP tablicy"
-            modal: true
-            focus: true
-
-            standardButtons: Dialog.Ok | Dialog.Cancel
-
-            property alias text: ipField.text
-
-            Column{
-                spacing: 6
-
-                TextField {
-                    id: ipField
-                    text: AppSettings.ipAddress
-                    width: 200
-                    activeFocusOnPress: true
-                    focusPolicy: Qt.StrongFocus
-
-                    validator: RegularExpressionValidator {
-                        regularExpression:
-                            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/
-                    }
-                    onTextEdited: {
-                        ipChangeDialog.standardButton(Dialog.Ok).enabled = ipField.acceptableInput
-                        ipChangeDialogError.visible = !ipField.acceptableInput
-                    }
-                }
-
-                Label{
-                    text: "Adres IP jest niepoprawny"
-                    id: ipChangeDialogError
-                    color: "#FF0000"
-                    visible: false
-                }
-            }
-
-            onAccepted: {
-                if(ipField.acceptableInput)
-                {
-                    AppSettings.ipAddress = ipField.text
-                }
-                focus = false
-                Qt.inputMethod.hide()
-            }
-        }
-
-        Dialog {
-            id: portChangeDialog
-
-            x: (parent.width - width) / 2
-            y: Qt.inputMethod.visible ? parent.height * 0.05 : (parent.height-height)/2
-
-            Behavior on y {
-
-                NumberAnimation {
-                    duration: 200
-                }
-            }
-
-            title: "Zmień port tablicy"
-            modal: true
-            focus: true
-
-            standardButtons: Dialog.Ok | Dialog.Cancel
-
-            property alias text: portField.text
-
-            Column{
-                spacing: 6
-
-                TextField {
-                    id: portField
-                    text: AppSettings.port
-                    width: 200
-                    activeFocusOnPress: true
-                    focusPolicy: Qt.StrongFocus
-
-                    inputMethodHints: Qt.ImhDigitsOnly
-
-                    validator: IntValidator {
-                        bottom: 1
-                        top: 65535
-                    }
-
-                    onTextEdited: {
-                        portChangeDialog.standardButton(Dialog.Ok).enabled = portField.acceptableInput
-                        portChangeDialogError.visible = !portField.acceptableInput
-                    }
-                }
-
-                Label{
-                    text: "Port jest niepoprawny."
-                    id: portChangeDialogError
-                    color: "#FF0000"
-                    visible: false
-                }
-            }
-
-            onAccepted: {
-                if(portField.acceptableInput)
-                {
-                    AppSettings.port = parseInt(portField.text)
-                }
-                focus = false
-                Qt.inputMethod.hide()
-            }
-        }
-        Dialog {
-            id: brightnessChangeDialog
-
-            x: (parent.width - width) / 2
-            y: Qt.inputMethod.visible ? parent.height * 0.05 : (parent.height-height)/2
-
-            Behavior on y {
-
-                NumberAnimation {
-                    duration: 200
-                }
-            }
-
-            title: "Zmień jasność tablicy"
-            modal: true
-            focus: true
-
-            standardButtons: Dialog.Ok | Dialog.Cancel
-
-            property alias text: portField.text
-
-            Column{
-                spacing: 6
-
-                ComboBox {
-                    id: brightnessField
-                    currentValue: AppSettings.brightness
-                    width: 200
-                    //activeFocusOnPress: true
-                    focusPolicy: Qt.StrongFocus
-
-                    inputMethodHints: Qt.ImhDigitsOnly
-
-                    model: [1, 2, 3, 4]
-                }
-            }
-
-            onAccepted: {
-                AppSettings.brightness = brightnessField.currentText
-                focus = false
-                Qt.inputMethod.hide()
-            }
-        }
-
-        Rectangle{
+        Rectangle {
             id: topBar
-            anchors {
-                top: parent.top
-                right: parent.right
-                left: parent.left
-            }
-            color: "#474747"
+
             height: 50
 
-            Button{
-                id: backButton
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+
+            color: "#474747"
+
+
+            Button {
+                text: "Powrót"
+
                 anchors {
                     left: parent.left
-                    leftMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: "Powrót"
+
                 flat: true
+
                 Material.foreground: "white"
+
                 onClicked: {
-                    stack.pop()
+                    Navigation.pop()
+                }
+            }
+
+            Text {
+                anchors.centerIn: parent
+
+                text: "Ustawienia"
+
+                color: "white"
+
+                font.pixelSize: 22
+                font.bold: true
+            }
+        }
+
+        Flickable {
+
+            anchors {
+                top: topBar.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+
+                margins: 24
+            }
+
+            contentWidth: width
+            contentHeight: layout.implicitHeight
+
+            clip: true
+
+            ColumnLayout {
+                id: layout
+
+                width: parent.width
+
+                spacing: 20
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    radius: 16
+                    color: "white"
+                    border.color: "#dddddd"
+
+                    implicitHeight: connectionColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: connectionColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: MdiFont.Icon.lan
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: "Łączność"
+
+                                font.bold: true
+                                font.pixelSize: 20
+                            }
+                        }
+
+                        Label {
+                            text: "Adres IP"
+                            font.bold: true
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+
+                            spacing: 6
+
+                            TextField {
+                                id: ipField
+
+                                Layout.fillWidth: true
+
+                                text: AppSettings.ipAddress
+
+                                placeholderText: "np. 192.168.1.100"
+
+                                inputMethodHints: Qt.ImhFormattedNumbersOnly
+
+                                validator: RegularExpressionValidator {
+                                    regularExpression:
+                                        /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+                                }
+
+                                onEditingFinished: {
+                                    if (acceptableInput) {
+                                        AppSettings.ipAddress = text
+                                    }
+                                }
+
+                                onTextEdited: {
+                                    ipError.visible = !acceptableInput && text.length > 0
+                                }
+                            }
+
+                            Label {
+                                id: ipError
+
+                                Layout.fillWidth: true
+
+                                text: "Niepoprawny adres IP"
+
+                                color: "#e53935"
+
+                                font.pixelSize: 13
+
+                                visible: false
+                            }
+                        }
+
+                        Label {
+                            text: "Port"
+                            font.bold: true
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+
+                            spacing: 6
+
+                            TextField {
+                                id: portField
+
+                                Layout.fillWidth: true
+
+                                text: AppSettings.port
+
+                                placeholderText: "np. 60023"
+
+                                inputMethodHints: Qt.ImhDigitsOnly
+
+                                validator: IntValidator {
+                                    bottom: 1
+                                    top: 65535
+                                }
+
+                                onEditingFinished: {
+                                    if (acceptableInput) {
+                                        AppSettings.port = parseInt(text)
+                                    }
+                                }
+
+                                onTextEdited: {
+                                    portError.visible = !acceptableInput && text.length > 0
+                                }
+                            }
+
+                            Label {
+                                id: portError
+
+                                Layout.fillWidth: true
+
+                                text: "Port musi być w zakresie 1-65535"
+
+                                color: "#e53935"
+
+                                font.pixelSize: 13
+
+                                visible: false
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+
+                    radius: 16
+
+                    color: "white"
+
+                    border.color: "#dddddd"
+
+                    implicitHeight: displayColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: displayColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: MdiFont.Icon["brightness-6"]
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: "Wyświetlacz"
+
+                                font.bold: true
+                                font.pixelSize: 20
+                            }
+                        }
+
+                        RowLayout {
+
+                            Label {
+                                text: MdiFont.Icon.weatherNight
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
+                            }
+
+                            Slider {
+
+                                Layout.fillWidth: true
+
+                                from: 1
+                                to: 4
+
+                                stepSize: 1
+
+                                snapMode: Slider.SnapAlways
+
+                                value: AppSettings.brightness
+
+                                onMoved:
+                                    AppSettings.brightness = value
+                            }
+
+                            Label {
+                                text: MdiFont.Icon.whiteBalanceSunny
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
+                            }
+                        }
+
+                        Label {
+                            text: "Poziom: " + AppSettings.brightness + " / 4"
+                            color: "#666666"
+                        }
+                    }
+                }
+
+                Rectangle {
+
+                    Layout.fillWidth: true
+
+                    radius: 16
+
+                    color: "white"
+
+                    border.color: "#dddddd"
+
+                    implicitHeight: databaseColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: databaseColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: MdiFont.Icon.book
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: "Śpiewnik"
+
+                                font.bold: true
+                                font.pixelSize: 20
+                            }
+                        }
+
+                        RowLayout {
+
+                            Layout.fillWidth: true
+
+                            spacing: 16
+
+                            Button {
+
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 64
+
+                                text: "Import"
+                                font.pixelSize: 15
+
+                                onClicked: dbImportDialog.open()
+                            }
+
+                            Button {
+
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 64
+
+                                text: "Eksport"
+                                font.pixelSize: 15
+
+                                onClicked: dbExportDialog.open()
+                            }
+                        }
+                    }
                 }
             }
         }
-        Rectangle{
-            id: mainView
-            anchors {
-                top: topBar.bottom
-                right: parent.right
-                bottom: parent.bottom
-                left: parent.left
-            }
-            ColumnLayout{
-                anchors.fill: parent.fill
-                spacing: 6
-                Button{
-                    text: "Importuj bazę danych"
-                    onClicked: {
-                        dbImportDialog.open()
-                    }
-                }
-                Button{
-                    text: "Eksportuj bazę danych"
-                    onClicked: {
-                        dbExportDialog.open()
-                    }
-                }
-                Button{
-                    text: "Ustaw adres IP tablicy"
-                    onClicked: {
-                        ipChangeDialog.open()
-                    }
-                }
-                Button{
-                    text: "Ustaw port tablicy"
-                    onClicked: {
-                        portChangeDialog.open()
-                    }
-                }
-                Button{
-                    text: "Ustaw jasność"
-                    onClicked: {
-                        brightnessChangeDialog.open()
-                    }
-                }
-            }
+    }
+
+    Popup {
+        id: infoPopup
+
+        x: (parent.width - width) / 2
+        y: parent.height - height - 20
+
+        padding: 12
+        modal: false
+        focus: false
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            radius: 6
+            color: "#323232"
+        }
+
+        Label {
+            id: infoText
+            color: "white"
+        }
+
+        Timer {
+            id: hideTimer
+            interval: 2500
+            onTriggered: infoPopup.close()
+        }
+
+        function show(message) {
+            infoText.text = message
+            open()
+            hideTimer.restart()
         }
     }
 }
