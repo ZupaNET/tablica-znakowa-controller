@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QFontDatabase>
+#include "core/appinfo.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,9 +17,9 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/MiniSet2.ttf");
     QFontDatabase::addApplicationFont(":/fonts/FreeSans.ttf");
 
-    app.setApplicationName(QString::fromUtf8(QStringLiteral(APP_NAME).toLatin1()));
-    app.setOrganizationName(QString::fromUtf8(QStringLiteral(APP_COMPANY).toLatin1()));
-    app.setOrganizationDomain(QString::fromUtf8(QStringLiteral(APP_COMPANY_DOMAIN).toLatin1()));
+    app.setApplicationName(AppInfo::instance().name());
+    app.setOrganizationName(AppInfo::instance().company());
+    app.setOrganizationDomain(AppInfo::instance().companyDomain());
 
     QQmlApplicationEngine engine;
     QObject::connect(

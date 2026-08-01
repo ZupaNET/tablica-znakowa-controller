@@ -8,7 +8,7 @@ ApplicationWindow {
     height: 800
     visible: true
     id: mainwindow
-    title: qsTr("Prezenter")
+    title: qsTr(AppInfo.name)
     color: "#202020"
 
     Item {

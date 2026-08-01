@@ -16,7 +16,7 @@ Item {
             }
             font.pixelSize: 36
             font.bold: true
-            text: "Tablica znakowa"
+            text: AppInfo.name
         }
 
         ColumnLayout{
@@ -69,7 +69,7 @@ Item {
                 left: parent.left
                 margins: 10
             }
-            text: "Copyright © 2026 ŻupaNET Development"
+            text: "Copyright © " + AppInfo.company
         }
     }
 
