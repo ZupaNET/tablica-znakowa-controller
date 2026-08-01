@@ -10,6 +10,7 @@ Item {
     property alias model: list.model
     property int selectedId: -2
     property int pendingRemoveRow: -1
+    property string categorySearchText: ""
 
     signal selected(int id)
     signal addCategory(string name)
@@ -128,13 +129,22 @@ Item {
             font.bold: true
         }
 
+        TextField {
+            Layout.fillWidth: true
+
+            placeholderText: "Szukaj kategorii..."
+
+            onTextChanged: {
+                root.categorySearchText = text
+            }
+        }
+
         ListView {
             id: list
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            spacing: 6
             clip: true
 
             ScrollBar.vertical: ScrollBar {
@@ -151,67 +161,92 @@ Item {
                 return -1
             }
 
-            delegate: Rectangle {
+            delegate: Item {
                 width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
-                height: 46
 
-                radius: 6
+                property bool filteredOut: {
+                    let filter = root.categorySearchText.trim().toLowerCase()
+                    let text = model.name.toLowerCase()
+                    let ok = text.indexOf(filter) !== -1
 
-                color: model.id === root.selectedId ? "#d7ecff" : "#f4f4f4"
-                border.color: "#d0d0d0"
+                    if (filter === "")
+                        return false
 
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 8
+                    return !ok
+                }
 
-                    Label {
-                        Layout.fillWidth: true
 
-                        text: model.name === "" ? "Bez kategorii" : model.name
+                height: filteredOut ? 0 : 49
+                visible: !filteredOut
 
-                        font.bold: ListView.isCurrentItem
-                        elide: Text.ElideRight
-                    }
-
-                    ToolButton {
-                        text: MdiFont.Icon.pencil
-
-                        enabled: model.id >= 0
-                        visible: model.id >= 0
-
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
-
-                        onClicked: {
-                            updateDialog.initialName = model.name
-                            updateDialog.categoryRow = index
-                            updateDialog.open()
-                        }
-                    }
-
-                    ToolButton {
-                        text: MdiFont.Icon.delete
-
-                        enabled: model.id >= 0
-                        visible: model.id >= 0
-
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
-
-                        Material.foreground: "firebrick"
-
-                        onClicked: {
-                            root.pendingRemoveRow = index
-                            deleteDialog.open()
-                        }
+                Behavior on height {
+                    NumberAnimation {
+                        duration: 150
                     }
                 }
 
-                TapHandler {
-                    onTapped: {
-                        list.currentIndex = index
-                        root.selected(model.id)
+                Rectangle {
+                    width: parent.width
+                    height: 45
+
+                    radius: 6
+
+                    color: model.id === root.selectedId ? "#d7ecff" : "#f4f4f4"
+                    border.color: "#d0d0d0"
+
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 12
+                        anchors.rightMargin: 8
+
+                        Label {
+                            Layout.fillWidth: true
+
+                            text: model.name === "" ? "Bez kategorii" : model.name
+
+                            font.bold: ListView.isCurrentItem
+                            elide: Text.ElideRight
+                        }
+
+                        ToolButton {
+                            text: MdiFont.Icon.pencil
+
+                            enabled: model.id >= 0
+                            visible: model.id >= 0
+
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
+
+                            onClicked: {
+                                updateDialog.initialName = model.name
+                                updateDialog.categoryRow = index
+                                updateDialog.open()
+                            }
+                        }
+
+                        ToolButton {
+                            text: MdiFont.Icon.delete
+
+                            enabled: model.id >= 0
+                            visible: model.id >= 0
+
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
+
+                            Material.foreground: "firebrick"
+
+                            onClicked: {
+                                root.pendingRemoveRow = index
+                                deleteDialog.open()
+                            }
+                        }
+                    }
+
+                    TapHandler {
+                        onTapped: {
+                            list.currentIndex = index
+                            root.selected(model.id)
+                        }
                     }
                 }
             }

@@ -12,6 +12,7 @@ Item {
     property alias model: list.model
     property int selectedId: -1
     property int pendingRemoveRow: -1
+    property string hymnSearchText: ""
 
     property bool setMode: false
 
@@ -196,14 +197,26 @@ Item {
             font.bold: true
         }
 
+        TextField {
+            Layout.fillWidth: true
+            enabled: !root.setMode
+            visible: !root.setMode
+
+            placeholderText: "Szukaj pieśni..."
+
+            onTextChanged: {
+                root.hymnSearchText = text
+            }
+        }
+
         ListView {
             id: list
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            spacing: 6
             clip: true
+            spacing: root.setMode ? 6 : 0
 
             ScrollBar.vertical: ScrollBar {
                 width: 8
@@ -219,93 +232,118 @@ Item {
                 return -1
             }
 
-            delegate: Rectangle {
+            delegate: Item {
                 width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
-                height: 46
 
-                radius: 6
+                property bool filteredOut: {
+                    let filter = root.hymnSearchText.trim().toLowerCase()
+                    let text = model.name.toLowerCase()
+                    let ok = text.indexOf(filter) !== -1
 
-                color: model.id === root.selectedId ? "#d7ecff" : "#f4f4f4"
-                border.color: "#d0d0d0"
+                    if (filter === "")
+                        return false
 
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 8
+                    return !ok
+                }
 
-                    Label {
-                        Layout.fillWidth: true
 
-                        text: model.name
+                height: filteredOut ? 0 : 49
+                visible: !filteredOut
 
-                        font.bold: ListView.isCurrentItem
-                        elide: Text.ElideRight
+                Behavior on height {
+                    NumberAnimation {
+                        duration: 150
                     }
+                }
 
-                    ToolButton {
-                        visible: root.setMode
+                Rectangle {
+                    width: parent.width
+                    height: 45
 
-                        text: MdiFont.Icon.arrowUp
+                    radius: 6
 
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
+                    color: model.id === root.selectedId ? "#d7ecff" : "#f4f4f4"
+                    border.color: "#d0d0d0"
 
-                        enabled: index > 0
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 12
+                        anchors.rightMargin: 8
 
-                        onClicked: {
-                            root.moveHymn(index, index - 1)
+                        Label {
+                            Layout.fillWidth: true
+
+                            text: model.name
+
+                            font.bold: ListView.isCurrentItem
+                            elide: Text.ElideRight
                         }
-                    }
 
-                    ToolButton {
-                        visible: root.setMode
+                        ToolButton {
+                            visible: root.setMode
 
-                        text: MdiFont.Icon.arrowDown
+                            text: MdiFont.Icon.arrowUp
 
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
 
-                        enabled: index < list.count - 1
+                            enabled: index > 0
 
-                        onClicked: {
-                            root.moveHymn(index, index + 1)
+                            onClicked: {
+                                root.moveHymn(index, index - 1)
+                            }
                         }
-                    }
 
-                    ToolButton {
-                        visible: !root.setMode
+                        ToolButton {
+                            visible: root.setMode
 
-                        text: MdiFont.Icon.pencil
+                            text: MdiFont.Icon.arrowDown
 
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
 
-                        onClicked: {
-                            updateDialog.initialName = model.name
-                            updateDialog.initialCategoryId = model.categoryId
-                            updateDialog.hymnRow = index
-                            updateDialog.open()
+                            enabled: index < list.count - 1
+
+                            onClicked: {
+                                root.moveHymn(index, index + 1)
+                            }
                         }
-                    }
 
-                    ToolButton {
-                        text: MdiFont.Icon.delete
+                        ToolButton {
+                            visible: !root.setMode
 
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
+                            text: MdiFont.Icon.pencil
 
-                        Material.foreground: "firebrick"
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
 
-                        onClicked: {
-                            root.pendingRemoveRow = index
-                            deleteDialog.open()
+                            onClicked: {
+                                updateDialog.initialName = model.name
+                                updateDialog.initialCategoryId = model.categoryId
+                                updateDialog.hymnRow = index
+                                updateDialog.open()
+                            }
                         }
-                    }
 
-                    TapHandler {
-                        onTapped: {
-                            list.currentIndex = index
-                            root.selected(model.id)
+                        ToolButton {
+                            text: MdiFont.Icon.delete
+
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
+
+                            Material.foreground: "firebrick"
+
+                            onClicked: {
+                                root.pendingRemoveRow = index
+                                deleteDialog.open()
+                            }
+                        }
+
+                        TapHandler {
+                            onTapped: {
+                                list.currentIndex = index
+                                root.selected(model.id)
+                            }
                         }
                     }
                 }
