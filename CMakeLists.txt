@@ -99,6 +99,7 @@ set_source_files_properties(
 
 qt_add_qml_module(prezenter
     URI Prezenter
+    VERSION ${PROJECT_VERSION}
 
     QML_FILES
         ${APP_QML}
@@ -158,10 +159,103 @@ target_link_libraries(prezenter
 )
 
 # --------------------------------------
+# Windows resources
+# --------------------------------------
+
+if(WIN32)
+
+    target_sources(prezenter PRIVATE
+        resources/windows/version.rc
+    )
+
+endif()
+
+# --------------------------------------
 # Application installation
 # --------------------------------------
 
+include(GNUInstallDirs)
+
 install(TARGETS prezenter
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    COMPONENT prezenter
 )
+
+qt_generate_deploy_qml_app_script(
+    TARGET prezenter
+    OUTPUT_SCRIPT deploy_script
+    NO_UNSUPPORTED_PLATFORM_ERROR
+)
+
+install(SCRIPT ${deploy_script}
+    COMPONENT prezenter
+)
+
+# --------------------------------------
+# CPack configuration
+# --------------------------------------
+
+if(NOT WIN32)
+        set(CPACK_PACKAGE_NAME "${APP_PACKAGE_NAME}")
+else()
+        set(CPACK_PACKAGE_NAME "${APP_NAME}")
+endif()
+set(CPACK_PACKAGE_VENDOR "${APP_COMPANY}")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
+        "${APP_NAME} to otwartoźródłowa alternatywa dla oprogramowania obsługującego tablicę LED firmy MKEiA.")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://zupanet.pl")
+set(CPACK_PACKAGE_CONTACT "devel@zupanet.pl")
+set(CPACK_PACKAGE_FILE_NAME "${APP_PACKAGE_NAME}-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+if(NOT WIN32)
+        set(CPACK_PACKAGE_INSTALL_DIRECTORY "prezenter")
+else()
+        set(CPACK_PACKAGE_INSTALL_DIRECTORY "${APP_NAME}")
+endif()
+set(CPACK_PACKAGE_CHECKSUM SHA256)
+
+set(CPACK_PACKAGE_EXECUTABLES "prezenter;${APP_NAME}")
+set(CPACK_CREATE_DESKTOP_LINKS prezenter)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+
+# IFW
+# set(CPACK_IFW_PACKAGE_TITLE "${APP_NAME}")
+# set(CPACK_IFW_PRODUCT_URL "${CPACK_PACKAGE_HOMEPAGE_URL}")
+# set(CPACK_IFW_PACKAGE_WIZARD_STYLE "Classic")
+# set(CPACK_IFW_ARCHIVE_COMPRESSION 9)
+# set(CPACK_IFW_PACKAGE_START_MENU_DIRECTORY
+#     "${APP_NAME}"
+# )
+# set(CPACK_IFW_PACKAGE_CONTROL_SCRIPT
+#     "${CMAKE_SOURCE_DIR}/resources/windows/installer.qs"
+# )
+
+# InnoSetup
+set(CPACK_INNOSETUP_ALLOW_CUSTOM_DIRECTORY ON)
+set(CPACK_INNOSETUP_LANGUAGES "english;polish")
+set(CPACK_INNOSETUP_IGNORE_README_PAGE ON)
+set(CPACK_INNOSETUP_USE_MODERN_WIZARD ON)
+set(CPACK_INNOSETUP_PROGRAM_MENU_FOLDER "${APP_NAME}")
+set(CPACK_INNOSETUP_headers_INSTALL_DIRECTORY "")
+set(CPACK_INNOSETUP_SETUP_DisableProgramGroupPage ON)
+set(CPACK_INNOSETUP_SETUP_PrivilegesRequired "lowest")
+set(CPACK_INNOSETUP_SETUP_PrivilegesRequiredOverridesAllowed "dialog")
+set(CPACK_INNOSETUP_SETUP_AllowNoIcons ON)
+set(CPACK_INNOSETUP_SETUP_UninstallDisplayIcon "{app}/prezenter.exe")
+set(CPACK_INNOSETUP_SETUP_VersionInfoCompany "${APP_COMPANY}")
+set(CPACK_INNOSETUP_SETUP_VersionInfoVersion "${PROJECT_VERSION}")
+set(CPACK_INNOSETUP_SETUP_VersionInfoDescription "${APP_NAME}")
+set(CPACK_INNOSETUP_SETUP_VersionInfoTextVersion "${PROJECT_VERSION}")
+set(CPACK_INNOSETUP_SETUP_VersionInfoProductName "${APP_NAME}")
+set(CPACK_INNOSETUP_SETUP_VersionInfoCopyright "Copyright (c) ${APP_COMPANY}")
+set(CPACK_INNOSETUP_SETUP_AppPublisherURL "${CPACK_PACKAGE_HOMEPAGE}")
+set(CPACK_INNOSETUP_SETUP_AppSupportURL "${CPACK_PACKAGE_HOMEPAGE}")
+set(CPACK_INNOSETUP_SETUP_AppUpdatesURL "${CPACK_PACKAGE_HOMEPAGE}")
+
+
+set(CPACK_GENERATOR "ZIP;INNOSETUP")
+set(CPACK_STRIP_FILES TRUE)
+
+include(CPack)
