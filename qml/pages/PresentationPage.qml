@@ -18,6 +18,31 @@ Item {
         Component.onCompleted: reload()
     }
 
+    ScreenSwitcherDialog {
+        id: screenSwitcherDialog
+        setId: root1.currentSet
+
+        onClosed: {
+            screensModel.reload()
+            Qt.callLater(() => {
+                restoreSelection()
+                let item = screensModel.get(screensView.currentIndex)
+
+                TablicaConnector.buffer = item
+
+                let target = Math.max(0, screensView.currentIndex - 1)
+
+                screensView.contentY = Math.max(
+                    0,
+                    Math.min(
+                        target * (60 + screensView.spacing),
+                        screensView.contentHeight - screensView.height
+                    )
+                )
+            })
+        }
+    }
+
     function restoreSelection() {
         if (root1.selectedScreenId < 0)
             return
@@ -251,23 +276,44 @@ Item {
                     }
                 }
 
-                Switch {
-                    id: buttonShowAll
+                // Switch {
+                //     id: buttonShowAll
 
+                //     anchors {
+                //         right: buttonScreenEdit.left
+                //         rightMargin: 10
+                //         verticalCenter: parent.verticalCenter
+                //     }
+
+                //     text: "Pokaż wszystkie slajdy"
+
+                //     checked: screensModel.showAll
+
+                //     onToggled: {
+                //         screensModel.showAll = checked
+                //     }
+                // }
+
+                Button {
+                    id: buttonSetItemProperties
                     anchors {
                         right: buttonScreenEdit.left
-                        rightMargin: 10
-                        verticalCenter: parent.verticalCenter
+                        bottom: parent.bottom
+                        margins: 10
                     }
+                    text: "Właściwości"
 
-                    text: "Pokaż wszystkie slajdy"
+                    enabled: root1.currentScreen !== null && root1.currentScreen.screenId !== -1
 
-                    checked: screensModel.showAll
+                    onClicked: {
+                        if (!enabled)
+                            return
 
-                    onToggled: {
-                        screensModel.showAll = checked
+                        screenSwitcherDialog.hymnId = root1.currentScreen.hymnId
+                        screenSwitcherDialog.open()
                     }
                 }
+
 
                 Button {
                     id: buttonScreenEdit
@@ -402,7 +448,7 @@ Item {
                     id: setViewItemsDelegate
                     width: ListView.view.width - 10
 
-                    vid: model.order
+                    vid: model.order+1
                     title: model.hymnName
                     subtitle: model.excerpt
 

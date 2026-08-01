@@ -73,6 +73,7 @@ set(APP_QML
     qml/components/SetPanel.qml
     qml/components/HymnPickerDialog.qml
     qml/components/SlimScreenPanel.qml
+    qml/components/ScreenSwitcherDialog.qml
 )
 
 set(APP_RESOURCES
