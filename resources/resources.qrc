@@ -7,5 +7,12 @@
         <file>fonts/Arimo-VariableFont_wght.ttf</file>
         <file>fonts/FreeSans.ttf</file>
         <file>database/default.db</file>
+		<file>licenses/GPL-2.0-only.txt</file>
+        <file>licenses/Qt.txt</file>
+        <file>licenses/Arimo.txt</file>
+        <file>licenses/FreeSans.txt</file>
+        <file>licenses/MaterialDesignIcons.txt</file>
+        <file>licenses/MiniForma2.txt</file>
+        <file>licenses/MiniSet2.txt</file>
     </qresource>
 </RCC>

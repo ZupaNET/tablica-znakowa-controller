@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     app.setApplicationName(AppInfo::instance().name());
     app.setOrganizationName(AppInfo::instance().company());
     app.setOrganizationDomain(AppInfo::instance().companyDomain());
+    qputenv("QML_XHR_ALLOW_FILE_READ", "1");
 
     QQmlApplicationEngine engine;
     QObject::connect(

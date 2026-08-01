@@ -64,6 +64,8 @@ set(APP_QML
     qml/pages/HymnListPage.qml
     qml/pages/ScreenEditorPage.qml
     qml/pages/QuickScreenPage.qml
+    qml/pages/AboutPage.qml
+    qml/pages/AboutLicensesPage.qml
 
     qml/components/SetViewItems.qml
     qml/components/TablicaScreen.qml
@@ -74,6 +76,7 @@ set(APP_QML
     qml/components/HymnPickerDialog.qml
     qml/components/SlimScreenPanel.qml
     qml/components/ScreenSwitcherDialog.qml
+    qml/components/MenuTile.qml
 )
 
 set(APP_RESOURCES

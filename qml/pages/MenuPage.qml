@@ -1,108 +1,297 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts
+
 import Prezenter
+import "../Icon.js" as MdiFont
 
 Item {
-    Rectangle{
-        anchors.fill: parent
-        color: "#FFFFFF"
+    id: root
 
-        Text{
-            anchors{
+    property int startYear: 2026
+
+
+    function copyrightText() {
+        let year = new Date().getFullYear()
+
+        return year <= startYear
+            ? startYear
+            : startYear + "-" + year
+    }
+
+
+    Rectangle {
+        anchors.fill: parent
+
+        color: "#f3f5f7"
+
+
+        Rectangle {
+            id: header
+
+            height: 120
+
+            anchors {
                 top: parent.top
                 left: parent.left
-                margins: 10
+                right: parent.right
             }
-            font.pixelSize: 36
-            font.bold: true
-            text: AppInfo.name
+
+            color: "#424242"
+
+
+            Column {
+                anchors {
+                    left: parent.left
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: 40
+                }
+
+                spacing: 5
+
+
+                Text {
+                    text: AppInfo.name
+
+                    color: "white"
+
+                    font.pixelSize: 38
+                    font.bold: true
+                }
+
+
+                Text {
+                    text: "Łączymy głosy i obrazy"
+
+                    color: "#cccccc"
+
+                    font.pixelSize: 17
+                }
+            }
         }
 
-        ColumnLayout{
-            anchors.centerIn: parent
-            spacing: 6
-            Button{
-                Layout.alignment: "AlignCenter"
-                text: "Lista pieśni"
-                onClicked: {
+
+
+        GridLayout {
+
+            id: menuGrid
+
+            anchors {
+                top: header.bottom
+                bottom: footer.top
+                horizontalCenter: parent.horizontalCenter
+
+                topMargin: 40
+                bottomMargin: 30
+            }
+
+
+            width: 900
+
+            columns: 3
+
+            columnSpacing: 25
+            rowSpacing: 25
+
+
+
+            MenuTile {
+
+                icon: MdiFont.Icon.book
+
+                title: "Lista pieśni"
+
+                description: "Zarządzanie śpiewnikiem"
+
+                onClicked:
                     Navigation.push(Qt.resolvedUrl("HymnListPage.qml"))
-                }
             }
-            Button{
-                Layout.alignment: "AlignCenter"
-                text: "Zestawy"
-                onClicked: {
-                    Navigation.push(Qt.resolvedUrl("SetListPage.qml"))
-                }
-            }
-            Button{
-                Layout.alignment: "AlignCenter"
-                text: "Wyświetl dowolny tekst"
-                onClicked: {
-                    Navigation.push(Qt.resolvedUrl("QuickScreenPage.qml"))
-                }
-            }
-            Button{
-                Layout.alignment: "AlignCenter"
-                text: "Ustawienia"
-                onClicked: {
-                    Navigation.push(Qt.resolvedUrl("SettingsPage.qml"))
-                }
-            }
-            Button{
-                Layout.alignment: "AlignCenter"
-                text: "Wyłącz tablicę"
-                onClicked: {
-                    if(TablicaConnector.shutdown())
-                        infoPopup.show("Pomyślnie wyłączono tablicę")
-                    else
-                        infoPopup.show("Nie można połączyć się z tablicą")
 
-                }
+
+            MenuTile {
+
+                icon: MdiFont.Icon.viewDashboard
+
+                title: "Zestawy"
+
+                description: "Wyświetlanie slajdów"
+
+                onClicked:
+                    Navigation.push(Qt.resolvedUrl("SetListPage.qml"))
+            }
+
+
+            MenuTile {
+
+                icon: MdiFont.Icon.textBox
+
+                title: "Dowolny slajd"
+
+                description: "Ręczne wyświetlanie"
+
+                onClicked:
+                    Navigation.push(Qt.resolvedUrl("QuickScreenPage.qml"))
+            }
+
+
+            MenuTile {
+
+                icon: MdiFont.Icon.cog
+
+                title: "Ustawienia"
+
+                description: "Konfiguracja systemu"
+
+                onClicked:
+                    Navigation.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
+
+            MenuTile {
+
+                icon: MdiFont.Icon.information
+
+                title: "O aplikacji"
+
+                description: "Informacje i licencje"
+
+                onClicked:
+                    Navigation.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+
+
+            MenuTile {
+
+                icon: MdiFont.Icon.power
+
+                title: "Wyłącz tablicę"
+
+                description: "Zakończ pracę urządzenia"
+
+                danger: true
+
+                onClicked:
+                    shutdownDialog.open()
             }
         }
 
-        Text{
-            anchors{
+
+
+        Rectangle {
+
+            id: footer
+
+            height: 45
+
+            anchors {
                 bottom: parent.bottom
                 left: parent.left
-                margins: 10
+                right: parent.right
             }
-            text: "Copyright © " + AppInfo.company
+
+
+            color: "#e5e7ea"
+
+
+            Text {
+
+                anchors.centerIn: parent
+
+                text:
+                    "Copyright © " +
+                    root.copyrightText() +
+                    " " +
+                    AppInfo.company
+
+                color: "#666"
+
+                font.pixelSize: 14
+            }
         }
     }
 
+
+
+    Dialog {
+
+        id: shutdownDialog
+
+        title: "Wyłączyć tablicę?"
+
+        modal: true
+
+        anchors.centerIn: parent
+
+
+        standardButtons:
+            Dialog.Yes | Dialog.No
+
+
+        Label {
+
+            text:
+                "Czy na pewno chcesz wyłączyć tablicę?"
+
+            padding: 20
+        }
+
+
+        onAccepted: {
+
+            if(TablicaConnector.shutdown())
+                infoPopup.show("Pomyślnie wyłączono tablicę")
+            else
+                infoPopup.show("Nie można połączyć się z tablicą")
+        }
+    }
+
+
+
     Popup {
+
         id: infoPopup
 
-        x: (parent.width - width) / 2
-        y: parent.height - height - 20
 
-        padding: 12
-        modal: false
-        focus: false
-        closePolicy: Popup.NoAutoClose
+        x: (parent.width - width) / 2
+
+        y: parent.height - height - 30
+
+
+        padding: 14
+
 
         background: Rectangle {
-            radius: 6
+
+            radius: 10
+
             color: "#323232"
         }
 
+
         Label {
+
             id: infoText
+
             color: "white"
         }
 
+
         Timer {
+
             id: hideTimer
+
             interval: 2500
-            onTriggered: infoPopup.close()
+
+            onTriggered:
+                infoPopup.close()
         }
 
-        function show(message) {
-            infoText.text = message
+
+        function show(text) {
+
+            infoText.text = text
+
             open()
+
             hideTimer.restart()
         }
     }

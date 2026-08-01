@@ -8,7 +8,7 @@ ApplicationWindow {
     height: 800
     visible: true
     id: mainwindow
-    title: qsTr(AppInfo.name)
+    title: AppInfo.name
     color: "#202020"
 
     Item {
