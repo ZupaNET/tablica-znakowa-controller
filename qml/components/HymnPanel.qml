@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import Prezenter
+
 import "../Icon.js" as MdiFont
 
 Item {
@@ -16,7 +18,7 @@ Item {
     signal selected(int id)
     signal addHymn(string name)
     signal addHymnToSet(int hymnId)
-    signal updateHymn(int row, string name)
+    signal updateHymn(int row, string name, int categoryId)
     signal removeHymn(int row)
     signal moveHymn(int from, int to)
 
@@ -68,10 +70,11 @@ Item {
     Dialog {
         id: updateDialog
 
-        title: "Zmiana nazwy pieśni"
+        title: "Edytuj pieśń"
         modal: true
 
         property string initialName: ""
+        property int initialCategoryId: -2
         property int hymnRow: -1
 
         parent: Overlay.overlay
@@ -80,27 +83,78 @@ Item {
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
-        width: 320
+        width: 400
         padding: 20
 
-        contentItem: TextField {
-            id: newHymnName
+        CategoryModel {
+            id: categoryModel
 
-            placeholderText: "Nazwa pieśni"
+            Component.onCompleted: reload()
+        }
+        contentItem: ColumnLayout {
+            spacing: 12
 
-            text: updateDialog.initialName
+            TextField {
+                id: newHymnName
 
-            onAccepted: addDialog.accept()
+                Layout.fillWidth: true
+
+                placeholderText: "Nazwa pieśni"
+                text: updateDialog.initialName
+
+                onAccepted: updateDialog.accept()
+            }
+
+            ComboBox {
+                id: categoryBox
+
+                Layout.fillWidth: true
+
+                model: categoryModel
+
+                textRole: "name"
+
+                Component.onCompleted: updateSelection()
+
+                function updateSelection() {
+                    for (let i = 0; i < categoryModel.rowCount(); ++i) {
+                        if (categoryModel.get(i).categoryId === updateDialog.initialCategoryId) {
+                            currentIndex = i
+                            return
+                        }
+                    }
+
+                    currentIndex = -1
+                }
+
+                Connections {
+                    target: updateDialog
+
+                    function onInitialCategoryIdChanged() {
+                        categoryBox.updateSelection()
+                    }
+                }
+            }
         }
 
         onOpened: {
             newHymnName.forceActiveFocus()
+            categoryBox.updateSelection()
         }
 
         onAccepted: {
             const name = newHymnName.text.trim()
-            if (name.length > 0)
-                root.updateHymn(updateDialog.hymnRow, name)
+
+            if (name.length === 0 || categoryBox.currentIndex < 0)
+                return
+
+            const categoryId = categoryModel.get(categoryBox.currentIndex).categoryId
+
+            root.updateHymn(
+                updateDialog.hymnRow,
+                name,
+                categoryId
+            )
         }
     }
 
@@ -228,6 +282,7 @@ Item {
 
                         onClicked: {
                             updateDialog.initialName = model.name
+                            updateDialog.initialCategoryId = model.categoryId
                             updateDialog.hymnRow = index
                             updateDialog.open()
                         }

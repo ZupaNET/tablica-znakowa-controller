@@ -50,6 +50,23 @@ void CategoryHymnModel::update(int row, const QString& name)
     emit dataChanged(idx, idx, {NameRole});
 }
 
+void CategoryHymnModel::changeCategory(int row, int newCategoryId)
+{
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    auto& s = m_data[row];
+    s.categoryId = newCategoryId;
+
+    hymnRepo.update(s.id, s.name, s.categoryId);
+
+    QModelIndex idx = index(row);
+
+    emit dataChanged(idx, idx, {CategoryRole});
+
+    reload();
+}
+
 void CategoryHymnModel::removeRow(int row)
 {
     if(row < 0 || row >= m_data.size())

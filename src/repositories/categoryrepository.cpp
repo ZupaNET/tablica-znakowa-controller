@@ -74,7 +74,15 @@ QList<Hymn> CategoryRepository::getHymns(int categoryId) {
     q.exec();
 
     while (q.next()) {
-        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
+        int categoryId = q.isNull(2)
+        ? -1
+        : q.value(2).toInt();
+
+        list.append({
+            q.value(0).toInt(),
+            q.value(1).toString(),
+            categoryId
+        });
     }
     return list;
 }

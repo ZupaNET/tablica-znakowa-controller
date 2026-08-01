@@ -144,8 +144,13 @@ Item {
                     hymnModel.add(name)
                 }
 
-                onUpdateHymn: (row, name) => {
-                    hymnModel.update(row, name)
+                onUpdateHymn: (row, name, categoryId) => {
+                    if(name !== hymnModel.get(row).hymnName)
+                        hymnModel.update(row, name)
+
+                    if(categoryId !== hymnModel.get(row).categoryId)
+                        hymnModel.changeCategory(row, categoryId)
+
                 }
 
                 onRemoveHymn: row => {
