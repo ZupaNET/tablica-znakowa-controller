@@ -6,13 +6,17 @@ import Prezenter
 ApplicationWindow {
     id: mainWindow
 
-    visible: true
+    property bool showImmediately: true
+
+    visible: showImmediately
 
     width: 1280
     height: 800
 
     title: AppInfo.name
     color: "#202020"
+
+    signal ready()
 
     Item {
         anchors.fill: parent
@@ -28,55 +32,8 @@ ApplicationWindow {
 
             Component.onCompleted: {
                 Navigation.stackView = stack
-                splashTimer.start()
-            }
-        }
-
-        Rectangle {
-            id: splash
-
-            anchors.fill: parent
-
-            z: 10000
-
-            color: "#202020"
-
-            Image {
-                anchors.fill: parent
-
-                source: "qrc:/images/splash.png"
-
-                fillMode: Image.PreserveAspectCrop
-            }
-
-            MouseArea {
-                anchors.fill: parent
-            }
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 300
-                    easing.type: Easing.OutCubic
-                }
-            }
-        }
-
-        Timer {
-            id: splashTimer
-
-            interval: 700
-            repeat: false
-
-            onTriggered:
-                splash.opacity = 0
-        }
-
-        Connections {
-            target: splash
-
-            function onOpacityChanged() {
-                if (splash.opacity === 0)
-                    splash.visible = false
+                forceActiveFocus()
+                ready()
             }
         }
     }
