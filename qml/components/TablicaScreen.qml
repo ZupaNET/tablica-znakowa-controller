@@ -87,15 +87,6 @@ Item {
         id: screen
         anchors.centerIn: parent
 
-        property int rows: {
-            switch(root.hymnFont){
-            case 0: return 12
-            case 1: return 10
-            case 2: return 9
-            }
-            return 12
-        }
-
         property string screenFont: {
             switch(root.hymnFont){
             case 0: return "MiniSet2"

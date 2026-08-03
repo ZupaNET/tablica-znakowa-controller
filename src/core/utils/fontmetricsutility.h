@@ -24,7 +24,7 @@ private:
     struct FontDefinition
     {
         QString family;
-        int rows;
+        float rows;
     };
 
     struct CacheKey

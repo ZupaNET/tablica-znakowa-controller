@@ -3,6 +3,7 @@
 #include <QFont>
 #include <QTextDocument>
 #include <QTextOption>
+#include <QFontMetrics>
 #include <QAbstractTextDocumentLayout>
 
 FontMetricsUtility::FontMetricsUtility(QObject *parent)
@@ -10,9 +11,9 @@ FontMetricsUtility::FontMetricsUtility(QObject *parent)
 {
     m_fonts =
     {
-        { "MiniSet2", 12 },
-        { "MiniForma2", 10 },
-        { "FreeSans", 9 }
+        { "MiniSet2", 14.0f },
+        { "MiniForma2", 11.5f },
+        { "FreeSans", 9.0f }
     };
 }
 
@@ -41,14 +42,13 @@ int FontMetricsUtility::pixelSizeForHeight(int height, int fontId, bool forceAri
     }
 
     QString family;
-    int rows;
 
     if(forceArial)
         family = "Arimo";
     else
         family = m_fonts[fontId].family;
 
-    rows = m_fonts[fontId].rows;
+    const float rows = m_fonts[fontId].rows;
 
     QFont font;
     font.setFamily(family);
@@ -70,18 +70,37 @@ int FontMetricsUtility::pixelSizeForHeight(int height, int fontId, bool forceAri
         doc.setTextWidth(1000000);
 
         QString sample;
-        for (int i = 0; i < rows; ++i)
+
+        int fullRows = static_cast<int>(floor(rows));
+        bool halfRow = (rows - fullRows) > 0.01f;
+
+        for(int i = 0; i < fullRows; ++i)
         {
-            if (i)
+            if(i)
                 sample += '\n';
+
+            sample += "Ag";
+        }
+
+        if(halfRow)
+        {
+            if(!sample.isEmpty())
+                sample += '\n';
+
             sample += "Ag";
         }
 
         doc.setPlainText(sample);
 
-        const double required = doc.size().height();
+        double required = doc.size().height();
 
-        if (required <= height)
+        if(halfRow)
+        {
+            QFontMetrics metrics(font);
+            required -= metrics.lineSpacing() * 0.5;
+        }
+
+        if(required <= height)
         {
             best = mid;
             low = mid + 1;
