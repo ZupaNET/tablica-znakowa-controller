@@ -145,6 +145,7 @@ set_target_properties(prezenter PROPERTIES
     QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android"
     QT_ANDROID_APP_NAME "${APP_FULL_NAME}"
     QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
+    QT_ANDROID_VERSION_NAME "${APP_VERSION_STRING}"
 )
 
 # --------------------------------------
