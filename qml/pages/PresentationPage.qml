@@ -190,10 +190,10 @@ Item {
                         } else {
                             let delta = centroid.position.x - startX;
 
-                            if (delta < -100) {
+                            if (delta < -150) {
                                 root1.changeScreen(1);
                             }
-                            else if (delta > 100) {
+                            else if (delta > 150) {
                                 root1.changeScreen(-1);
                             }
                         }
