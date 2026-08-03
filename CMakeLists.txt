@@ -118,6 +118,8 @@ qt_add_qml_module(prezenter
 qt_add_translations(prezenter
     TS_FILES
         ${APP_TRANSLATIONS}
+
+    RESOURCE_PREFIX "/i18n"
 )
 
 target_include_directories(prezenter PRIVATE
@@ -239,26 +241,28 @@ install(SCRIPT ${deploy_script}
 if(NOT WIN32)
         set(CPACK_PACKAGE_NAME "${APP_PACKAGE_NAME}")
 else()
-        set(CPACK_PACKAGE_NAME "${APP_NAME}")
+        set(CPACK_PACKAGE_NAME "${APP_FULL_NAME}")
 endif()
 set(CPACK_PACKAGE_VENDOR "${APP_COMPANY}")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-        "${APP_NAME} to otwartoźródłowa alternatywa dla oprogramowania obsługującego tablicę LED firmy MKEiA.")
+        "${APP_FULL_NAME} to otwartoźródłowa alternatywa dla oprogramowania obsługującego tablicę LED firmy MKEiA.")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://zupanet.pl")
 set(CPACK_PACKAGE_CONTACT "devel@zupanet.pl")
 set(CPACK_PACKAGE_FILE_NAME "${APP_PACKAGE_NAME}-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 if(NOT WIN32)
         set(CPACK_PACKAGE_INSTALL_DIRECTORY "prezenter")
 else()
-        set(CPACK_PACKAGE_INSTALL_DIRECTORY "${APP_NAME}")
+        set(CPACK_PACKAGE_INSTALL_DIRECTORY "${APP_FULL_NAME}")
 endif()
 set(CPACK_PACKAGE_CHECKSUM SHA256)
 
-set(CPACK_PACKAGE_EXECUTABLES "prezenter;${APP_NAME}")
+set(CPACK_PACKAGE_EXECUTABLES "prezenter;${APP_FULL_NAME}")
 set(CPACK_CREATE_DESKTOP_LINKS prezenter)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+set(CPACK_COMPONENT_PREZENTER_DISPLAY_NAME "${APP_FULL_NAME}")
+set(CPACK_COMPONENT_PREZENTER_REQUIRED TRUE)
 
 # IFW
 # set(CPACK_IFW_PACKAGE_TITLE "${APP_NAME}")
@@ -277,7 +281,7 @@ set(CPACK_INNOSETUP_ALLOW_CUSTOM_DIRECTORY ON)
 set(CPACK_INNOSETUP_LANGUAGES "english;polish")
 set(CPACK_INNOSETUP_IGNORE_README_PAGE ON)
 set(CPACK_INNOSETUP_USE_MODERN_WIZARD ON)
-set(CPACK_INNOSETUP_PROGRAM_MENU_FOLDER "${APP_NAME}")
+set(CPACK_INNOSETUP_PROGRAM_MENU_FOLDER "${APP_FULL_NAME}")
 set(CPACK_INNOSETUP_headers_INSTALL_DIRECTORY "")
 set(CPACK_INNOSETUP_SETUP_DisableProgramGroupPage ON)
 set(CPACK_INNOSETUP_SETUP_PrivilegesRequired "lowest")
@@ -286,9 +290,9 @@ set(CPACK_INNOSETUP_SETUP_AllowNoIcons ON)
 set(CPACK_INNOSETUP_SETUP_UninstallDisplayIcon "{app}/prezenter.exe")
 set(CPACK_INNOSETUP_SETUP_VersionInfoCompany "${APP_COMPANY}")
 set(CPACK_INNOSETUP_SETUP_VersionInfoVersion "${PROJECT_VERSION}")
-set(CPACK_INNOSETUP_SETUP_VersionInfoDescription "${APP_NAME}")
+set(CPACK_INNOSETUP_SETUP_VersionInfoDescription "${APP_FULL_NAME}")
 set(CPACK_INNOSETUP_SETUP_VersionInfoTextVersion "${PROJECT_VERSION}")
-set(CPACK_INNOSETUP_SETUP_VersionInfoProductName "${APP_NAME}")
+set(CPACK_INNOSETUP_SETUP_VersionInfoProductName "${APP_FULL_NAME}")
 set(CPACK_INNOSETUP_SETUP_VersionInfoCopyright "Copyright (c) ${APP_COMPANY}")
 set(CPACK_INNOSETUP_SETUP_AppPublisherURL "${CPACK_PACKAGE_HOMEPAGE}")
 set(CPACK_INNOSETUP_SETUP_AppSupportURL "${CPACK_PACKAGE_HOMEPAGE}")
