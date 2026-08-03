@@ -32,6 +32,7 @@ public:
 
     Q_INVOKABLE bool importDatabase(const QString& sourceUrl);
     Q_INVOKABLE bool exportDatabase(const QString& destinationUrl);
+    Q_INVOKABLE bool resetDatabase();
 
 private:
     inline static QJSEngine *s_engine = nullptr;

@@ -44,6 +44,30 @@ Item {
             }
         }
 
+        Dialog {
+            id: dbResetDialog
+
+            title: "Zresetować śpiewnik?"
+            modal: true
+
+            parent: Overlay.overlay
+            anchors.centerIn: Overlay.overlay
+            dim: true
+
+            standardButtons: Dialog.Yes | Dialog.No
+
+            Label {
+                text: "Czy na pewno chcesz zresetować śpiewnik?"
+            }
+
+            onAccepted: {
+                if(!DatabaseManager.resetDatabase())
+                    infoPopup.show("Wystąpił problem podczas resetowania śpiewnika")
+                else
+                    infoPopup.show("Zresetowano śpiewnik")
+            }
+        }
+
         Rectangle {
             id: topBar
 
@@ -392,6 +416,17 @@ Item {
                                 font.pixelSize: 15
 
                                 onClicked: dbExportDialog.open()
+                            }
+
+                            Button {
+
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 64
+
+                                text: "Resetuj"
+                                font.pixelSize: 15
+
+                                onClicked: dbResetDialog.open()
                             }
                         }
                     }

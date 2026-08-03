@@ -141,3 +141,28 @@ bool DatabaseManager::exportDatabase(const QString& destinationUrl)
 
     return true;
 }
+
+bool DatabaseManager::resetDatabase()
+{
+    const QString destinationPath = DatabaseConnector::getDatabasePath();
+
+    QSqlDatabase db = DatabaseConnector::instance().db();
+    if (db.isOpen()) {
+        db.close();
+    }
+
+    if (!QFile::remove(destinationPath)) {
+        if (QFile::exists(destinationPath)) {
+            qWarning() << "Nie można usunąć istniejącej bazy";
+            return false;
+        }
+    }
+
+    if (!DatabaseConnector::instance().init(destinationPath)) {
+        qWarning() << "Nie udało się otworzyć nowej bazy danych.";
+        return false;
+    }
+
+    qDebug() << "Resetowanie zakończone powodzeniem.";
+    return true;
+}
