@@ -80,19 +80,36 @@ Item {
         spacing: 15
 
         Rectangle {
-            Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
             color: "transparent"
+            clip: true
 
-            TablicaScreen {
-                id: editor
+            Flickable {
+                id: flick
 
                 anchors.fill: parent
 
-                editable: true
+                clip: true
 
-                hymnFont: fontSelector.currentIndex
+                contentWidth: Math.max(width, editor.implicitWidth)
+                contentHeight: Math.max(height, editor.implicitHeight)
+
+                ScrollBar.horizontal: ScrollBar {}
+
+                TablicaScreen {
+                    id: editor
+
+                    width: Math.max(flick.width, implicitWidth)
+                    height: Math.max(flick.height, implicitHeight)
+
+                    implicitWidth: 1200
+                    implicitHeight: 600
+
+                    editable: true
+                    hymnFont: fontSelector.currentIndex
+                }
             }
         }
 
