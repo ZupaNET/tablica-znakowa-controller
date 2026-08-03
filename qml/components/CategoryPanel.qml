@@ -24,7 +24,7 @@ Item {
         modal: true
 
         parent: Overlay.overlay
-        anchors.centerIn: parent
+		anchors.centerIn: Overlay.overlay
         dim: true
 
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -62,7 +62,7 @@ Item {
         property int categoryRow: -1
 
         parent: Overlay.overlay
-        anchors.centerIn: parent
+		anchors.centerIn: Overlay.overlay
         dim: true
 
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -98,7 +98,6 @@ Item {
         modal: true
 
         parent: Overlay.overlay
-        anchors.centerIn: parent
         dim: true
 
         standardButtons: Dialog.Yes | Dialog.No

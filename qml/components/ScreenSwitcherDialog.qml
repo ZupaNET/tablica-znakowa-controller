@@ -20,7 +20,7 @@ Dialog {
     padding: 16
 
     parent: Overlay.overlay
-    anchors.centerIn: parent
+	anchors.centerIn: Overlay.overlay
     dim: true
 
     standardButtons: Dialog.Close

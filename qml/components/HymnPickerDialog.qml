@@ -13,13 +13,20 @@ Dialog {
 
     modal: true
 
-    width: 850
-    height: 650
+    width: Math.min(
+        parent.width * 0.85,
+        850
+    )
+
+    height: Math.min(
+        parent.height * 0.75,
+        650
+    )
 
     padding: 16
 
     parent: Overlay.overlay
-    anchors.centerIn: parent
+	anchors.centerIn: Overlay.overlay
     dim: true
 
     standardButtons: Dialog.Cancel

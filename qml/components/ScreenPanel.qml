@@ -26,7 +26,7 @@ Item {
         modal: true
 
         parent: Overlay.overlay
-        anchors.centerIn: parent
+		anchors.centerIn: Overlay.overlay
         dim: true
 
         standardButtons: Dialog.Yes | Dialog.No

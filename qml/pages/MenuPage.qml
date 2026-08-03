@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -37,7 +37,7 @@ Item {
                 right: parent.right
             }
 
-            color: "#424242"
+            color: "#474747"
 
 
             Column {
@@ -219,8 +219,8 @@ Item {
 
         modal: true
 
-        anchors.centerIn: parent
-
+        parent: Overlay.overlay
+		anchors.centerIn: Overlay.overlay
 
         standardButtons:
             Dialog.Yes | Dialog.No

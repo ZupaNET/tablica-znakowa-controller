@@ -142,6 +142,7 @@ set_target_properties(prezenter PROPERTIES
 
     QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android"
     QT_ANDROID_APP_NAME "${APP_NAME}"
+    QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
 )
 
 # --------------------------------------
@@ -179,6 +180,7 @@ include(GNUInstallDirs)
 install(TARGETS prezenter
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     COMPONENT prezenter
 )
 

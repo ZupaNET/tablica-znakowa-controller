@@ -31,6 +31,10 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     engine.loadFromModule("Prezenter", "Main");
+    if (engine.rootObjects().isEmpty()) {
+        qCritical() << "QML loading failed";
+        return -1;
+    }
 
     return QCoreApplication::exec();
 }

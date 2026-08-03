@@ -1,40 +1,98 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 import Prezenter
+
 
 ApplicationWindow {
     id: mainWindow
 
-    property bool showImmediately: true
-
-    visible: showImmediately
-
     width: 1280
     height: 800
 
-    title: AppInfo.name
-    color: "#202020"
+    visible: true
 
-    signal ready()
+    title: AppInfo.name
+    color: "#474747"
+
+    readonly property int keyboardHeight:
+        Qt.inputMethod.visible
+        ? Math.min(
+              Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom,
+              height
+          )
+        : 0
 
     Item {
+        id: rootContent
+
         anchors.fill: parent
 
-        StackView {
-            id: stack
+        FocusScope {
+            id: viewport
 
-            anchors.fill: parent
+            x: 0
+            y: SafeArea.margins.top
 
-            clip: true
+            width: rootContent.width
 
-            initialItem: MenuPage {}
+            height:
+                rootContent.height
+                - SafeArea.margins.top
+                - SafeArea.margins.bottom
+                - mainWindow.keyboardHeight
+
+            focus: true
+
+            StackView {
+                id: stack
+
+                anchors.fill: parent
+
+                clip: true
+
+                initialItem: MenuPage {}
+            }
+
+            Keys.onReleased: (event) => {
+
+                if (event.key === Qt.Key_Back) {
+
+                    if (Navigation.back()) {
+                        event.accepted = true
+                    }
+                }
+            }
 
             Component.onCompleted: {
                 Navigation.stackView = stack
                 forceActiveFocus()
-                ready()
             }
+        }
+    }
+
+    Overlay.overlay.height:
+        mainWindow.height - mainWindow.keyboardHeight
+
+    Connections {
+        target: Qt.inputMethod
+
+        function onVisibleChanged() {
+            console.log(
+                "DPR:",
+                Screen.devicePixelRatio
+            )
+
+            console.log(
+                "Keyboard px:",
+                Qt.inputMethod.keyboardRectangle.height
+            )
+
+            console.log(
+                "Keyboard dp:",
+                Qt.inputMethod.keyboardRectangle.height
+                / Screen.devicePixelRatio
+            )
         }
     }
 }
