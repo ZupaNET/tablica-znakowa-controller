@@ -172,7 +172,7 @@ bool TablicaConnector::sendCommand(QString command){
     QTcpSocket socket;
     socket.connectToHost(ipAddress, port);
 
-    if(!socket.waitForConnected(1000))
+    if(!socket.waitForConnected(150))
     {
         emit connectionFailure();
         return false;
@@ -192,13 +192,13 @@ bool TablicaConnector::sendCommand(QString command){
         return false;
     }
 
-    if(!socket.waitForBytesWritten(1000))
+    if(!socket.waitForBytesWritten(150))
     {
         emit connectionFailure();
         return false;
     }
 
-    if(socket.waitForReadyRead(1000))
+    if(socket.waitForReadyRead(150))
     {
         QByteArray response =
             socket.readAll();
@@ -213,7 +213,7 @@ bool TablicaConnector::sendCommand(QString command){
 
     if(socket.state() != QAbstractSocket::UnconnectedState)
     {
-        socket.waitForDisconnected(1000);
+        socket.waitForDisconnected(150);
     }
     return true;
 }
