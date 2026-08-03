@@ -212,7 +212,7 @@ Item {
         }
 
         Button {
-            text: "+ Dodaj zestaw"
+            text: qsTr("+ Dodaj zestaw")
 
             onClicked: addDialog.open()
         }

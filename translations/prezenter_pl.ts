@@ -549,6 +549,11 @@
         <source>Zestawy</source>
         <translation>Zestawy</translation>
     </message>
+    <message>
+        <location filename="../qml/components/SetPanel.qml" line="215"/>
+        <source>+ Dodaj zestaw</source>
+        <translation>+ Dodaj zestaw</translation>
+    </message>
 </context>
 <context>
     <name>SetViewItems</name>
