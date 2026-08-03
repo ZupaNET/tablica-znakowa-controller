@@ -59,6 +59,36 @@ void AppSettings::init()
         ).toUInt();
 }
 
+QString AppSettings::screenCustomText() const
+{
+    return m_screenCustomText;
+}
+
+void AppSettings::setScreenCustomText(const QString &text)
+{
+    if(text == m_screenCustomText)
+        return;
+
+    m_screenCustomText = text;
+
+    emit screenCustomTextChanged();
+}
+
+int AppSettings::screenCustomFont() const
+{
+    return m_screenCustomFont;
+}
+
+void AppSettings::setScreenCustomFont(const int &font)
+{
+    if(font == m_screenCustomFont)
+        return;
+
+    m_screenCustomFont = font;
+
+    emit screenCustomFontChanged();
+}
+
 QString AppSettings::screenView() const{
     return m_screenView;
 }

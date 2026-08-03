@@ -11,6 +11,16 @@ class AppSettings : public QObject
     QML_SINGLETON
     QML_ELEMENT
 
+    Q_PROPERTY(QString screenCustomText
+        READ screenCustomText
+        WRITE setScreenCustomText
+        NOTIFY screenCustomTextChanged)
+
+    Q_PROPERTY(int screenCustomFont
+        READ screenCustomFont
+        WRITE setScreenCustomFont
+        NOTIFY screenCustomFontChanged)
+
     Q_PROPERTY(QString screenView
         READ screenView
         WRITE setScreenView
@@ -64,6 +74,12 @@ public:
 
     void init();
 
+    QString screenCustomText() const;
+    void setScreenCustomText(const QString &text);
+
+    int screenCustomFont() const;
+    void setScreenCustomFont(const int &font);
+
     QString screenView() const;
     void setScreenView(const QString &mode);
 
@@ -83,6 +99,8 @@ public:
     void setBrightness(const quint8 &level);
 
 signals:
+    void screenCustomTextChanged();
+    void screenCustomFontChanged();
     void screenViewChanged();
     void screenViewButtonsChanged();
     void setViewChanged();
@@ -94,6 +112,8 @@ private:
     bool m_initialized = false;
     QSettings m_settings;
 
+    QString m_screenCustomText;
+    int m_screenCustomFont;
     QString m_screenView;
     QString m_screenViewButtons;
     QString m_setView;

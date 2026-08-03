@@ -108,7 +108,17 @@ Item {
                     implicitHeight: 600
 
                     editable: true
+
                     hymnFont: fontSelector.currentIndex
+
+                    Component.onCompleted: {
+                        content = AppSettings.screenCustomText
+                    }
+
+                    onContentTextChanged: (c) => {
+                        if (content !== AppSettings.screenCustomText)
+                            AppSettings.screenCustomText = content
+                    }
                 }
             }
         }
@@ -137,6 +147,24 @@ Item {
                     qsTr("Średnia"),
                     qsTr("Duża")
                 ]
+
+                currentIndex: AppSettings.screenCustomFont
+
+                onActivated: {
+                    AppSettings.screenCustomFont = currentIndex
+                }
+            }
+
+            Item {
+                Layout.preferredWidth: 10
+            }
+
+            Button {
+                text: qsTr("Widok")
+
+                onClicked: {
+                    AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                }
             }
 
             Item {

@@ -132,6 +132,18 @@ Item {
             }
 
             Item {
+                Layout.preferredWidth: 10
+            }
+
+            Button {
+                text: qsTr("Widok")
+
+                onClicked: {
+                    AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                }
+            }
+
+            Item {
                 Layout.fillWidth: true
             }
 

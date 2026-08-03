@@ -16,6 +16,8 @@ Item {
 
     property bool editable: false
 
+    signal contentTextChanged(string content)
+
     FontMetricsUtility
     {
         id: fontUtility
@@ -142,6 +144,10 @@ Item {
             background: null
 
             selectByMouse: root.editable
+
+            onTextChanged: {
+                root.contentTextChanged(text)
+            }
         }
     }
 }
