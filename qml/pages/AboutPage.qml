@@ -91,7 +91,7 @@ Item {
                         spacing: 10
 
                         Label {
-                            text: AppInfo.name
+                            text: AppInfo.name + " - " + qsTr("Kontroler")
 
                             font.pixelSize: 28
                             font.bold: true

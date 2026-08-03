@@ -22,9 +22,10 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # --------------------------------------
 
 set(APP_NAME "Tablica Znakowa")
+set(APP_FULL_NAME "Tablica Znakowa - Kontroler")
 set(APP_COMPANY "ŻupaNET Development")
 set(APP_COMPANY_DOMAIN "zupanet.ddns.net")
-string(TOLOWER "${APP_NAME}" APP_PACKAGE_NAME)
+string(TOLOWER "${APP_FULL_NAME}" APP_PACKAGE_NAME)
 string(REGEX REPLACE "[^a-z0-9]+" "-" APP_PACKAGE_NAME "${APP_PACKAGE_NAME}")
 string(REGEX REPLACE "^-|-$" "" APP_PACKAGE_NAME "${APP_PACKAGE_NAME}")
 
@@ -125,6 +126,7 @@ target_include_directories(prezenter PRIVATE
 
 target_compile_definitions(prezenter PRIVATE
     APP_NAME="${APP_NAME}"
+    APP_SLOGAN="${APP_SLOGAN}"
     APP_COMPANY="${APP_COMPANY}"
     APP_COMPANY_DOMAIN="${APP_COMPANY_DOMAIN}"
     APP_VERSION_STRING="${APP_VERSION_STRING}"
@@ -141,7 +143,7 @@ set_target_properties(prezenter PROPERTIES
     WIN32_EXECUTABLE TRUE
 
     QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android"
-    QT_ANDROID_APP_NAME "${APP_NAME}"
+    QT_ANDROID_APP_NAME "${APP_FULL_NAME}"
     QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
 )
 

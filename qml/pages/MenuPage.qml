@@ -61,7 +61,7 @@ Item {
 
 
                 Text {
-                    text: "Łączymy głosy i obrazy"
+                    text: qsTr("Kontroler")
 
                     color: "#cccccc"
 
