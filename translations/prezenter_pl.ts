@@ -470,7 +470,7 @@
         <location filename="../build/Qt_6_11_1_for_Android_x86_64_Debug/Prezenter/qml/pages/PresentationPage.qml" line="404"/>
         <location filename="../qml/pages/PresentationPage.qml" line="404"/>
         <source>Zestaw:</source>
-        <translation>b</translation>
+        <translation>Zestaw:</translation>
     </message>
 </context>
 <context>
