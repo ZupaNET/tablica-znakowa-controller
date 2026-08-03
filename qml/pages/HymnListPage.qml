@@ -48,7 +48,7 @@ Item {
 
 
             Button {
-                text: "Powrót"
+                text: qsTr("Powrót")
 
                 anchors {
                     left: parent.left
@@ -67,7 +67,7 @@ Item {
             Text {
                 anchors.centerIn: parent
 
-                text: "Lista pieśni"
+                text: qsTr("Lista pieśni")
 
                 color: "white"
 

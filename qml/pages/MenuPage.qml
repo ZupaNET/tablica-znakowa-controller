@@ -99,9 +99,9 @@ Item {
 
                 icon: MdiFont.Icon.book
 
-                title: "Lista pieśni"
+                title: qsTr("Lista pieśni")
 
-                description: "Zarządzanie śpiewnikiem"
+                description: qsTr("Zarządzanie śpiewnikiem")
 
                 onClicked:
                     Navigation.push(Qt.resolvedUrl("HymnListPage.qml"))
@@ -112,9 +112,9 @@ Item {
 
                 icon: MdiFont.Icon.viewDashboard
 
-                title: "Zestawy"
+                title: qsTr("Zestawy")
 
-                description: "Wyświetlanie slajdów"
+                description: qsTr("Wyświetlanie slajdów")
 
                 onClicked:
                     Navigation.push(Qt.resolvedUrl("SetListPage.qml"))
@@ -125,9 +125,9 @@ Item {
 
                 icon: MdiFont.Icon.textBox
 
-                title: "Dowolny slajd"
+                title: qsTr("Dowolny slajd")
 
-                description: "Ręczne wyświetlanie"
+                description: qsTr("Ręczne wyświetlanie")
 
                 onClicked:
                     Navigation.push(Qt.resolvedUrl("QuickScreenPage.qml"))
@@ -138,9 +138,9 @@ Item {
 
                 icon: MdiFont.Icon.cog
 
-                title: "Ustawienia"
+                title: qsTr("Ustawienia")
 
-                description: "Konfiguracja systemu"
+                description: qsTr("Konfiguracja systemu")
 
                 onClicked:
                     Navigation.push(Qt.resolvedUrl("SettingsPage.qml"))
@@ -150,9 +150,9 @@ Item {
 
                 icon: MdiFont.Icon.information
 
-                title: "O aplikacji"
+                title: qsTr("O aplikacji")
 
-                description: "Informacje i licencje"
+                description: qsTr("Informacje i licencje")
 
                 onClicked:
                     Navigation.push(Qt.resolvedUrl("AboutPage.qml"))
@@ -163,9 +163,9 @@ Item {
 
                 icon: MdiFont.Icon.power
 
-                title: "Wyłącz tablicę"
+                title: qsTr("Wyłącz tablicę")
 
-                description: "Zakończ pracę urządzenia"
+                description: qsTr("Zakończ pracę urządzenia")
 
                 danger: true
 
@@ -215,7 +215,7 @@ Item {
 
         id: shutdownDialog
 
-        title: "Wyłączyć tablicę?"
+        title: qsTr("Wyłączyć tablicę?")
 
         modal: true
 
@@ -229,7 +229,7 @@ Item {
         Label {
 
             text:
-                "Czy na pewno chcesz wyłączyć tablicę?"
+                qsTr("Czy na pewno chcesz wyłączyć tablicę?")
 
             padding: 20
         }
@@ -238,9 +238,9 @@ Item {
         onAccepted: {
 
             if(TablicaConnector.shutdown())
-                infoPopup.show("Pomyślnie wyłączono tablicę")
+                infoPopup.show(qsTr("Pomyślnie wyłączono tablicę"))
             else
-                infoPopup.show("Nie można połączyć się z tablicą")
+                infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
         }
     }
 

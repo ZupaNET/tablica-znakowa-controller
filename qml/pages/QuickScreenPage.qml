@@ -17,7 +17,7 @@ Item {
         target: TablicaConnector
 
         function onConnectionFailure() {
-            infoPopup.show("Nie można połączyć się z tablicą")
+            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
         }
     }
 
@@ -39,7 +39,7 @@ Item {
         color: "#474747"
 
         Button {
-            text: "Powrót"
+            text: qsTr("Powrót")
 
             anchors {
                 left: parent.left
@@ -58,7 +58,7 @@ Item {
         Label {
             anchors.centerIn: parent
 
-            text: "Wyświetlanie tekstu"
+            text: qsTr("Wyświetlanie tekstu")
 
             color: "white"
 
@@ -107,7 +107,7 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                text: "Rozmiar czcionki: "
+                text: qsTr("Rozmiar czcionki: ")
             }
 
             ComboBox {
@@ -116,9 +116,9 @@ Item {
                 Layout.preferredWidth: 140
 
                 model: [
-                    "Mała",
-                    "Średnia",
-                    "Duża"
+                    qsTr("Mała"),
+                    qsTr("Średnia"),
+                    qsTr("Duża")
                 ]
             }
 
@@ -127,7 +127,7 @@ Item {
             }
 
             Button {
-                text: "Wyświetl"
+                text: qsTr("Wyświetl")
 
                 onClicked: {
                     currentScreen.text = editor.content

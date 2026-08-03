@@ -26,7 +26,7 @@ Item {
     Dialog {
         id: addDialog
 
-        title: "Nowa pieśń"
+        title: qsTr("Nowa pieśń")
         modal: true
 
         parent: Overlay.overlay
@@ -41,7 +41,7 @@ Item {
         contentItem: TextField {
             id: hymnName
 
-            placeholderText: "Nazwa pieśni"
+            placeholderText: qsTr("Nazwa pieśni")
 
             onAccepted: addDialog.accept()
         }
@@ -71,7 +71,7 @@ Item {
     Dialog {
         id: updateDialog
 
-        title: "Edytuj pieśń"
+        title: qsTr("Edytuj pieśń")
         modal: true
 
         property string initialName: ""
@@ -100,7 +100,7 @@ Item {
 
                 Layout.fillWidth: true
 
-                placeholderText: "Nazwa pieśni"
+                placeholderText: qsTr("Nazwa pieśni")
                 text: updateDialog.initialName
 
                 onAccepted: updateDialog.accept()
@@ -162,7 +162,7 @@ Item {
     Dialog {
         id: deleteDialog
 
-        title: "Usunąć pieśń?"
+        title: qsTr("Usunąć pieśń?")
         modal: true
 
         parent: Overlay.overlay
@@ -172,7 +172,7 @@ Item {
         standardButtons: Dialog.Yes | Dialog.No
 
         Label {
-            text: "Czy na pewno chcesz usunąć tę pieśń?"
+            text: qsTr("Czy na pewno chcesz usunąć tę pieśń?")
         }
 
         onAccepted: {
@@ -192,7 +192,7 @@ Item {
         spacing: 8
 
         Label {
-            text: root.setMode ? "Składniki zestawu" : "Pieśni"
+            text: root.setMode ? qsTr("Składniki zestawu") : qsTr("Pieśni")
             font.pixelSize: 20
             font.bold: true
         }
@@ -202,7 +202,7 @@ Item {
             enabled: !root.setMode
             visible: !root.setMode
 
-            placeholderText: "Szukaj pieśni..."
+            placeholderText: qsTr("Szukaj pieśni...")
 
             onTextChanged: {
                 root.hymnSearchText = text
@@ -351,7 +351,7 @@ Item {
         }
 
         Button {
-            text: "+ Dodaj pieśń"
+            text: qsTr("+ Dodaj pieśń")
 
             enabled: model.parentId >= (root.setMode ? 0 : -1)
 

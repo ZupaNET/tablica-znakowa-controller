@@ -15,39 +15,39 @@ Item {
 
         FileDialog {
             id: dbImportDialog
-            title: "Import śpiewwnika"
-            nameFilters: ["Śpiewnik (*.db)"]
+            title: qsTr("Import śpiewwnika")
+            nameFilters: [qsTr("Śpiewnik (*.db)")]
 
             onAccepted: {
                 if(!DatabaseManager.importDatabase(selectedFiles[0]))
-                    infoPopup.show("Wystąpił problem podczas wczytywania śpiewnika")
+                    infoPopup.show(qsTr("Wystąpił problem podczas wczytywania śpiewnika"))
                 else
-                    infoPopup.show("Wczytano śpiewnik")
+                    infoPopup.show(qsTr("Wczytano śpiewnik"))
             }
         }
 
         FileDialog {
             id: dbExportDialog
 
-            title: "Eksport śpiewnika"
+            title: qsTr("Eksport śpiewnika")
 
             fileMode: FileDialog.SaveFile
             defaultSuffix: "db"
 
-            nameFilters: ["Śpiewnik (*.db)"]
+            nameFilters: [qsTr("Śpiewnik (*.db)")]
 
             onAccepted: {
                 if(!DatabaseManager.exportDatabase(selectedFile))
-                    infoPopup.show("Wystąpił problem podczas zapisywania śpiewnika")
+                    infoPopup.show(qsTr("Wystąpił problem podczas zapisywania śpiewnika"))
                 else
-                    infoPopup.show("Zapisano śpiewnik")
+                    infoPopup.show(qsTr("Zapisano śpiewnik"))
             }
         }
 
         Dialog {
             id: dbResetDialog
 
-            title: "Zresetować śpiewnik?"
+            title: qsTr("Zresetować śpiewnik?")
             modal: true
 
             parent: Overlay.overlay
@@ -57,14 +57,14 @@ Item {
             standardButtons: Dialog.Yes | Dialog.No
 
             Label {
-                text: "Czy na pewno chcesz zresetować śpiewnik?"
+                text: qsTr("Czy na pewno chcesz zresetować śpiewnik?")
             }
 
             onAccepted: {
                 if(!DatabaseManager.resetDatabase())
-                    infoPopup.show("Wystąpił problem podczas resetowania śpiewnika")
+                    infoPopup.show(qsTr("Wystąpił problem podczas resetowania śpiewnika"))
                 else
-                    infoPopup.show("Zresetowano śpiewnik")
+                    infoPopup.show(qsTr("Zresetowano śpiewnik"))
             }
         }
 
@@ -83,7 +83,7 @@ Item {
 
 
             Button {
-                text: "Powrót"
+                text: qsTr("Powrót")
 
                 anchors {
                     left: parent.left
@@ -102,7 +102,7 @@ Item {
             Text {
                 anchors.centerIn: parent
 
-                text: "Ustawienia"
+                text: qsTr("Ustawienia")
 
                 color: "white"
 
@@ -161,7 +161,7 @@ Item {
                             }
 
                             Label {
-                                text: "Łączność"
+                                text: qsTr("Łączność")
 
                                 font.bold: true
                                 font.pixelSize: 20
@@ -169,7 +169,7 @@ Item {
                         }
 
                         Label {
-                            text: "Adres IP"
+                            text: qsTr("Adres IP")
                             font.bold: true
                         }
 
@@ -185,7 +185,7 @@ Item {
 
                                 text: AppSettings.ipAddress
 
-                                placeholderText: "np. 192.168.1.100"
+                                placeholderText: qsTr("np. 192.168.1.100")
 
                                 inputMethodHints: Qt.ImhFormattedNumbersOnly
 
@@ -210,7 +210,7 @@ Item {
 
                                 Layout.fillWidth: true
 
-                                text: "Niepoprawny adres IP"
+                                text: qsTr("Niepoprawny adres IP")
 
                                 color: "#e53935"
 
@@ -221,7 +221,7 @@ Item {
                         }
 
                         Label {
-                            text: "Port"
+                            text: qsTr("Port")
                             font.bold: true
                         }
 
@@ -237,7 +237,7 @@ Item {
 
                                 text: AppSettings.port
 
-                                placeholderText: "np. 60023"
+                                placeholderText: qsTr("np. 60023")
 
                                 inputMethodHints: Qt.ImhDigitsOnly
 
@@ -262,7 +262,7 @@ Item {
 
                                 Layout.fillWidth: true
 
-                                text: "Port musi być w zakresie 1-65535"
+                                text: qsTr("Port musi być w zakresie 1-65535")
 
                                 color: "#e53935"
 
@@ -346,7 +346,7 @@ Item {
                         }
 
                         Label {
-                            text: "Poziom: " + AppSettings.brightness + " / 4"
+                            text: qsTr("Poziom:") + " " + AppSettings.brightness + " / 4"
                             color: "#666666"
                         }
                     }
@@ -383,7 +383,7 @@ Item {
                             }
 
                             Label {
-                                text: "Śpiewnik"
+                                text: qsTr("Śpiewnik")
 
                                 font.bold: true
                                 font.pixelSize: 20
@@ -401,7 +401,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 64
 
-                                text: "Import"
+                                text: qsTr("Import")
                                 font.pixelSize: 15
 
                                 onClicked: dbImportDialog.open()
@@ -412,7 +412,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 64
 
-                                text: "Eksport"
+                                text: qsTr("Eksport")
                                 font.pixelSize: 15
 
                                 onClicked: dbExportDialog.open()
@@ -423,7 +423,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 64
 
-                                text: "Resetuj"
+                                text: qsTr("Resetuj")
                                 font.pixelSize: 15
 
                                 onClicked: dbResetDialog.open()

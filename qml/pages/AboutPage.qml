@@ -24,7 +24,7 @@ Item {
             color: "#474747"
 
             Button {
-                text: "Powrót"
+                text: qsTr("Powrót")
 
                 anchors {
                     left: parent.left
@@ -40,7 +40,7 @@ Item {
             Text {
                 anchors.centerIn: parent
 
-                text: "O aplikacji"
+                text: qsTr("O aplikacji")
 
                 color: "white"
 
@@ -99,7 +99,7 @@ Item {
 
 
                         Label {
-                            text: "Wersja: " + AppInfo.version
+                            text: qsTr("Wersja:") + " " + AppInfo.version
 
                             font.pixelSize: 18
                             color: "#666666"
@@ -164,8 +164,8 @@ Item {
                             Layout.fillWidth: true
 
                             text:
-                                "Oryginalna tablica LED oraz pierwotne aplikacje " +
-                                "zostały stworzone przez:\n\n" +
+                                qsTr("Oryginalna tablica LED oraz pierwotne aplikacje ") +
+                                qsTr("zostały stworzone przez:\n\n") +
                                 "Marek Kopeć Elektronika i Automatyka s. c."
 
                             color: "#777"
@@ -197,7 +197,7 @@ Item {
                             Layout.fillWidth: true
 
                             text:
-                                "Aplikacja wykorzystuje następujące komponenty:\n\n" +
+                                qsTr("Aplikacja wykorzystuje następujące komponenty:\n\n") +
 
                                 "• Qt Framework (The Qt Company, LGPL-3.0-only)\n" +
                                 "• Arimo font (Steve Matteson, OFL-1.1)\n" +
@@ -206,8 +206,8 @@ Item {
                                 "• MiniForma2 (Bartek Nowak, freeware for non-commercial use)\n" +
                                 "• MiniSet2 (Bartek Nowak, freeware for non-commercial use)\n\n" +
 
-                                "Szczegółowe informacje licencyjne znajdują się " +
-                                "w katalogu resources/licenses w repozytorium oraz poniżej."
+                                qsTr("Szczegółowe informacje licencyjne znajdują się ") +
+                                qsTr("w katalogu resources/licenses w repozytorium oraz poniżej.")
 
                             color: "#777"
 
@@ -236,7 +236,7 @@ Item {
                         spacing: 10
 
                         Button {
-                            text: "Licencje i informacje prawne"
+                            text: qsTr("Licencje i informacje prawne")
 
                             onClicked:
                                 Navigation.push(

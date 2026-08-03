@@ -85,7 +85,7 @@ Item {
         target: TablicaConnector
 
         function onConnectionFailure() {
-            infoPopup.show("Nie można połączyć się z tablicą")
+            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
         }
     }
 
@@ -121,7 +121,7 @@ Item {
                     leftMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: "Powrót"
+                text: qsTr("Powrót")
                 flat: true
                 Material.foreground: "white"
                 onClicked: {
@@ -136,7 +136,7 @@ Item {
                     rightMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: "Transmisja"
+                text: qsTr("Transmisja")
                 Material.foreground: "white"
                 highlighted: TablicaConnector.enabled
                 flat: true
@@ -270,7 +270,7 @@ Item {
                         bottom: parent.bottom
                         margins: 10
                     }
-                    text: "Widok"
+                    text: qsTr("Widok")
                     onClicked: {
                         AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
                     }
@@ -285,7 +285,7 @@ Item {
                 //         verticalCenter: parent.verticalCenter
                 //     }
 
-                //     text: "Pokaż wszystkie slajdy"
+                //     text: qsTr("Pokaż wszystkie slajdy")
 
                 //     checked: screensModel.showAll
 
@@ -301,7 +301,7 @@ Item {
                         bottom: parent.bottom
                         margins: 10
                     }
-                    text: "Właściwości"
+                    text: qsTr("Właściwości")
 
                     enabled: root1.currentScreen !== null && root1.currentScreen.screenId !== -1
 
@@ -324,7 +324,7 @@ Item {
                         margins: 10
                     }
 
-                    text: "Edytuj slajd"
+                    text: qsTr("Edytuj slajd")
                     enabled: root1.currentScreen !== null && root1.currentScreen.screenId !== -1
 
                     onClicked: {
@@ -401,7 +401,7 @@ Item {
                     left: parent.left
                     margins: 10
                 }
-                text: "Zestaw:"
+                text: qsTr("Zestaw:")
                 color: "#595959"
                 font.pixelSize: 20
                 font.bold: true

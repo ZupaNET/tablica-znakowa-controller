@@ -48,7 +48,7 @@ Item {
 
 
             Button {
-                text: "Powrót"
+                text: qsTr("Powrót")
 
                 anchors {
                     left: parent.left
@@ -67,7 +67,7 @@ Item {
             Text {
                 anchors.centerIn: parent
 
-                text: "Zestawy"
+                text: qsTr("Zestawy")
 
                 color: "white"
 
@@ -76,7 +76,7 @@ Item {
             }
 
             Button {
-                text: "Prezentuj >"
+                text: qsTr("Prezentuj >")
 
                 enabled: root.selectedSetId >= 0
 

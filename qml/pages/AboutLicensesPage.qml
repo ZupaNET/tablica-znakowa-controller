@@ -28,7 +28,7 @@ Item {
             color: "#474747"
 
             Button {
-                text: "Powrót"
+                text: qsTr("Powrót")
 
                 anchors {
                     left: parent.left
@@ -45,7 +45,7 @@ Item {
             Text {
                 anchors.centerIn: parent
 
-                text: "Licencje"
+                text: qsTr("Licencje")
 
                 color: "white"
 
@@ -218,7 +218,7 @@ Item {
                         text = request.responseText
                     }
                     else {
-                        text = "Nie można załadować licencji."
+                        text = qsTr("Nie można załadować licencji.")
                     }
                 }
             }

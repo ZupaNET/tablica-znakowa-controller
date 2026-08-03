@@ -20,7 +20,7 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                text: "Slajdy"
+                text: qsTr("Slajdy")
 
                 font.pixelSize: 20
                 font.bold: true
@@ -112,7 +112,7 @@ Item {
                 font.pixelSize: 22
 
                 ToolTip.visible: hovered
-                ToolTip.text: "Pokaż wszystkie"
+                ToolTip.text: qsTr("Pokaż wszystkie")
 
                 onClicked: {
                     root.changeAllScreens(true)
@@ -128,7 +128,7 @@ Item {
                 font.pixelSize: 22
 
                 ToolTip.visible: hovered
-                ToolTip.text: "Ukryj wszystkie"
+                ToolTip.text: qsTr("Ukryj wszystkie")
 
                 onClicked: {
                     root.changeAllScreens(false)

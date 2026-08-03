@@ -22,7 +22,7 @@ Item {
     Dialog {
         id: deleteDialog
 
-        title: "Usunąć slajd?"
+        title: qsTr("Usunąć slajd?")
         modal: true
 
         parent: Overlay.overlay
@@ -32,7 +32,7 @@ Item {
         standardButtons: Dialog.Yes | Dialog.No
 
         Label {
-            text: "Czy na pewno chcesz usunąć ten slajd?"
+            text: qsTr("Czy na pewno chcesz usunąć ten slajd?")
         }
 
         onAccepted: {
@@ -53,7 +53,7 @@ Item {
         spacing: 8
 
         Label {
-            text: "Slajdy"
+            text: qsTr("Slajdy")
 
             font.pixelSize: 20
             font.bold: true
@@ -119,7 +119,7 @@ Item {
                         Label {
                             Layout.fillWidth: true
 
-                            text: "Slajd " + (index + 1)
+                            text: qsTr("Slajd") + " " + (index + 1)
 
                             font.bold: true
                         }
@@ -191,7 +191,7 @@ Item {
         }
 
         Button {
-            text: "+ Dodaj slajd"
+            text: qsTr("+ Dodaj slajd")
 
             enabled: model.hymnId >= 0
 

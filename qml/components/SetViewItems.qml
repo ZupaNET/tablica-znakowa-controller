@@ -145,8 +145,8 @@ Item {
 
             ToolTip.visible: hovered
             ToolTip.text: !root.shown
-                          ? "Slajd ukryty"
-                          : "Slajd widoczny"
+                          ? qsTr("Slajd ukryty")
+                          : qsTr("Slajd widoczny")
 
             onClicked: {
                 root.visibilityChanged(!root.shown)

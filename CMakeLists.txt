@@ -33,7 +33,7 @@ string(REGEX REPLACE "^-|-$" "" APP_PACKAGE_NAME "${APP_PACKAGE_NAME}")
 # Qt packages and project configuration
 # --------------------------------------
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Core Gui Qml QuickControls2 Sql)
+find_package(Qt6 REQUIRED COMPONENTS Quick Core Gui Qml QuickControls2 Sql LinguistTools)
 qt_standard_project_setup(REQUIRES 6.10)
 
 # --------------------------------------
@@ -84,6 +84,11 @@ set(APP_RESOURCES
     resources/resources.qrc
 )
 
+set(APP_TRANSLATIONS
+    translations/prezenter_pl.ts
+    translations/prezenter_en.ts
+)
+
 # --------------------------------------
 # Application executable definition
 # --------------------------------------
@@ -110,6 +115,11 @@ qt_add_qml_module(prezenter
         ${APP_HEADERS}
 )
 
+qt_add_translations(prezenter
+    TS_FILES
+        ${APP_TRANSLATIONS}
+)
+
 target_include_directories(prezenter PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/
@@ -119,6 +129,31 @@ target_include_directories(prezenter PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/networking
     ${CMAKE_CURRENT_SOURCE_DIR}/src/settings
 )
+
+# --------------------------------------
+# Android add system translations
+# --------------------------------------
+
+if(ANDROID)
+    set(QT_TRANSLATIONS_DIR "${Qt6_DIR}/../../../translations")
+
+    foreach(lang pl en)
+
+        set_source_files_properties(
+            ${QT_TRANSLATIONS_DIR}/qtbase_${lang}.qm
+            PROPERTIES
+                QT_RESOURCE_ALIAS qtbase_${lang}.qm
+        )
+
+    endforeach()
+
+    qt_add_resources(prezenter "android_qt_translations"
+        PREFIX "/qt-translations"
+        FILES
+            ${QT_TRANSLATIONS_DIR}/qtbase_pl.qm
+            ${QT_TRANSLATIONS_DIR}/qtbase_en.qm
+    )
+endif()
 
 # --------------------------------------
 # Application compile definitions

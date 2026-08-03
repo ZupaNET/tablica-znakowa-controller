@@ -9,7 +9,7 @@ Dialog {
 
     property var existingModel: null
 
-    title: "Wybierz pieśń"
+    title: qsTr("Wybierz pieśń")
 
     modal: true
 
@@ -67,7 +67,7 @@ Dialog {
                 Layout.fillHeight: true
 
                 Label {
-                    text: "Kategorie"
+                    text: qsTr("Kategorie")
 
                     font.pixelSize: 18
                     font.bold: true
@@ -76,7 +76,7 @@ Dialog {
                 TextField {
                     Layout.fillWidth: true
 
-                    placeholderText: "Szukaj kategorii..."
+                    placeholderText: qsTr("Szukaj kategorii...")
 
                     onTextChanged: {
                         root.categorySearchText = text
@@ -171,7 +171,7 @@ Dialog {
 
                 Label {
 
-                    text: "Pieśni"
+                    text: qsTr("Pieśni")
 
                     font.pixelSize: 18
                     font.bold: true
@@ -180,7 +180,7 @@ Dialog {
                 TextField {
                     Layout.fillWidth: true
 
-                    placeholderText: "Szukaj pieśni..."
+                    placeholderText: qsTr("Szukaj pieśni...")
 
                     onTextChanged: {
                         root.hymnSearchText = text

@@ -10,7 +10,7 @@ Dialog {
     property int setId: -1
     property int hymnId: -1
 
-    title: "Widoczność slajdów"
+    title: qsTr("Widoczność slajdów")
 
     modal: true
 

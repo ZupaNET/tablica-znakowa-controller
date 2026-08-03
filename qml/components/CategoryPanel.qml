@@ -20,7 +20,7 @@ Item {
     Dialog {
         id: addDialog
 
-        title: "Nowa kategoria"
+        title: qsTr("Nowa kategoria")
         modal: true
 
         parent: Overlay.overlay
@@ -35,7 +35,7 @@ Item {
         contentItem: TextField {
             id: categoryName
 
-            placeholderText: "Nazwa kategorii"
+            placeholderText: qsTr("Nazwa kategorii")
 
             onAccepted: addDialog.accept()
         }
@@ -55,7 +55,7 @@ Item {
     Dialog {
         id: updateDialog
 
-        title: "Zmiana nazwy kategorii"
+        title: qsTr("Zmiana nazwy kategorii")
         modal: true
 
         property string initialName: ""
@@ -73,7 +73,7 @@ Item {
         contentItem: TextField {
             id: newCategoryName
 
-            placeholderText: "Nazwa kategorii"
+            placeholderText: qsTr("Nazwa kategorii")
 
             text: updateDialog.initialName
 
@@ -94,7 +94,7 @@ Item {
     Dialog {
         id: deleteDialog
 
-        title: "Usunąć kategorię?"
+        title: qsTr("Usunąć kategorię?")
         modal: true
 
         parent: Overlay.overlay
@@ -103,7 +103,7 @@ Item {
         standardButtons: Dialog.Yes | Dialog.No
 
         Label {
-            text: "Czy na pewno chcesz usunąć tę kategorię?"
+            text: qsTr("Czy na pewno chcesz usunąć tę kategorię?")
         }
 
         onAccepted: {
@@ -123,7 +123,7 @@ Item {
         spacing: 8
 
         Label {
-            text: "Kategorie"
+            text: qsTr("Kategorie")
             font.pixelSize: 20
             font.bold: true
         }
@@ -131,7 +131,7 @@ Item {
         TextField {
             Layout.fillWidth: true
 
-            placeholderText: "Szukaj kategorii..."
+            placeholderText: qsTr("Szukaj kategorii...")
 
             onTextChanged: {
                 root.categorySearchText = text
@@ -201,7 +201,7 @@ Item {
                         Label {
                             Layout.fillWidth: true
 
-                            text: model.name === "" ? "Bez kategorii" : model.name
+                            text: model.name === "" ? qsTr("Bez kategorii") : model.name
 
                             font.bold: ListView.isCurrentItem
                             elide: Text.ElideRight
@@ -252,7 +252,7 @@ Item {
         }
 
         Button {
-            text: "+ Dodaj kategorię"
+            text: qsTr("+ Dodaj kategorię")
 
             onClicked: addDialog.open()
         }

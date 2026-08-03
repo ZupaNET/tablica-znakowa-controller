@@ -46,8 +46,8 @@ Item {
             anchors.centerIn: parent
 
             text: root.screenIdx < 0
-                  ? "Nowy slajd"
-                  : "Edycja slajdu"
+                  ? qsTr("Nowy slajd")
+                  : qsTr("Edycja slajdu")
 
             color: "white"
 
@@ -98,7 +98,7 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                text: "Rozmiar czcionki: "
+                text: qsTr("Rozmiar czcionki: ")
             }
 
             ComboBox {
@@ -107,9 +107,9 @@ Item {
                 Layout.preferredWidth: 140
 
                 model: [
-                    "Mała",
-                    "Średnia",
-                    "Duża"
+                    qsTr("Mała"),
+                    qsTr("Średnia"),
+                    qsTr("Duża")
                 ]
 
                 currentIndex: root.initialFont
@@ -120,7 +120,7 @@ Item {
             }
 
             Button {
-                text: "Anuluj"
+                text: qsTr("Anuluj")
 
                 onClicked: {
                     Navigation.pop()
@@ -128,7 +128,7 @@ Item {
             }
 
             Button {
-                text: "Zapisz"
+                text: qsTr("Zapisz")
 
                 onClicked: {
                     if (!root.screenModel) {

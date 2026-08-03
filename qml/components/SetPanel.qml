@@ -19,7 +19,7 @@ Item {
     Dialog {
         id: addDialog
 
-        title: "Nowy zestaw"
+        title: qsTr("Nowy zestaw")
         modal: true
 
         parent: Overlay.overlay
@@ -34,7 +34,7 @@ Item {
         contentItem: TextField {
             id: setName
 
-            placeholderText: "Nazwa zestawu"
+            placeholderText: qsTr("Nazwa zestawu")
 
             onAccepted: addDialog.accept()
         }
@@ -54,7 +54,7 @@ Item {
     Dialog {
         id: updateDialog
 
-        title: "Zmiana nazwy zestawu"
+        title: qsTr("Zmiana nazwy zestawu")
         modal: true
 
         property string initialName: ""
@@ -72,7 +72,7 @@ Item {
         contentItem: TextField {
             id: newSetName
 
-            placeholderText: "Nazwa zestawu"
+            placeholderText: qsTr("Nazwa zestawu")
 
             text: updateDialog.initialName
 
@@ -93,7 +93,7 @@ Item {
     Dialog {
         id: deleteDialog
 
-        title: "Usunąć zestaw?"
+        title: qsTr("Usunąć zestaw?")
         modal: true
 
         parent: Overlay.overlay
@@ -103,7 +103,7 @@ Item {
         standardButtons: Dialog.Yes | Dialog.No
 
         Label {
-            text: "Czy na pewno chcesz usunąć ten zestaw?"
+            text: qsTr("Czy na pewno chcesz usunąć ten zestaw?")
         }
 
         onAccepted: {
@@ -123,7 +123,7 @@ Item {
         spacing: 8
 
         Label {
-            text: "Zestawy"
+            text: qsTr("Zestawy")
             font.pixelSize: 20
             font.bold: true
         }
