@@ -2,24 +2,22 @@ import QtQuick
 import QtQuick.Controls
 
 Rectangle {
-
     id: root
 
     signal clicked
-
 
     property string icon
     property string title
     property string description
     property bool danger: false
 
+    implicitWidth: 270
+    implicitHeight: 150
 
-    width: 270
-    height: 150
+    property real scaleFactor:
+        Math.min(width / implicitWidth, height / implicitHeight)
 
-
-    radius: 20
-
+    radius: width * 0.07
 
     color:
         mouse.containsMouse
@@ -28,33 +26,25 @@ Rectangle {
           ? "#fff1f1"
           : "white"
 
-
     border.color:
         danger
         ? "#ef9a9a"
         : "#dddddd"
 
-
-
     Behavior on color {
-
         ColorAnimation {
             duration: 150
         }
     }
 
-
-
     Column {
-
         anchors.centerIn: parent
 
         spacing: 8
 
-
+        scale: root.scaleFactor
 
         Text {
-
             anchors.horizontalCenter: parent.horizontalCenter
 
             text: root.icon
@@ -65,17 +55,13 @@ Rectangle {
 
             font.pixelSize: 46
 
-
             color:
                 danger
                 ? "#d32f2f"
                 : "#37474f"
         }
 
-
-
         Text {
-
             anchors.horizontalCenter: parent.horizontalCenter
 
             text: root.title
@@ -83,14 +69,10 @@ Rectangle {
             visible: root.title !== ""
 
             font.pixelSize: 20
-
             font.bold: true
         }
 
-
-
         Text {
-
             anchors.horizontalCenter: parent.horizontalCenter
 
             text: root.description
@@ -101,16 +83,12 @@ Rectangle {
         }
     }
 
-
-
     MouseArea {
-
         id: mouse
 
         anchors.fill: parent
 
         hoverEnabled: true
-
 
         onClicked:
             root.clicked()

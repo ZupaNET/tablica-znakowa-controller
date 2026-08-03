@@ -86,7 +86,7 @@ Item {
             }
 
 
-            width: 900
+            width: Math.min(900, parent.width - 40)
 
             columns: 3
 
@@ -96,6 +96,12 @@ Item {
 
 
             MenuTile {
+
+                Layout.minimumWidth: 120
+                Layout.minimumHeight: 80
+                Layout.maximumHeight: 150
+                Layout.fillWidth: true
+                Layout.fillHeight: true
 
                 icon: MdiFont.Icon.book
 
@@ -110,6 +116,12 @@ Item {
 
             MenuTile {
 
+                Layout.minimumWidth: 120
+                Layout.minimumHeight: 80
+                Layout.maximumHeight: 150
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
                 icon: MdiFont.Icon.viewDashboard
 
                 title: qsTr("Zestawy")
@@ -122,6 +134,12 @@ Item {
 
 
             MenuTile {
+
+                Layout.minimumWidth: 120
+                Layout.minimumHeight: 80
+                Layout.maximumHeight: 150
+                Layout.fillWidth: true
+                Layout.fillHeight: true
 
                 icon: MdiFont.Icon.textBox
 
@@ -136,6 +154,12 @@ Item {
 
             MenuTile {
 
+                Layout.minimumWidth: 120
+                Layout.minimumHeight: 80
+                Layout.maximumHeight: 150
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
                 icon: MdiFont.Icon.cog
 
                 title: qsTr("Ustawienia")
@@ -147,6 +171,12 @@ Item {
             }
 
             MenuTile {
+
+                Layout.minimumWidth: 120
+                Layout.minimumHeight: 80
+                Layout.maximumHeight: 150
+                Layout.fillWidth: true
+                Layout.fillHeight: true
 
                 icon: MdiFont.Icon.information
 
@@ -160,6 +190,12 @@ Item {
 
 
             MenuTile {
+
+                Layout.minimumWidth: 120
+                Layout.minimumHeight: 80
+                Layout.maximumHeight: 150
+                Layout.fillWidth: true
+                Layout.fillHeight: true
 
                 icon: MdiFont.Icon.power
 
