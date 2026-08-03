@@ -1,6 +1,6 @@
 #include "tablicaconnector.h"
 #include <QDebug>
-#include <QTcpSocket>
+#include "tablicacommandsession.h"
 
 TablicaConnector *TablicaConnector::create(QQmlEngine *, QJSEngine *engine)
 {
@@ -168,52 +168,98 @@ bool TablicaConnector::submitCommand(){
     return sendCommand("wy0");
 }
 
-bool TablicaConnector::sendCommand(QString command){
-    QTcpSocket socket;
-    socket.connectToHost(ipAddress, port);
+bool TablicaConnector::sendCommand(QString command)
+{
+    commandQueue.enqueue(command);
 
-    if(!socket.waitForConnected(150))
-    {
-        emit connectionFailure();
-        return false;
-    }
+    processQueue();
 
-    if(!socket.isOpen())
-    {
-        emit connectionFailure();
-        return false;
-    }
-
-    QString packet = command+'\n';
-
-    if(socket.write(packet.toUtf8()) == -1)
-    {
-        emit connectionFailure();
-        return false;
-    }
-
-    if(!socket.waitForBytesWritten(150))
-    {
-        emit connectionFailure();
-        return false;
-    }
-
-    if(socket.waitForReadyRead(150))
-    {
-        QByteArray response =
-            socket.readAll();
-        if(!(response == "ok\n"))
-        {
-            emit connectionFailure();
-            return false;
-        }
-    }
-
-    socket.disconnectFromHost();
-
-    if(socket.state() != QAbstractSocket::UnconnectedState)
-    {
-        socket.waitForDisconnected(150);
-    }
     return true;
 }
+
+void TablicaConnector::processQueue()
+{
+    if(commandRunning)
+        return;
+
+    if(commandQueue.isEmpty())
+        return;
+
+
+    commandRunning = true;
+
+
+    QString cmd =
+        commandQueue.dequeue();
+
+
+    TablicaCommandSession *session = new TablicaCommandSession(ipAddress, port, cmd, this);
+
+
+    connect(session,
+            &TablicaCommandSession::finished,
+            this,
+            [this](bool ok)
+            {
+                if(!ok)
+                    emit connectionFailure();
+
+
+                commandRunning = false;
+
+                processQueue();
+            });
+
+
+    session->start();
+}
+
+// bool TablicaConnector::sendCommand(QString command){
+//     QTcpSocket socket;
+//     socket.connectToHost(ipAddress, port);
+
+//     if(!socket.waitForConnected(150))
+//     {
+//         emit connectionFailure();
+//         return false;
+//     }
+
+//     if(!socket.isOpen())
+//     {
+//         emit connectionFailure();
+//         return false;
+//     }
+
+//     QString packet = command+'\n';
+
+//     if(socket.write(packet.toUtf8()) == -1)
+//     {
+//         emit connectionFailure();
+//         return false;
+//     }
+
+//     if(!socket.waitForBytesWritten(150))
+//     {
+//         emit connectionFailure();
+//         return false;
+//     }
+
+//     if(socket.waitForReadyRead(150))
+//     {
+//         QByteArray response =
+//             socket.readAll();
+//         if(!(response == "ok\n"))
+//         {
+//             emit connectionFailure();
+//             return false;
+//         }
+//     }
+
+//     socket.disconnectFromHost();
+
+//     if(socket.state() != QAbstractSocket::UnconnectedState)
+//     {
+//         socket.waitForDisconnected(150);
+//     }
+//     return true;
+// }

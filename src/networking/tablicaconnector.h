@@ -65,6 +65,8 @@ private:
     quint16 port = 60023;
     quint8 brightness = 2;
     quint8 font = 1;
+    QQueue<QString> commandQueue;
+    bool commandRunning = false;
 
     AppSettings* appSettings;
 
@@ -79,6 +81,7 @@ private:
 
     bool submitCommand();
     bool sendCommand(QString command);
+    void processQueue();
 
     inline static QJSEngine *s_engine = nullptr;
 
