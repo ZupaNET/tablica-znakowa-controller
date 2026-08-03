@@ -1,0 +1,9 @@
+Tablica Znakowa - Kontroler to nieskomplikowany, lekki i otwartoźródłowy menadżer zarządzający bazą pieśni kościelnych i obsługującą wyświetlanie ich na tablicach znakowych LED produkowanych dawniej przez firmę MKEiA.
+
+- Współpraca z oryginalnymi tablicami LED firmy MKEiA!
+- Wbudowane czcionki używane na prawdziwym sprzęcie!
+- Możliwość kategoryzacji pieśni, a także układanie ich w zestawy!
+- Możliwość ukrywania poszczególnych slajdów w zależności od zestawu!
+- Obsługa najpopularniejszych platform konsumenckich: Windows oraz Android!
+
+Aplikację najlepiej się obsługuje za pomocą komputera, bądź tabletu.

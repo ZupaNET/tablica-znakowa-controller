@@ -1,0 +1,1 @@
+Tablica Znakowa - Kontroler to otwartoźródłowa alternatywa dla oprogramowania obsługującego tablicę LED firmy MKEiA.
