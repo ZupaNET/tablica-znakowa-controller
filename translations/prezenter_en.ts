@@ -374,42 +374,42 @@
         <translation>Unable to connect to the LED board</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="42"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="44"/>
         <source>Powrót</source>
         <translation>Back</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="61"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="63"/>
         <source>Wyświetlanie tekstu</source>
         <translation>Quick Text Display</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="137"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="142"/>
         <source>Rozmiar czcionki: </source>
-        <translation>Font size:</translation>
+        <translation>Font size: </translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="146"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="151"/>
         <source>Mała</source>
         <translation>Small</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="147"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="152"/>
         <source>Średnia</source>
         <translation>Medium</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="148"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="153"/>
         <source>Duża</source>
         <translation>Large</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="163"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="168"/>
         <source>Widok</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="175"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="180"/>
         <source>Wyświetl</source>
         <translation>Show</translation>
     </message>
@@ -417,47 +417,47 @@
 <context>
     <name>ScreenEditorPage</name>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="49"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="51"/>
         <source>Nowy slajd</source>
         <translation>New slide</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="50"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="52"/>
         <source>Edycja slajdu</source>
         <translation>Editing a Slide</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="117"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="122"/>
         <source>Rozmiar czcionki: </source>
-        <translation>Font size:</translation>
+        <translation>Font size: </translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="126"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="131"/>
         <source>Mała</source>
         <translation>Small</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="127"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="132"/>
         <source>Średnia</source>
         <translation>Medium</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="128"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="133"/>
         <source>Duża</source>
         <translation>Large</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="139"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="144"/>
         <source>Widok</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="151"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="156"/>
         <source>Anuluj</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/pages/ScreenEditorPage.qml" line="159"/>
+        <location filename="../qml/pages/ScreenEditorPage.qml" line="164"/>
         <source>Zapisz</source>
         <translation>Save</translation>
     </message>
@@ -566,8 +566,12 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="18"/>
         <source>Import śpiewwnika</source>
+        <translation type="vanished">Importing a hymnal</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="18"/>
+        <source>Import śpiewnika</source>
         <translation>Importing a hymnal</translation>
     </message>
     <message>
@@ -665,6 +669,11 @@
         <location filename="../qml/pages/SettingsPage.qml" line="265"/>
         <source>Port musi być w zakresie 1-65535</source>
         <translation>The port must be within the range of 1–65,535</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="307"/>
+        <source>Wyświetlacz</source>
+        <translation>Display</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="349"/>

@@ -15,7 +15,7 @@ Item {
 
         FileDialog {
             id: dbImportDialog
-            title: qsTr("Import śpiewwnika")
+            title: qsTr("Import śpiewnika")
             nameFilters: [qsTr("Śpiewnik (*.db)")]
 
             onAccepted: {
@@ -304,7 +304,7 @@ Item {
                             }
 
                             Label {
-                                text: "Wyświetlacz"
+                                text: qsTr("Wyświetlacz")
 
                                 font.bold: true
                                 font.pixelSize: 20
