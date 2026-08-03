@@ -568,7 +568,7 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="18"/>
         <source>Import śpiewwnika</source>
-        <translation>Import śpiewwnika</translation>
+        <translation type="unfinished">Import śpiewnika</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="19"/>
