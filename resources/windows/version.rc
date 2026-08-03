@@ -33,7 +33,7 @@ BEGIN
 		BLOCK "041504E2"
 		BEGIN
 			VALUE "CompanyName", "ZupaNET Development"
-			VALUE "FileDescription", "Tablica Znakowa - Prezenter"
+			VALUE "FileDescription", "Tablica Znakowa - Kontroler"
 			VALUE "FileVersion", STRINGIZE(APP_VERSION_MAJOR) "." STRINGIZE(APP_VERSION_MINOR) "." STRINGIZE(APP_VERSION_PATCH)
 			VALUE "ProductName", "Tablica Znakowa"
             VALUE "ProductVersion", STRINGIZE(APP_VERSION_MAJOR) "." STRINGIZE(APP_VERSION_MINOR) "." STRINGIZE(APP_VERSION_PATCH)

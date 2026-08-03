@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QFontDatabase>
+#include <QIcon>
 #include "core/appinfo.h"
 
 int main(int argc, char *argv[])
@@ -9,6 +10,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     //Setting style and fonts
+    app.setWindowIcon(QIcon(":/icons/app-icon.png"));
     QQuickStyle::setStyle("Material");
     QFontDatabase::addApplicationFont(":/fonts/materialdesignicons-webfont.ttf");
     QFontDatabase::addApplicationFont(":/fonts/Arimo-Italic-VariableFont_wght.ttf");

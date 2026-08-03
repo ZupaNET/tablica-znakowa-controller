@@ -15,5 +15,6 @@
         <file>licenses/MiniForma2.txt</file>
         <file>licenses/MiniSet2.txt</file>
 		<file>images/splash.png</file>
+		<file>images/logo.png</file>
     </qresource>
 </RCC>
