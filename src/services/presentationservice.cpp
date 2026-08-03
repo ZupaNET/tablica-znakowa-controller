@@ -7,7 +7,7 @@ QList<Screen> PresentationService::build(int setId, bool showAll)
     auto emptyScreen = Screen{
         -1,
         -1,
-        "Pusty",
+        QObject::tr("Pusty"),
         "",
         -1,
         0,

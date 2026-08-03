@@ -74,6 +74,25 @@ Item {
                 font.pixelSize: 22
                 font.bold: true
             }
+
+            Button {
+                text: qsTr("Prezentuj >")
+
+                enabled: root.selectedHymnId >= 0
+
+                anchors {
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                }
+
+                flat: true
+
+                Material.foreground: "white"
+
+                onClicked: {
+                    Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet": root.selectedHymnId, "showHymnMode": true})
+                }
+            }
         }
 
         // Body

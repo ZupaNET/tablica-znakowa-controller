@@ -15,6 +15,7 @@ class PresentationModel : public EntityListModel<Screen>, public ScreenRoles
 
     Q_PROPERTY(int setId READ setId WRITE setSetId NOTIFY setIdChanged)
     Q_PROPERTY(bool showAll READ showAll WRITE setShowAll NOTIFY showAllChanged)
+    Q_PROPERTY(int hymnMode READ hymnMode WRITE setHymnMode NOTIFY hymnModeChanged)
 
 public:
 
@@ -27,6 +28,9 @@ public:
     bool showAll() const { return m_showAll; }
     void setShowAll(bool show);
 
+    bool hymnMode() const { return m_hymnMode; }
+    void setHymnMode(bool enable);
+
     QVariant data(const QModelIndex& index, int role) const override;
     QHash<int,QByteArray> roleNames() const override;
 
@@ -38,10 +42,12 @@ public:
 signals:
     void setIdChanged();
     void showAllChanged();
+    void hymnModeChanged();
 
 private:
     int m_setId = -1;
     bool m_showAll = false;
+    bool m_hymnMode = false;
 
     PresentationService service;
     ScreenRepository screenRepo;

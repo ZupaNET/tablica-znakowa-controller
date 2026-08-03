@@ -15,6 +15,14 @@ void PresentationModel::setShowAll(bool show)
     reload();
 }
 
+void PresentationModel::setHymnMode(bool enable)
+{
+    if(m_hymnMode == enable) return;
+    m_hymnMode = enable;
+    emit hymnModeChanged();
+    reload();
+}
+
 QVariant PresentationModel::data(const QModelIndex& index, int role) const {
     auto& s = m_data[index.row()];
     if (role==IdRole) return s.id;
@@ -73,7 +81,7 @@ void PresentationModel::update(int row, const QString& text, int font)
 
 void PresentationModel::changeScreenVisibility(int row, bool shown)
 {
-    if(m_setId < 0)
+    if(m_setId < 0 || m_hymnMode)
         return;
 
     setRepo.changeScreenVisibility(m_setId, get(row).id, shown);
@@ -83,7 +91,25 @@ void PresentationModel::changeScreenVisibility(int row, bool shown)
 
 Q_INVOKABLE void PresentationModel::reload() {
     if (m_setId < 0) return;
-    updateData(service.build(m_setId, m_showAll));
+
+    if(!m_hymnMode)
+        updateData(service.build(m_setId, m_showAll));
+    else
+    {
+        QList<Screen> list;
+        auto emptyScreen = Screen{
+            -1,
+            -1,
+            tr("Pusty"),
+            "",
+            -1,
+            0,
+            true
+        };
+        list.append(emptyScreen);
+        list.append(screenRepo.getByHymn(m_setId));
+        updateData(list);
+    }
 }
 
 Q_INVOKABLE Screen PresentationModel::get(int index) const{

@@ -12,9 +12,12 @@ Item {
     property var currentScreen: null
     property int selectedScreenId: -1
 
+    property bool showHymnMode: false
+
     PresentationModel {
         id: screensModel
         setId: root1.currentSet
+        hymnMode: root1.showHymnMode
         Component.onCompleted: reload()
     }
 
@@ -303,7 +306,7 @@ Item {
                     }
                     text: qsTr("Właściwości")
 
-                    enabled: root1.currentScreen !== null && root1.currentScreen.screenId !== -1
+                    enabled: root1.currentScreen !== null && root1.currentScreen.screenId !== -1 && !root1.showHymnMode
 
                     onClicked: {
                         if (!enabled)
