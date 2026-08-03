@@ -42,6 +42,8 @@ Item {
         height: 50
         color: "#474747"
 
+        visible: !Qt.inputMethod.visible
+
         Label {
             anchors.centerIn: parent
 
@@ -58,7 +60,7 @@ Item {
 
     ColumnLayout {
         anchors {
-            top: topBar.bottom
+            top: Qt.inputMethod.visible ? parent.top : topBar.bottom
             bottom: parent.bottom
             left: parent.left
             right: parent.right
@@ -82,18 +84,17 @@ Item {
 
                 clip: true
 
-                contentWidth: Math.max(width, editor.implicitWidth)
+                contentWidth: width
                 contentHeight: Math.max(height, editor.implicitHeight)
 
-                ScrollBar.horizontal: ScrollBar {}
+                ScrollBar.vertical: ScrollBar {}
 
                 TablicaScreen {
                     id: editor
 
-                    width: Math.max(flick.width, implicitWidth)
+                    width: flick.width
                     height: Math.max(flick.height, implicitHeight)
 
-                    implicitWidth: 1200
                     implicitHeight: 600
 
                     editable: true
@@ -107,11 +108,15 @@ Item {
             Layout.fillWidth: true
             height: 1
 
+            visible: !Qt.inputMethod.visible
+
             color: "#cccccc"
         }
 
         RowLayout {
             Layout.fillWidth: true
+
+            visible: !Qt.inputMethod.visible
 
             Label {
                 text: qsTr("Rozmiar czcionki: ")
