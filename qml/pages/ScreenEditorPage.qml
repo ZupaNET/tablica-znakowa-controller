@@ -9,7 +9,6 @@ Item {
 
     property var screenModel
 
-    property int hymnId: -1
     property int screenIdx: -1
 
     property string initialText: ""

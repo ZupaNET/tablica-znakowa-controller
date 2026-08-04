@@ -11,7 +11,7 @@ QList<Set> SetRepository::getAll() {
     QSqlQuery q(
         DatabaseConnector::instance().db()
     );
-    q.prepare("SELECT Id, Name FROM Sets");
+    q.prepare("SELECT Id, Name FROM Sets ORDER BY Name");
     q.exec();
 
     while (q.next())

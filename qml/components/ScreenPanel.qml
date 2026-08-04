@@ -9,7 +9,6 @@ Item {
 
     property alias model: list.model
 
-    property int selectedId: -1
     property int pendingRemoveRow: -1
 
     signal selected(int id, int row)
@@ -18,6 +17,18 @@ Item {
     signal removeScreen(int row)
     signal duplicateScreen(int row)
     signal moveScreen(int from, int to)
+
+    Connections {
+        target: root.model
+
+        function onRowsInserted(parent, first, last) {
+            if (last >= 0) {
+                Qt.callLater(function() {
+                    list.positionViewAtIndex(last, ListView.End)
+                })
+            }
+        }
+    }
 
     Dialog {
         id: deleteDialog
@@ -73,22 +84,13 @@ Item {
                 policy: ScrollBar.AlwaysOn
             }
 
-            currentIndex: {
-                for (let i = 0; i < count; i++) {
-                    if (model.get(i).id === selectedId)
-                        return i
-                }
-
-                return -1
-            }
-
             delegate: Rectangle {
                 width: list.width - list.ScrollBar.vertical.width - 1
                 height: 300
 
                 radius: 8
 
-                color: model.id === root.selectedId ? "#d7ecff" : "#f4f4f4"
+                color: "#f4f4f4"
 
                 border.color: "#d0d0d0"
 
@@ -179,11 +181,8 @@ Item {
                 }
 
                 TapHandler {
-
                     onTapped: {
-
                         list.currentIndex = index
-
                         root.selected(model.id, index)
                     }
                 }

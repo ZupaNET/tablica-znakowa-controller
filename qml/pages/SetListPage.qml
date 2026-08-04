@@ -7,9 +7,6 @@ import Prezenter
 Item {
     id: root
 
-    property int selectedSetId: -1
-    property int selectedHymnId: -1
-
     SetModel {
         id: setModel
 
@@ -78,7 +75,7 @@ Item {
             Button {
                 text: qsTr("Prezentuj >")
 
-                enabled: root.selectedSetId >= 0
+                enabled: hymnModel.parentId >= 0
 
                 anchors {
                     right: parent.right
@@ -90,7 +87,7 @@ Item {
                 Material.foreground: "white"
 
                 onClicked: {
-                    Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet": root.selectedSetId})
+                    Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet": hymnModel.parentId, "selectedHymnId": screenModel.hymnId})
                 }
             }
         }
@@ -115,16 +112,11 @@ Item {
 
                 model: setModel
 
-                selectedId: root.selectedSetId
-
                 onSelected: id => {
-                    root.selectedSetId = id
-
                     hymnModel.parentId = id
                     screenModel.setId = id
-
-                    root.selectedHymnId = -1
                     screenModel.hymnId = -1
+                    hymnPanel.resetSelection()
                 }
 
                 onAddSet: name => {
@@ -136,11 +128,10 @@ Item {
                 }
 
                 onRemoveSet: row => {
-                    if(setModel.get(row).setId === root.selectedSetId)
+                    if(setModel.get(row).setId === hymnModel.parentId)
                     {
                         screenModel.setId = -1
                         hymnModel.parentId = -1
-                        root.selectedSetId = -1
                     }
                     setModel.removeRow(row)
                     hymnModel.reload()
@@ -149,6 +140,7 @@ Item {
             }
 
             HymnPanel {
+                id: hymnPanel
                 Layout.fillHeight: true
                 Layout.preferredWidth: parent.width * 0.35
 
@@ -156,10 +148,7 @@ Item {
 
                 model: hymnModel
 
-                selectedId: root.selectedHymnId
-
                 onSelected: id => {
-                    root.selectedHymnId = id
                     screenModel.hymnId = id
                 }
 
@@ -168,8 +157,7 @@ Item {
                 }
 
                 onRemoveHymn: row => {
-                    if (hymnModel.get(row).hymnId === root.selectedHymnId) {
-                        root.selectedHymnId = -1
+                    if (hymnModel.get(row).hymnId === screenModel.hymnId) {
                         screenModel.hymnId = -1
                         screenModel.reload()
                     }

@@ -56,7 +56,7 @@ Screen ScreenRepository::create(int hymnId, const QString &text, int font)
         SELECT
             Screens.Id,
             HymnId,
-            Hymns.Name
+            Hymns.Name,
             Text,
             DisplayOrder,
             Font

@@ -13,7 +13,7 @@ QList<Category> CategoryRepository::getAll() {
     );
     q.prepare("SELECT Id, Name, DisplayOrder FROM Categories ORDER BY DisplayOrder");
     q.exec();
-    list.append({-1, "Bez kategorii", -1});
+    list.append({-1, QObject::tr("Bez kategorii", "CategoryRepository"), -1});
     while (q.next())
         list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
 

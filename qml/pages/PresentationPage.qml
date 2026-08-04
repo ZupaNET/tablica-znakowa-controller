@@ -11,6 +11,7 @@ Item {
     property int currentSet
     property var currentScreen: null
     property int selectedScreenId: -1
+    property int selectedHymnId: -1
 
     property bool showHymnMode: false
 
@@ -43,6 +44,17 @@ Item {
                     )
                 )
             })
+        }
+    }
+
+    function findFirstScreenByHymnId(id) {
+        if(id < 0)
+            return
+
+        for (let i = 0; i < screensModel.rowCount(); i++) {
+            if (screensModel.get(i).hymnId === id) {
+                return i
+            }
         }
     }
 
@@ -94,8 +106,6 @@ Item {
 
     onVisibleChanged: {
         if (visible && screensView.currentIndex >= 0) {
-            screensModel.reload()
-
             let item = screensModel.get(screensView.currentIndex)
 
             TablicaConnector.buffer = item
@@ -338,7 +348,6 @@ Item {
                             Qt.resolvedUrl("ScreenEditorPage.qml"),
                             {
                                 screenIdx: screensView.currentIndex,
-                                hymnId: root1.currentScreen.hymnId,
                                 screenModel: screensModel
                             }
                         )
@@ -446,6 +455,11 @@ Item {
                 }
 
                 model: screensModel
+
+                Component.onCompleted: {
+                    if(root1.selectedHymnId > -1)
+                        screensView.currentIndex = root1.findFirstScreenByHymnId(root1.selectedHymnId)
+                }
 
                 delegate: SetViewItems {
                     id: setViewItemsDelegate

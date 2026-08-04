@@ -79,7 +79,8 @@ void PresentationModel::update(int row, const QString& text, int font)
         idx,
         {
             TextRole,
-            FontRole
+            FontRole,
+            ExcerptRole
         }
         );
 }

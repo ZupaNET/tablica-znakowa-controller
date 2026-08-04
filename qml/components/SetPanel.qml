@@ -8,13 +8,51 @@ Item {
     id: root
 
     property alias model: list.model
-    property int selectedId: -2
     property int pendingRemoveRow: -1
 
     signal selected(int id)
     signal addSet(string name)
     signal updateSet(int row, string name)
     signal removeSet(int row)
+
+    Connections {
+        target: root.model
+
+        function onRowsInserted(parent, first, last) {
+            if (last >= 0) {
+                Qt.callLater(function() {
+                    list.currentIndex = last
+                    root.selected(root.model.get(last).setId)
+                    list.positionViewAtIndex(last, ListView.End)
+                })
+            }
+        }
+
+        function onRowsRemoved(parent, first, last) {
+            if (first < 0)
+                return
+
+            if (list.currentIndex >= first && list.currentIndex <= last) {
+
+                let newIndex = first - 1
+
+                if (newIndex < 0 && list.count > 0)
+                    newIndex = 0
+
+                if (list.count === 0) {
+                    list.currentIndex = -1
+                    return
+                }
+
+                list.currentIndex = newIndex
+
+                root.selected(root.model.get(newIndex).setId)
+            }
+            else if (list.currentIndex > last) {
+                list.currentIndex -= (last - first + 1)
+            }
+        }
+    }
 
     Dialog {
         id: addDialog
@@ -142,22 +180,19 @@ Item {
                 policy: ScrollBar.AlwaysOn
             }
 
-            currentIndex: {
-                for (let i = 0; i < count; i++) {
-                    if (model.get(i).id === selectedId)
-                        return i
-                }
-
-                return -1
+            Component.onCompleted: {
+                list.currentIndex = -1
             }
 
             delegate: Rectangle {
+                id: wrapper
+
                 width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
                 height: 46
 
                 radius: 6
 
-                color: model.id === root.selectedId ? "#d7ecff" : "#f4f4f4"
+                color: wrapper.ListView.isCurrentItem ? "#d7ecff" : "#f4f4f4"
                 border.color: "#d0d0d0"
 
                 RowLayout {
@@ -170,7 +205,7 @@ Item {
 
                         text: model.name
 
-                        font.bold: ListView.isCurrentItem
+                        font.bold: wrapper.ListView.isCurrentItem
                         elide: Text.ElideRight
                     }
 

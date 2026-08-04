@@ -7,9 +7,6 @@ import Prezenter
 Item {
     id: root
 
-    property int selectedCategoryId: -1
-    property int selectedHymnId: -1
-
     CategoryModel {
         id: categoryModel
 
@@ -19,6 +16,8 @@ Item {
 
     CategoryHymnModel {
         id: hymnModel
+
+        parentId: -2
 
         Component.onCompleted:
             reload()
@@ -78,7 +77,7 @@ Item {
             Button {
                 text: qsTr("Prezentuj >")
 
-                enabled: root.selectedHymnId >= 0
+                enabled: screenModel.hymnId >= 0
 
                 anchors {
                     right: parent.right
@@ -90,7 +89,7 @@ Item {
                 Material.foreground: "white"
 
                 onClicked: {
-                    Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet": root.selectedHymnId, "showHymnMode": true})
+                    Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet": screenModel.hymnId, "showHymnMode": true})
                 }
             }
         }
@@ -115,15 +114,10 @@ Item {
 
                 model: categoryModel
 
-                selectedId: root.selectedCategoryId
-
                 onSelected: id => {
-                    root.selectedCategoryId = id
-
                     hymnModel.parentId = id
-
-                    root.selectedHymnId = -1
                     screenModel.hymnId = -1
+                    hymnPanel.resetSelection()
                 }
 
                 onAddCategory: name => {
@@ -135,11 +129,9 @@ Item {
                 }
 
                 onRemoveCategory: row => {
-                    if(categoryModel.get(row).categoryId === root.selectedCategoryId)
-                    {
+                    if(categoryModel.get(row).categoryId === hymnModel.parentId)
                         hymnModel.parentId = -1
-                        root.selectedCategoryId = -1
-                    }
+
                     categoryModel.removeRow(row)
                     hymnModel.reload()
                 }
@@ -151,15 +143,13 @@ Item {
             }
 
             HymnPanel {
+                id: hymnPanel
                 Layout.fillHeight: true
                 Layout.preferredWidth: parent.width * 0.35
 
                 model: hymnModel
 
-                selectedId: root.selectedHymnId
-
                 onSelected: id => {
-                    root.selectedHymnId = id
                     screenModel.hymnId = id
                 }
 
@@ -177,8 +167,7 @@ Item {
                 }
 
                 onRemoveHymn: row => {
-                    if (hymnModel.get(row).hymnId === root.selectedHymnId) {
-                        root.selectedHymnId = -1
+                    if (hymnModel.get(row).hymnId === screenModel.hymnId) {
                         screenModel.hymnId = -1
                         screenModel.reload()
                     }
@@ -197,7 +186,6 @@ Item {
                         Qt.resolvedUrl("ScreenEditorPage.qml"),
                         {
                             screenIdx: row,
-                            hymnId: root.selectedHymnId,
                             screenModel: screenModel
                         }
                     )
@@ -207,7 +195,6 @@ Item {
                     Navigation.push(
                         Qt.resolvedUrl("ScreenEditorPage.qml"),
                         {
-                            hymnId: root.selectedHymnId,
                             screenModel: screenModel,
                         }
                     )

@@ -8,7 +8,6 @@ Item {
     id: root
 
     property alias model: list.model
-    property int selectedId: -2
     property int pendingRemoveRow: -1
     property string categorySearchText: ""
 
@@ -17,6 +16,45 @@ Item {
     signal updateCategory(int row, string name)
     signal removeCategory(int row)
     signal moveCategory(int from, int to)
+
+    Connections {
+        target: root.model
+
+        function onRowsInserted(parent, first, last) {
+            if (last >= 0) {
+                Qt.callLater(function() {
+                    list.currentIndex = last
+                    root.selected(root.model.get(last).categoryId)
+                    list.positionViewAtIndex(last, ListView.End)
+                })
+            }
+        }
+
+        function onRowsRemoved(parent, first, last) {
+            if (first < 0)
+                return
+
+            if (list.currentIndex >= first && list.currentIndex <= last) {
+
+                let newIndex = first - 1
+
+                if (newIndex < 0 && list.count > 0)
+                    newIndex = 0
+
+                if (list.count === 0) {
+                    list.currentIndex = -1
+                    return
+                }
+
+                list.currentIndex = newIndex
+
+                root.selected(root.model.get(newIndex).categoryId)
+            }
+            else if (list.currentIndex > last) {
+                list.currentIndex -= (last - first + 1)
+            }
+        }
+    }
 
     Dialog {
         id: addDialog
@@ -89,6 +127,7 @@ Item {
             const name = newCategoryName.text.trim()
             if (name.length > 0)
                 root.updateCategory(categoryRow, name)
+
         }
     }
 
@@ -153,16 +192,12 @@ Item {
                 policy: ScrollBar.AlwaysOn
             }
 
-            currentIndex: {
-                for (let i = 0; i < count; i++) {
-                    if (model.get(i).id === selectedId)
-                        return i
-                }
-
-                return -1
+            Component.onCompleted: {
+                list.currentIndex = -1
             }
 
             delegate: Item {
+                id: wrapper
                 width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
 
                 property bool filteredOut: {
@@ -192,7 +227,7 @@ Item {
 
                     radius: 6
 
-                    color: model.id === root.selectedId ? "#d7ecff" : "#f4f4f4"
+                    color: wrapper.ListView.isCurrentItem ? "#d7ecff" : "#f4f4f4"
                     border.color: "#d0d0d0"
 
                     RowLayout {
@@ -205,14 +240,14 @@ Item {
 
                             text: model.name === "" ? qsTr("Bez kategorii") : model.name
 
-                            font.bold: ListView.isCurrentItem
+                            font.bold: wrapper.ListView.isCurrentItem
                             elide: Text.ElideRight
                         }
 
                         ToolButton {
                             text: MdiFont.Icon.arrowUp
 
-                            enabled: model.id >= 0 && index > 1
+                            enabled: model.id >= 0 && index > 1 && root.categorySearchText == ""
                             visible: model.id >= 0
 
                             font.family: "Material Design Icons"
@@ -229,7 +264,7 @@ Item {
                             font.family: "Material Design Icons"
                             font.pixelSize: 20
 
-                            enabled: model.id >= 0 && index < list.count - 1
+                            enabled: model.id >= 0 && index < list.count - 1 && root.categorySearchText == ""
                             visible: model.id >= 0
 
                             onClicked: {
@@ -279,12 +314,12 @@ Item {
                                 }
                             }
                         }
-                    }
 
-                    TapHandler {
-                        onTapped: {
-                            list.currentIndex = index
-                            root.selected(model.id)
+                        TapHandler  {
+                            onTapped: {
+                                list.currentIndex = index
+                                root.selected(model.id)
+                            }
                         }
                     }
                 }
