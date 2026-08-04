@@ -144,6 +144,10 @@ Item {
                     hymnModel.reload()
                 }
 
+                onMoveCategory: (from, to) => {
+                    categoryModel.move(from, to)
+                }
+
             }
 
             HymnPanel {

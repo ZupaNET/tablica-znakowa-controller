@@ -11,11 +11,11 @@ QList<Category> CategoryRepository::getAll() {
     QSqlQuery q(
         DatabaseConnector::instance().db()
     );
-    q.prepare("SELECT Id, Name FROM Categories");
+    q.prepare("SELECT Id, Name, DisplayOrder FROM Categories ORDER BY DisplayOrder");
     q.exec();
-    list.append({-1, "Bez kategorii"});
+    list.append({-1, "Bez kategorii", -1});
     while (q.next())
-        list.append({q.value(0).toInt(), q.value(1).toString()});
+        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
 
     return list;
 }
@@ -24,7 +24,15 @@ Category CategoryRepository::create(const QString &name)
 {
     QSqlQuery q(DatabaseConnector::instance().db());
 
-    q.prepare("INSERT INTO Categories(Name) VALUES(?)");
+    q.prepare(R"(
+        INSERT INTO Categories(Name, DisplayOrder)
+        VALUES(
+            ?,
+            (SELECT COALESCE(MAX(DisplayOrder) + 1, 0)
+             FROM Categories)
+        )
+    )");
+
     q.addBindValue(name);
 
     if (!q.exec()) {
@@ -35,10 +43,11 @@ Category CategoryRepository::create(const QString &name)
     int id = q.lastInsertId().toInt();
 
     q.prepare(R"(
-        SELECT Id, Name
+        SELECT Id, Name, DisplayOrder
         FROM Categories
         WHERE Id = ?
     )");
+
     q.addBindValue(id);
 
     if (!q.exec() || !q.next()) {
@@ -48,7 +57,8 @@ Category CategoryRepository::create(const QString &name)
 
     return {
         q.value(0).toInt(),
-        q.value(1).toString()
+        q.value(1).toString(),
+        q.value(2).toInt()
     };
 }
 
@@ -107,4 +117,55 @@ QList<Hymn> CategoryRepository::getHymns(int categoryId) {
         });
     }
     return list;
+}
+
+void CategoryRepository::move(int categoryId, int from, int to)
+{
+    auto db = DatabaseConnector::instance().db();
+
+    db.transaction();
+
+    QSqlQuery q(db);
+
+    if (from < to)
+    {
+        q.prepare(R"(
+            UPDATE Categories
+            SET DisplayOrder = DisplayOrder - 1
+            WHERE DisplayOrder > ?
+              AND DisplayOrder <= ?
+        )");
+
+        q.addBindValue(from);
+        q.addBindValue(to);
+
+        q.exec();
+    }
+    else
+    {
+        q.prepare(R"(
+            UPDATE Categories
+            SET DisplayOrder = DisplayOrder + 1
+            WHERE DisplayOrder >= ?
+              AND DisplayOrder < ?
+        )");
+
+        q.addBindValue(to);
+        q.addBindValue(from);
+
+        q.exec();
+    }
+
+    q.prepare(R"(
+        UPDATE Categories
+        SET DisplayOrder = ?
+        WHERE Id = ?
+    )");
+
+    q.addBindValue(to);
+    q.addBindValue(categoryId);
+
+    q.exec();
+
+    db.commit();
 }

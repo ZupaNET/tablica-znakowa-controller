@@ -16,6 +16,9 @@ QVariant CategoryModel::data(const QModelIndex& index, int role) const
 
     case NameRole:
         return item.name;
+
+    case OrderRole:
+        return item.order;
     }
 
     return {};
@@ -34,14 +37,18 @@ void CategoryModel::reload()
 
 void CategoryModel::add(QString name)
 {
-    Category s = repo.create(name);
+    Category category = repo.create(name);
 
-    beginInsertRows({}, m_data.size(), m_data.size());
+    if(category.id < 0)
+        return;
 
-    m_data.append(Category{
-        s.id,
-        name
-    });
+    beginInsertRows(
+        {},
+        m_data.size(),
+        m_data.size()
+        );
+
+    m_data.append(category);
 
     endInsertRows();
 }
@@ -60,6 +67,24 @@ void CategoryModel::update(int row, const QString& name)
     QModelIndex idx = index(row);
 
     emit dataChanged(idx, idx, {NameRole});
+}
+
+void CategoryModel::move(int from, int to)
+{
+    if(from <= 0 || to <= 0)
+        return;
+
+    if (from == to ||
+        from < 0 || from >= m_data.size() ||
+        to   < 0 || to   >= m_data.size())
+        return;
+
+    beginMoveRows({}, from, from, {}, from < to ? to + 1 : to);
+    m_data.move(from, to);
+    endMoveRows();
+
+    int movedId = m_data[to].id;
+    repo.move(movedId, from-1, to-1);
 }
 
 void CategoryModel::removeRow(int row)

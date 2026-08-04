@@ -16,6 +16,7 @@ Item {
     signal addCategory(string name)
     signal updateCategory(int row, string name)
     signal removeCategory(int row)
+    signal moveCategory(int from, int to)
 
     Dialog {
         id: addDialog
@@ -209,35 +210,73 @@ Item {
                         }
 
                         ToolButton {
-                            text: MdiFont.Icon.pencil
+                            text: MdiFont.Icon.arrowUp
 
-                            enabled: model.id >= 0
+                            enabled: model.id >= 0 && index > 1
                             visible: model.id >= 0
 
                             font.family: "Material Design Icons"
                             font.pixelSize: 20
 
                             onClicked: {
-                                updateDialog.initialName = model.name
-                                updateDialog.categoryRow = index
-                                updateDialog.open()
+                                root.moveCategory(index, index - 1)
                             }
                         }
 
                         ToolButton {
-                            text: MdiFont.Icon.delete
-
-                            enabled: model.id >= 0
-                            visible: model.id >= 0
+                            text: MdiFont.Icon.arrowDown
 
                             font.family: "Material Design Icons"
                             font.pixelSize: 20
 
-                            Material.foreground: "firebrick"
+                            enabled: model.id >= 0 && index < list.count - 1
+                            visible: model.id >= 0
 
                             onClicked: {
-                                root.pendingRemoveRow = index
-                                deleteDialog.open()
+                                root.moveCategory(index, index + 1)
+                            }
+                        }
+
+                        ToolButton {
+                            id: moreButton
+
+                            visible: model.id >= 0
+
+                            text: MdiFont.Icon.dotsVertical
+
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 22
+
+                            onClicked:
+                                menu.open()
+                        }
+
+
+                        Menu {
+                            id: menu
+                            y: moreButton.height
+
+                            MenuItem {
+                                text: qsTr("Edytuj")
+
+                                onTriggered: {
+                                    updateDialog.initialName = model.name
+                                    updateDialog.categoryRow = index
+                                    updateDialog.open()
+                                }
+                            }
+
+                            MenuSeparator {}
+
+                            MenuItem {
+                                text: qsTr("Usuń")
+
+                                Material.foreground: "firebrick"
+
+                                onTriggered: {
+                                    root.pendingRemoveRow = index
+                                    deleteDialog.open()
+                                }
                             }
                         }
                     }
