@@ -113,7 +113,7 @@ private:
     QSettings m_settings;
 
     QString m_screenCustomText;
-    int m_screenCustomFont;
+    int m_screenCustomFont = 2;
     QString m_screenView;
     QString m_screenViewButtons;
     QString m_setView;

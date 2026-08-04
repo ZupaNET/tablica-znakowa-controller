@@ -13,7 +13,7 @@ Item {
     property int screenIdx: -1
 
     property string initialText: ""
-    property int initialFont: 0
+    property int initialFont: 2
 
     Component.onCompleted: {
         if (root.screenIdx >= 0 && root.screenModel) {

@@ -150,15 +150,7 @@ bool TablicaConnector::sendScreen(const Screen& scr) {
 
 bool TablicaConnector::clearScreen()
 {
-    auto emptyScreen = Screen{
-        -1,
-        -1,
-        tr("Pusty"),
-        "",
-        -1,
-        0,
-        true
-    };
+    auto emptyScreen = Screen::emptyScreen();
 
     return sendScreen(emptyScreen);
 }

@@ -150,15 +150,7 @@ Q_INVOKABLE void PresentationModel::reload() {
     else
     {
         QList<Screen> list;
-        auto emptyScreen = Screen{
-            -1,
-            -1,
-            tr("Pusty"),
-            "",
-            -1,
-            0,
-            true
-        };
+        auto emptyScreen = Screen::emptyScreen();
         list.append(screenRepo.getByHymn(m_setId));
         list.append(emptyScreen);
         updateData(list);

@@ -39,6 +39,19 @@ public:
     {
         return !(*this == other);
     }
+
+    static Screen emptyScreen()
+    {
+        return Screen{
+            -1,
+            -1,
+            QObject::tr("Pusty", "Screen"),
+            "",
+            -1,
+            2,
+            true
+        };
+    }
 };
 Q_DECLARE_METATYPE(Screen);
 
