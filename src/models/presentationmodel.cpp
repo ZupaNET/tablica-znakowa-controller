@@ -159,8 +159,8 @@ Q_INVOKABLE void PresentationModel::reload() {
             0,
             true
         };
-        list.append(emptyScreen);
         list.append(screenRepo.getByHymn(m_setId));
+        list.append(emptyScreen);
         updateData(list);
     }
 }
