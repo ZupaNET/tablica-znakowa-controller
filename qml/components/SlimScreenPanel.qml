@@ -8,7 +8,7 @@ Item {
     id: root
 
     property alias model: list.model
-    property bool showPreview: true
+    property bool showPreview: false
 
     signal changeAllScreens(bool visible)
     signal toggleScreen(int row, bool visible)

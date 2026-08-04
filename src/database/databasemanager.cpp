@@ -91,10 +91,12 @@ bool DatabaseManager::importDatabase(const QString& sourceUrl)
 
 bool DatabaseManager::exportDatabase(const QString& destinationUrl)
 {
+    qDebug() << "Ścieżka docelowa:" << destinationUrl;
+
     const QString sourcePath = DatabaseConnector::getDatabasePath();
+    qDebug() << "Eksport z:" << sourcePath;
 
     QUrl url(destinationUrl);
-
     QString destinationPath;
 
     if (url.isLocalFile()) {
@@ -103,9 +105,7 @@ bool DatabaseManager::exportDatabase(const QString& destinationUrl)
         destinationPath = destinationUrl;
     }
 
-    qDebug() << "Eksport bazy:";
-    qDebug() << "Źródło:" << sourcePath;
-    qDebug() << "Cel:" << destinationPath;
+    qDebug() << "Rzeczywista ścieżka docelowa:" << destinationPath;
 
     QSqlDatabase db = DatabaseConnector::instance().db();
 
@@ -113,32 +113,45 @@ bool DatabaseManager::exportDatabase(const QString& destinationUrl)
         db.close();
     }
 
+#ifndef Q_OS_ANDROID
+
     if (QFile::exists(destinationPath)) {
         if (!QFile::remove(destinationPath)) {
             qWarning() << "Nie można usunąć istniejącego pliku eksportu";
             return false;
         }
     }
+#endif
 
     QFile source(sourcePath);
-    if (!source.exists()) {
-        qWarning() << "Nie znaleziono bazy:" << sourcePath;
+    if (!source.open(QIODevice::ReadOnly)) {
+        qWarning() << "Nie udało się otworzyć źródła:"
+                   << source.errorString();
         return false;
     }
 
-    if (!QFile::copy(sourcePath, destinationPath)) {
-        qWarning() << "Nie udało się skopiować bazy";
+    QFile destination(destinationPath);
+    if (!destination.open(QIODevice::WriteOnly)) {
+        qWarning() << "Nie udało się otworzyć celu:"
+                   << destination.errorString();
         return false;
     }
+
+    if (destination.write(source.readAll()) == -1) {
+        qWarning() << "Błąd zapisu:"
+                   << destination.errorString();
+        return false;
+    }
+
+    source.close();
+    destination.close();
 
     if (!DatabaseConnector::instance().init(sourcePath)) {
-        qWarning() << "Nie udało się ponownie otworzyć bazy";
+        qWarning() << "Nie udało się ponownie otworzyć bazy danych.";
         return false;
     }
 
-
-    qDebug() << "Eksport zakończony powodzeniem";
-
+    qDebug() << "Eksportowanie zakończone powodzeniem.";
     return true;
 }
 

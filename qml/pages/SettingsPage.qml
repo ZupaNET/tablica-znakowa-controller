@@ -36,6 +36,8 @@ Item {
 
             nameFilters: [qsTr("Śpiewnik (*.db)")]
 
+            currentFile: qsTr("spiewnik.db")
+
             onAccepted: {
                 if(!DatabaseManager.exportDatabase(selectedFile))
                     infoPopup.show(qsTr("Wystąpił problem podczas zapisywania śpiewnika"))
