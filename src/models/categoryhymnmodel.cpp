@@ -2,9 +2,12 @@
 
 QVariant CategoryHymnModel::data(const QModelIndex& index, int role) const
 {
-    const Hymn& item =
-        m_data[index.row()];
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
+    {
+        return {};
+    }
 
+    const Hymn& item = m_data[index.row()];
 
     switch(role)
     {
@@ -29,9 +32,17 @@ QHash<int,QByteArray> CategoryHymnModel::roleNames() const
 
 void CategoryHymnModel::add(QString name)
 {
-    hymnRepo.create(name, m_parentId);
+    Hymn s = hymnRepo.create(name, m_parentId);
 
-    reload();
+    beginInsertRows({}, m_data.size(), m_data.size());
+
+    m_data.append(Hymn{
+        s.id,
+        name,
+        m_parentId
+    });
+
+    endInsertRows();
 }
 
 
@@ -60,11 +71,9 @@ void CategoryHymnModel::changeCategory(int row, int newCategoryId)
 
     hymnRepo.update(s.id, s.name, s.categoryId);
 
-    QModelIndex idx = index(row);
-
-    emit dataChanged(idx, idx, {CategoryRole});
-
-    reload();
+    beginRemoveRows({}, row, row);
+    m_data.removeAt(row);
+    endRemoveRows();
 }
 
 void CategoryHymnModel::removeRow(int row)
@@ -72,11 +81,12 @@ void CategoryHymnModel::removeRow(int row)
     if(row < 0 || row >= m_data.size())
         return;
 
-    hymnRepo.remove(
-        m_data[row].id
-        );
+    beginRemoveRows({}, row, row);
 
-    reload();
+    hymnRepo.remove(m_data[row].id);
+    m_data.removeAt(row);
+
+    endRemoveRows();
 }
 
 void CategoryHymnModel::reload()

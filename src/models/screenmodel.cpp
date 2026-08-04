@@ -14,12 +14,12 @@ void ScreenModel::setHymnId(int id) {
 
 QVariant ScreenModel::data(const QModelIndex& index,int role) const
 {
-    if(!index.isValid())
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
+    {
         return {};
-
+    }
 
     const Screen& item = m_data[index.row()];
-
 
     switch(role)
     {
@@ -42,16 +42,17 @@ QVariant ScreenModel::data(const QModelIndex& index,int role) const
         return item.font;
 
     case ExcerptRole:
-        QStringList lines = item.text.split('\n');
+    {
+        const QStringList lines = item.text.split('\n');
 
-        for (const auto& line : std::as_const(lines))
+        for (const QString &line : lines)
         {
             if (!line.trimmed().isEmpty())
                 return line.trimmed();
         }
 
         return "";
-
+    }
     }
 
 
@@ -69,9 +70,21 @@ void ScreenModel::reload()
     else updateData(repo.getByHymn(m_hymnId));
 }
 
-Q_INVOKABLE void ScreenModel::add(QString text, int font) {
-    repo.create(m_hymnId,text,font);
-    reload();
+void ScreenModel::add(QString text, int font) {
+    Screen s = repo.create(m_hymnId, text, font);
+
+    beginInsertRows({}, m_data.size(), m_data.size());
+
+    m_data.append(Screen{
+        s.id,
+        m_hymnId,
+        s.hymnName,
+        text,
+        s.order,
+        font
+    });
+
+    endInsertRows();
 }
 
 void ScreenModel::update(int row, const QString& text, int font)
@@ -81,24 +94,31 @@ void ScreenModel::update(int row, const QString& text, int font)
 
     auto& s = m_data[row];
 
+    QString newText = s.text;
+    int newFont = s.font;
+
     if (!text.isNull())
-        s.text = text;
+        newText = text;
 
     if (font >= 0)
-        s.font = font;
+        newFont = font;
 
-    repo.update(s.id, s.text, s.font);
+    repo.update(s.id, newText, newFont);
+
+    s.text = newText;
+    s.font = newFont;
 
     QModelIndex idx = index(row);
 
-    emit dataChanged(
-        idx,
-        idx,
-        {
-            TextRole,
-            FontRole
-        }
-        );
+    QVector<int> roles;
+
+    if (!text.isNull())
+        roles << TextRole;
+
+    if (font >= 0)
+        roles << FontRole;
+
+    emit dataChanged(idx, idx, roles);;
 }
 
 void ScreenModel::duplicate(int row)
@@ -108,13 +128,30 @@ void ScreenModel::duplicate(int row)
 
     auto& s = m_data[row];
 
-    repo.create(m_hymnId, s.text, s.font);
-    reload();
+    Screen a = repo.create(m_hymnId, s.text, s.font);
+
+    beginInsertRows({}, m_data.size(), m_data.size());
+
+    m_data.append(Screen{
+        a.id,
+        m_hymnId,
+        a.hymnName,
+        a.text,
+        a.order,
+        a.font
+    });
+
+    endInsertRows();
 }
 
-Q_INVOKABLE void ScreenModel::removeRow(int row) {
+void ScreenModel::removeRow(int row) {
+    beginRemoveRows({}, row, row);
+
     repo.remove(m_data[row].id);
-    reload();
+
+    m_data.removeAt(row);
+
+    endRemoveRows();
 }
 
 void ScreenModel::move(int from, int to)

@@ -31,8 +31,20 @@ void SetModel::reload()
 
 void SetModel::add(QString name)
 {
-    repo.create(name);
-    reload();
+    Set s = repo.create(name);
+
+    beginInsertRows(
+        {},
+        m_data.size(),
+        m_data.size()
+        );
+
+    m_data.append(Set{
+        s.id,
+        name
+    });
+
+    endInsertRows();
 }
 
 void SetModel::update(int row, const QString& name)
@@ -53,11 +65,22 @@ void SetModel::update(int row, const QString& name)
 
 void SetModel::removeRow(int row)
 {
-    repo.remove(
-        m_data[row].id
+    if(row < 0 || row >= m_data.size())
+        return;
+
+    int id = m_data[row].id;
+
+    repo.remove(id);
+
+    beginRemoveRows(
+        {},
+        row,
+        row
         );
 
-    reload();
+    m_data.removeAt(row);
+
+    endRemoveRows();
 }
 
 Set SetModel::get(int index) const{

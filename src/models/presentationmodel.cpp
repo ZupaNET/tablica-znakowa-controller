@@ -24,6 +24,11 @@ void PresentationModel::setHymnMode(bool enable)
 }
 
 QVariant PresentationModel::data(const QModelIndex& index, int role) const {
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
+    {
+        return {};
+    }
+
     auto& s = m_data[index.row()];
     if (role==IdRole) return s.id;
     if (role==ScreenRole) return QVariant::fromValue(s);
@@ -84,9 +89,57 @@ void PresentationModel::changeScreenVisibility(int row, bool shown)
     if(m_setId < 0 || m_hymnMode)
         return;
 
-    setRepo.changeScreenVisibility(m_setId, get(row).id, shown);
+    if (row < 0 || row >= m_data.size())
+        return;
 
-    reload();
+    Screen screen = m_data[row];
+
+    if (screen.shown == shown)
+        return;
+
+    setRepo.changeScreenVisibility(m_setId, screen.id, shown);
+
+    if (!shown)
+    {
+        beginRemoveRows({}, row, row);
+
+        m_data.removeAt(row);
+
+        endRemoveRows();
+
+        return;
+    }
+
+    const QList<Screen> allScreens = service.build(m_setId, true);
+
+    Screen restored;
+    bool found = false;
+
+    int insertRow = 0;
+
+    for (const Screen &s : allScreens)
+    {
+        if (s.id == screen.id)
+        {
+            restored = s;
+            restored.shown = true;
+            found = true;
+            break;
+        }
+
+        if (s.shown)
+            ++insertRow;
+    }
+
+    if (!found)
+        return;
+
+    beginInsertRows({}, insertRow, insertRow);
+
+    m_data.insert(insertRow, restored);
+
+    endInsertRows();
+
 }
 
 Q_INVOKABLE void PresentationModel::reload() {

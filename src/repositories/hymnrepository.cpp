@@ -60,17 +60,44 @@ QList<Hymn> HymnRepository::getByCategory(int categoryId) {
     return list;
 }
 
-int HymnRepository::create(const QString& name, int categoryId) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("INSERT INTO Hymns (Name, CategoryId) VALUES (?, ?)");
-    q.addBindValue(name);
-    if (categoryId < 0) q.addBindValue(QVariant(QMetaType::fromType<int>()));
-    else q.addBindValue(categoryId);
+Hymn HymnRepository::create(const QString &name, int categoryId)
+{
+    QSqlQuery q(DatabaseConnector::instance().db());
 
-    if (!q.exec()) qCritical() << q.lastError();
-    return q.lastInsertId().toInt();
+    q.prepare("INSERT INTO Hymns(Name, CategoryId) VALUES(?, ?)");
+
+    q.addBindValue(name);
+
+    if (categoryId < 0)
+        q.addBindValue(QVariant(QMetaType::fromType<int>()));
+    else
+        q.addBindValue(categoryId);
+
+    if (!q.exec()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    int id = q.lastInsertId().toInt();
+
+    q.prepare(R"(
+        SELECT Id, Name, CategoryId
+        FROM Hymns
+        WHERE Id = ?
+    )");
+
+    q.addBindValue(id);
+
+    if (!q.exec() || !q.next()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    return {
+        q.value(0).toInt(),
+        q.value(1).toString(),
+        categoryId
+    };
 }
 
 void HymnRepository::update(int id, const QString& name, int categoryId) {

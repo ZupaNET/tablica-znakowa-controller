@@ -2,8 +2,10 @@
 
 QVariant CategoryModel::data(const QModelIndex& index, int role) const
 {
-    if(!index.isValid())
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
+    {
         return {};
+    }
 
     const Category& item = m_data[index.row()];
 
@@ -32,8 +34,16 @@ void CategoryModel::reload()
 
 void CategoryModel::add(QString name)
 {
-    repo.create(name);
-    reload();
+    Category s = repo.create(name);
+
+    beginInsertRows({}, m_data.size(), m_data.size());
+
+    m_data.append(Category{
+        s.id,
+        name
+    });
+
+    endInsertRows();
 }
 
 void CategoryModel::update(int row, const QString& name)
@@ -43,9 +53,9 @@ void CategoryModel::update(int row, const QString& name)
 
     auto &s = m_data[row];
 
-    s.name = name;
+    repo.update(s.id, name);
 
-    repo.update(s.id, s.name);
+    s.name = name;
 
     QModelIndex idx = index(row);
 
@@ -57,8 +67,13 @@ void CategoryModel::removeRow(int row)
     if(row < 0 || row >= m_data.size())
         return;
 
+    beginRemoveRows({}, row, row);
+
     repo.remove(m_data[row].id);
-    reload();
+
+    m_data.removeAt(row);
+
+    endRemoveRows();
 }
 
 Q_INVOKABLE Category CategoryModel::get(int index) const{

@@ -20,14 +20,37 @@ QList<Set> SetRepository::getAll() {
     return list;
 }
 
-int SetRepository::create(QString name) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("INSERT INTO Sets (Name) VALUES (?)");
+Set SetRepository::create(const QString &name)
+{
+    QSqlQuery q(DatabaseConnector::instance().db());
+
+    q.prepare("INSERT INTO Sets(Name) VALUES(?)");
     q.addBindValue(name);
-    q.exec();
-    return q.lastInsertId().toInt();
+
+    if (!q.exec()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    int id = q.lastInsertId().toInt();
+
+    q.prepare(R"(
+        SELECT Id, Name
+        FROM Sets
+        WHERE Id = ?
+    )");
+
+    q.addBindValue(id);
+
+    if (!q.exec() || !q.next()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    return {
+        q.value(0).toInt(),
+        q.value(1).toString()
+    };
 }
 
 void SetRepository::update(int id, QString name) {
@@ -131,7 +154,7 @@ QList<Screen> SetRepository::getScreens(int setId, int hymnId)
     return list;
 }
 
-void SetRepository::addHymn(int setId, int hymnId) {
+Hymn SetRepository::addHymn(int setId, int hymnId) {
     QSqlQuery q(
         DatabaseConnector::instance().db()
     );
@@ -144,7 +167,26 @@ void SetRepository::addHymn(int setId, int hymnId) {
     q.addBindValue(setId);
     q.addBindValue(hymnId);
     q.addBindValue(setId);
-    q.exec(); 
+    q.exec();
+
+    q.prepare(R"(
+        SELECT Id, Name, CategoryId
+        FROM Hymns
+        WHERE Id = ?
+    )");
+
+    q.addBindValue(hymnId);
+
+    if (!q.exec() || !q.next()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    return {
+        q.value(0).toInt(),
+        q.value(1).toString(),
+        q.value(2).toInt()
+    };
 }
 
 void SetRepository::removeHymn(int setId, int hymnId)

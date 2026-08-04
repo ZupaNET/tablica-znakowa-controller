@@ -23,24 +23,62 @@ QList<Screen> ScreenRepository::getByHymn(int hymnId) {
     return list;
 }
 
-int ScreenRepository::create(int hymnId, QString text, int font) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
+Screen ScreenRepository::create(int hymnId, const QString &text, int font)
+{
+    QSqlQuery q(DatabaseConnector::instance().db());
+
     q.prepare(R"(
-            INSERT INTO Screens (HymnId, Text, DisplayOrder, Font)
-            VALUES (?, ?,
-                (SELECT COALESCE(MAX(DisplayOrder)+1,0) FROM Screens WHERE HymnId=?),
-                ?)
-        )");
+        INSERT INTO Screens(HymnId, Text, DisplayOrder, Font)
+        VALUES(
+            ?, ?,
+            (
+                SELECT COALESCE(MAX(DisplayOrder)+1, 0)
+                FROM Screens
+                WHERE HymnId=?
+            ),
+            ?
+        )
+    )");
 
     q.addBindValue(hymnId);
     q.addBindValue(text);
     q.addBindValue(hymnId);
     q.addBindValue(font);
-    q.exec();
 
-    return q.lastInsertId().toInt();
+    if (!q.exec()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    int id = q.lastInsertId().toInt();
+
+    q.prepare(R"(
+        SELECT
+            Screens.Id,
+            HymnId,
+            Hymns.Name
+            Text,
+            DisplayOrder,
+            Font
+        FROM Screens JOIN Hymns ON Screens.HymnId = Hymns.Id
+        WHERE Screens.Id = ?
+    )");
+
+    q.addBindValue(id);
+
+    if (!q.exec() || !q.next()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    return {
+        q.value(0).toInt(),   // Id
+        q.value(1).toInt(),   // HymnId
+        q.value(2).toString(),// HymnName
+        q.value(3).toString(),// Text
+        q.value(4).toInt(),   // Order
+        q.value(5).toInt()    // Font
+    };
 }
 
 void ScreenRepository::update(int id, QString text, int font) {

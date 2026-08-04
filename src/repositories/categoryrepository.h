@@ -10,7 +10,7 @@ class CategoryRepository
 public:
     CategoryRepository();
     QList<Category> getAll();
-    int create(QString name);
+    Category create(const QString& name);
     void update(int id, QString name);
     void remove(int id);
     QList<Hymn> getHymns(int categoryId);

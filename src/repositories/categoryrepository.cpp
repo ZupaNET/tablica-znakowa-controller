@@ -20,14 +20,36 @@ QList<Category> CategoryRepository::getAll() {
     return list;
 }
 
-int CategoryRepository::create(QString name) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("INSERT INTO Categories (Name) VALUES (?)");
+Category CategoryRepository::create(const QString &name)
+{
+    QSqlQuery q(DatabaseConnector::instance().db());
+
+    q.prepare("INSERT INTO Categories(Name) VALUES(?)");
     q.addBindValue(name);
-    q.exec();
-    return q.lastInsertId().toInt();
+
+    if (!q.exec()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    int id = q.lastInsertId().toInt();
+
+    q.prepare(R"(
+        SELECT Id, Name
+        FROM Categories
+        WHERE Id = ?
+    )");
+    q.addBindValue(id);
+
+    if (!q.exec() || !q.next()) {
+        qCritical() << q.lastError();
+        return {};
+    }
+
+    return {
+        q.value(0).toInt(),
+        q.value(1).toString()
+    };
 }
 
 void CategoryRepository::update(int id, QString name) {

@@ -2,8 +2,10 @@
 
 QVariant SetHymnModel::data(const QModelIndex& index, int role) const
 {
-    const Hymn& item =
-        m_data[index.row()];
+    if (!index.isValid() || index.row() >= m_data.size())
+        return {};
+
+    const Hymn& item = m_data[index.row()];
 
     switch(role)
     {
@@ -36,16 +38,26 @@ QList<Hymn> SetHymnModel::fetch(int id)
     return repo.getHymns(id);
 }
 
-void SetHymnModel::addHymn(int hymnId) {
-    repo.addHymn(m_parentId, hymnId);
-    reload();
+void SetHymnModel::addHymn(int hymnId)
+{
+    Hymn hymn = repo.addHymn(m_parentId, hymnId);
+
+    int row = m_data.size();
+
+    beginInsertRows({}, row, row);
+    m_data.append(hymn);
+    endInsertRows();
 }
 
 void SetHymnModel::removeHymn(int row) {
-    if (row < 0 || row >= m_data.size()) return;
+    if (row < 0 || row >= m_data.size())
+        return;
 
     repo.removeHymn(m_parentId, m_data[row].id);
-    reload();
+
+    beginRemoveRows({}, row, row);
+    m_data.removeAt(row);
+    endRemoveRows();
 }
 
 void SetHymnModel::move(int from, int to)

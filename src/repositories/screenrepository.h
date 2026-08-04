@@ -8,7 +8,7 @@ class ScreenRepository
 {
 public:
     QList<Screen> getByHymn(int hymnId);
-    int create(int hymnId, QString text, int font);
+    Screen create(int hymnId, const QString& text, int font);
     void update(int id, QString text, int font);
     void remove(int id);
     void move(int hymnId, int screenId, int from, int to);

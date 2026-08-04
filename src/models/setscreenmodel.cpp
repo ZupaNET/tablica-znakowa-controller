@@ -108,9 +108,29 @@ void SetScreenModel::changeScreenVisibility(int row, bool shown)
     if(m_setId < 0)
         return;
 
-    repo.changeScreenVisibility(m_setId, get(row).id, shown);
+    if(row < 0 || row >= m_data.size())
+        return;
 
-    reload();
+    auto& screen = m_data[row];
+
+    if(screen.shown == shown)
+        return;
+
+    repo.changeScreenVisibility(
+        m_setId,
+        screen.id,
+        shown
+        );
+
+    screen.shown = shown;
+
+    QModelIndex idx = index(row);
+
+    emit dataChanged(
+        idx,
+        idx,
+        {ShownRole}
+        );
 }
 
 void SetScreenModel::changeAllScreenVisibility(bool shown)
@@ -118,9 +138,31 @@ void SetScreenModel::changeAllScreenVisibility(bool shown)
     if(m_setId < 0 || m_hymnId < 0)
         return;
 
-    repo.changeScreenVisibilityByHymn(m_setId, m_hymnId, shown);
+    repo.changeScreenVisibilityByHymn(
+        m_setId,
+        m_hymnId,
+        shown
+        );
 
-    reload();
+    bool changed = false;
+
+    for(auto& screen : m_data)
+    {
+        if(screen.shown != shown)
+        {
+            screen.shown = shown;
+            changed = true;
+        }
+    }
+
+    if(!changed || m_data.isEmpty())
+        return;
+
+    emit dataChanged(
+        index(0),
+        index(m_data.size() - 1),
+        {ShownRole}
+        );
 }
 
 Screen SetScreenModel::get(int index) const{

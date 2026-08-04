@@ -2,8 +2,10 @@
 
 QVariant HymnModel::data(const QModelIndex& index, int role) const
 {
-    if(!index.isValid())
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
+    {
         return {};
+    }
 
     const Hymn& item = m_data[index.row()];
 
@@ -35,9 +37,17 @@ void HymnModel::reload()
 
 void HymnModel::add(QString name, int categoryId)
 {
-    repo.create(name, categoryId);
+    Hymn s = repo.create(name, categoryId);
 
-    reload();
+    beginInsertRows({}, m_data.size(), m_data.size());
+
+    m_data.append(Hymn{
+        s.id,
+        name,
+        categoryId
+    });
+
+    endInsertRows();
 }
 
 void HymnModel::update(int row, const QString& name, int categoryId)
@@ -47,24 +57,31 @@ void HymnModel::update(int row, const QString& name, int categoryId)
 
     auto& s = m_data[row];
 
+    QString newName = s.name;
+    int newCategory = s.categoryId;
+
     if (!name.isNull())
-        s.name = name;
+        newName = name;
 
     if (categoryId >= -1)
-        s.categoryId = categoryId;
+        newCategory = categoryId;
 
-    repo.update(s.id, s.name, s.categoryId);
+    repo.update(s.id, newName, newCategory);
+
+    s.name = newName;
+    s.categoryId = newCategory;
 
     QModelIndex idx = index(row);
 
-    emit dataChanged(
-        idx,
-        idx,
-        {
-            NameRole,
-            CategoryRole
-        }
-    );
+    QVector<int> roles;
+
+    if (!name.isNull())
+        roles << NameRole;
+
+    if (categoryId >= -1)
+        roles << CategoryRole;
+
+    emit dataChanged(idx, idx, roles);;
 }
 
 void HymnModel::removeRow(int row)
@@ -72,9 +89,11 @@ void HymnModel::removeRow(int row)
     if(row < 0 || row >= m_data.size())
         return;
 
-    repo.remove(
-        m_data[row].id
-        );
+    beginRemoveRows({}, row, row);
 
-    reload();
+    repo.remove(m_data[row].id);
+
+    m_data.removeAt(row);
+
+    endRemoveRows();
 }
