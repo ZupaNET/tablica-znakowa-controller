@@ -116,6 +116,8 @@ Item {
 
             anchors.fill: parent
 
+            persistentSelection: true
+
             enabled: root.editable
             opacity: 1.0
             palette.disabled.text: color
