@@ -17,18 +17,15 @@ ApplicationWindow {
 
     readonly property int keyboardHeight:
         Qt.inputMethod.visible
-        ? Math.min(
-              Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom,
-              height
-          )
-        : 0
+            ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom
+            : 0
 
     Item {
         id: rootContent
 
         anchors.fill: parent
 
-        FocusScope {
+        Rectangle {
             id: viewport
 
             x: 0
@@ -38,11 +35,7 @@ ApplicationWindow {
 
             height:
                 rootContent.height
-                - SafeArea.margins.top
-                - SafeArea.margins.bottom
                 - mainWindow.keyboardHeight
-
-            focus: true
 
             StackView {
                 id: stack
@@ -66,7 +59,6 @@ ApplicationWindow {
 
             Component.onCompleted: {
                 Navigation.stackView = stack
-                forceActiveFocus()
             }
         }
     }

@@ -116,11 +116,11 @@ Item {
 
             anchors.fill: parent
 
-            persistentSelection: true
-
             enabled: root.editable
             opacity: 1.0
             palette.disabled.text: color
+
+            focusPolicy: Qt.NoFocus
 
             leftPadding: root.textPadding
             rightPadding: root.textPadding
@@ -135,8 +135,6 @@ Item {
             verticalAlignment: Text.AlignTop
 
             background: null
-
-            selectByMouse: root.editable
 
             onTextChanged: {
                 root.contentTextChanged(text)

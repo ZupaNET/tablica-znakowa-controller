@@ -8,7 +8,7 @@ QList<Hymn> HymnRepository::getAll() {
     QSqlQuery q(
         DatabaseConnector::instance().db()
     );
-    q.prepare("SELECT Id, Name, CategoryId FROM hymns");
+    q.prepare("SELECT Id, Name, CategoryId FROM hymns ORDER BY Name");
     q.exec();
     while (q.next()) {
         int categoryId = q.isNull(2)
