@@ -60,9 +60,15 @@ void TablicaConnector::setEnabled(bool state){
         return;
     }
 
-    enabled = state;
-    if(state == true){
+    if(state == true)
+    {
+        enabled = state;
         sendScreen(buffer);
+    }
+    else
+    {
+        clearScreen();
+        enabled = state;
     }
     emit enabledChanged();
 }
@@ -140,6 +146,21 @@ bool TablicaConnector::sendScreen(const Screen& scr) {
     if(!submitCommand()) return false;
 
     return true;
+}
+
+bool TablicaConnector::clearScreen()
+{
+    auto emptyScreen = Screen{
+        -1,
+        -1,
+        tr("Pusty"),
+        "",
+        -1,
+        0,
+        true
+    };
+
+    return sendScreen(emptyScreen);
 }
 
 bool TablicaConnector::sendLine(QString line, quint8 lineNumber){

@@ -76,6 +76,7 @@ private:
     void setFont(quint8 font);
 
     bool sendScreen(const Screen& scr);
+    bool clearScreen();
     bool sendLine(QString line, quint8 lineNumber);
     bool display();
 
