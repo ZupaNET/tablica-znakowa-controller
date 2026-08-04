@@ -8,6 +8,7 @@ Item {
     id: root
 
     property alias model: list.model
+    property bool showPreview: true
 
     signal changeAllScreens(bool visible)
     signal toggleScreen(int row, bool visible)
@@ -47,7 +48,7 @@ Item {
             delegate: Rectangle {
 
                 width: list.width - 12
-                height: 54
+                height: root.showPreview ? 330 : 54
 
                 radius: 8
 
@@ -55,45 +56,69 @@ Item {
 
                 border.color: model.shown ? "#81c784" : "#d0d0d0"
 
-                RowLayout {
+                ColumnLayout {
                     anchors.fill: parent
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 8
 
-                    Rectangle {
-                        Layout.preferredWidth: 34
-                        Layout.preferredHeight: 34
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
 
-                        radius: 17
+                        Layout.minimumHeight: 0
 
-                        color: model.shown ? "#4caf50" : "#9e9e9e"
+                        visible: root.showPreview
 
-                        Label {
-                            anchors.centerIn: parent
+                        TablicaScreen {
+                            anchors.fill: parent
 
-                            text: index + 1
-
-                            color: "white"
-
-                            font.bold: true
+                            content: model.text
+                            hymnFont: model.font
                         }
                     }
 
-                    Label {
+                    RowLayout {
                         Layout.fillWidth: true
+                        Layout.leftMargin: 12
+                        Layout.rightMargin: 8
+                        Layout.topMargin: 10
+                        Layout.bottomMargin: 10
 
-                        text: model.excerpt
+                        Layout.alignment: Qt.AlignVCenter
 
-                        elide: Text.ElideRight
+                        Rectangle {
+                            Layout.preferredWidth: 34
+                            Layout.preferredHeight: 34
 
-                        font.pixelSize: 15
-                    }
+                            radius: 17
 
-                    Switch {
-                        checked: model.shown
+                            color: model.shown ? "#4caf50" : "#9e9e9e"
 
-                        onToggled: {
-                            root.toggleScreen(index, checked)
+                            Label {
+                                anchors.centerIn: parent
+
+                                text: index + 1
+
+                                color: "white"
+
+                                font.bold: true
+                            }
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+
+                            text: model.excerpt
+
+                            elide: Text.ElideRight
+
+                            font.pixelSize: 15
+                        }
+
+                        Switch {
+                            checked: model.shown
+
+                            onToggled: {
+                                root.toggleScreen(index, checked)
+                            }
                         }
                     }
                 }
@@ -132,6 +157,20 @@ Item {
 
                 onClicked: {
                     root.changeAllScreens(false)
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            Switch {
+                checked: root.showPreview
+
+                text: qsTr("Pokaż podgląd")
+
+                onToggled: {
+                    root.showPreview = checked
                 }
             }
         }
