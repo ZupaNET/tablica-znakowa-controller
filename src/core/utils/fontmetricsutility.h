@@ -15,7 +15,7 @@ class FontMetricsUtility : public QObject
 public:
     explicit FontMetricsUtility(QObject *parent = nullptr);
 
-    Q_INVOKABLE int pixelSizeForHeight(int height, int fontId, bool forceArial = false) const;
+    Q_INVOKABLE qreal pixelSizeForHeight(int height, int fontId, bool forceArial = false, int width = -1) const;
 
     Q_INVOKABLE void clearCache();
 
@@ -25,6 +25,7 @@ private:
     {
         QString family;
         float rows;
+        int maxCols;
     };
 
     struct CacheKey
@@ -41,7 +42,7 @@ private:
 
     QVector<FontDefinition> m_fonts;
 
-    mutable QHash<QString, int> m_cache;
+    mutable QHash<QString, qreal> m_cache;
     mutable QMutex m_cacheMutex;
 
     QString makeCacheKey(int height, int fontId, bool forceArial) const;

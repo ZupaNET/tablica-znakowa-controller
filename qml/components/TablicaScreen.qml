@@ -23,6 +23,22 @@ Item {
         id: fontUtility
     }
 
+    property int charsPerLine: {
+        switch(root.hymnFont) {
+        case 0: return 32
+        case 1: return 32
+        case 2: return 21
+        }
+        return 21
+    }
+
+    TextMetrics {
+        id: limitMetrics
+
+        font: screenText.font
+        text: "O".repeat(root.charsPerLine)
+    }
+
     state: AppSettings.screenView
     states: [
         State {
@@ -42,6 +58,11 @@ Item {
 
                 color: "#FF0000"
             }
+
+            PropertyChanges {
+                target: limitLine
+                color: "yellow"
+            }
         },
 
         State {
@@ -57,9 +78,14 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1)
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1, screen.textWidth)
 
                 color: "#FFFFFF"
+            }
+
+            PropertyChanges {
+                target: limitLine
+                color: "yellow"
             }
         },
 
@@ -76,9 +102,14 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1)
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1, screen.textWidth)
 
                 color: "#000000"
+            }
+
+            PropertyChanges {
+                target: limitLine
+                color: "black"
             }
         }
     ]
@@ -139,6 +170,18 @@ Item {
             onTextChanged: {
                 root.contentTextChanged(text)
             }
+        }
+
+        Rectangle {
+            id: limitLine
+
+            width: 1
+            height: screenText.height
+
+            x: screenText.leftPadding + limitMetrics.width
+            y: 0
+
+            opacity: 0.5
         }
     }
 }
