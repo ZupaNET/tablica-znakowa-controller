@@ -25,11 +25,11 @@ ApplicationWindow {
 
         anchors.fill: parent
 
-        Rectangle {
+        FocusScope {
             id: viewport
 
             x: 0
-            y: SafeArea.margins.top
+            y: 0
 
             width: rootContent.width
 
@@ -59,6 +59,7 @@ ApplicationWindow {
 
             Component.onCompleted: {
                 Navigation.stackView = stack
+                forceActiveFocus()
             }
         }
     }

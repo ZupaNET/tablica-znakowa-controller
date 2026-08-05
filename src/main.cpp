@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QFontDatabase>
+#include <QStyleHints>
 #include <QIcon>
 #include <QTranslator>
 #include <QLocale>
@@ -31,6 +32,12 @@ QStringList availableLanguages()
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    // Fix bug with selection on TextField and TextArea. More like a workaround
+#ifdef Q_OS_ANDROID
+    qputenv("QT_QUICK_CONTROLS_TEXT_SELECTION_BEHAVIOR", "old");
+    QGuiApplication::styleHints()->setMousePressAndHoldInterval(300);
+#endif
 
     // Setting style and fonts
     app.setWindowIcon(QIcon(":/icons/app-icon.png"));
