@@ -112,6 +112,14 @@ Item {
         }
     }
 
+    Component.onCompleted: {
+        ScreenAwake.preventSleep()
+    }
+
+    Component.onDestruction: {
+        ScreenAwake.allowSleep()
+    }
+
     Rectangle {
         id: root
         anchors.fill: parent

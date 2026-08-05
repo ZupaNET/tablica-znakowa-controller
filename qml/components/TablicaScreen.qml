@@ -181,6 +181,8 @@ Item {
             x: screenText.leftPadding + limitMetrics.width
             y: 0
 
+            visible: root.editable
+
             opacity: 0.5
         }
     }
