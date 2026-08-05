@@ -155,6 +155,11 @@ bool TablicaConnector::clearScreen()
     return sendScreen(emptyScreen);
 }
 
+void TablicaConnector::resendBuffer()
+{
+    sendScreen(buffer);
+}
+
 bool TablicaConnector::sendLine(QString line, quint8 lineNumber){
     QString command = "l"+QString::number(lineNumber).rightJustified(2, '0', true)+line+"";
     return sendCommand(command+'\0');

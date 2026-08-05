@@ -109,6 +109,8 @@ public:
     Q_INVOKABLE bool testDisplay(quint8 testNumber);
     Q_INVOKABLE bool testStop();
 
+    Q_INVOKABLE void resendBuffer();
+
 public slots:
     void setBrightnessNow(quint8 brightness);
     void setIpAddress(QString ipAddress);

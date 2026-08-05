@@ -182,7 +182,15 @@ Item {
                         currentScreen.text = editor.content
                         currentScreen.font = fontSelector.currentIndex
                         TablicaConnector.enabled = true
+
+                        if(currentScreen === TablicaConnector.buffer)
+                        {
+                            TablicaConnector.resendBuffer()
+                            return
+                        }
+
                         TablicaConnector.buffer = currentScreen
+
                     }
                 }
             }
