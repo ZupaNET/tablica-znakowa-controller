@@ -6,11 +6,12 @@ import os
 
 class HymnConverter:
 
-    def __init__(self, old_db, new_db, log_callback, progress_callback):
+    def __init__(self, old_db, new_db, log_callback, progress_callback, include_orphans=False):
         self.old_db = old_db
         self.new_db = new_db
         self.log = log_callback
         self.progress = progress_callback
+        self.include_orphans = include_orphans
 
         self.category_map = {}
         self.hymn_map = {}
@@ -42,14 +43,21 @@ class HymnConverter:
                 SELECT id, nazwa
                 FROM piesni
                 WHERE parent_id IS NULL
-                ORDER BY id
+                ORDER BY nazwa COLLATE NOCASE
             """).fetchall()
 
-            for row in old_categories:
+            for display_order, row in enumerate(old_categories):
                 new_cur.execute("""
-                    INSERT INTO categories(Name)
-                    VALUES (?)
-                """, (row["nazwa"],))
+                    INSERT INTO categories(
+                        Name,
+                        DisplayOrder
+                    )
+                    VALUES (?, ?)
+                """,
+                (
+                    row["nazwa"],
+                    display_order
+                ))
 
                 self.category_map[row["id"]] = new_cur.lastrowid
 
@@ -116,7 +124,7 @@ class HymnConverter:
 
             orphan_hymn_id = None
 
-            if orphan_ids:
+            if self.include_orphans and orphan_ids:
 
                 self.log(
                     "Wykryto osierocone zwrotki."
@@ -129,7 +137,10 @@ class HymnConverter:
                 ("-- OSIEROCONE --",))
 
                 orphan_hymn_id = new_cur.lastrowid
-
+            
+            if not self.include_orphans:
+                self.log("Import osieroconych zwrotek pominięty.")
+            
             #
             # Screens
             #
@@ -307,6 +318,7 @@ class App:
 
         self.old_path = tk.StringVar()
         self.new_path = tk.StringVar()
+        self.include_orphans = tk.BooleanVar(value=False)
 
 
         tk.Label(
@@ -343,7 +355,12 @@ class App:
             text="Wybierz",
             command=self.select_new
         ).pack()
-
+        
+        tk.Checkbutton(
+            root,
+            text="Importuj osierocone zwrotki",
+            variable=self.include_orphans
+        ).pack()
 
         tk.Button(
             root,
@@ -430,7 +447,8 @@ class App:
             self.old_path.get(),
             self.new_path.get(),
             self.log,
-            None
+            None,
+            self.include_orphans.get()
         )
 
         converter.convert()
