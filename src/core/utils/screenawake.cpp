@@ -94,7 +94,7 @@ void ScreenAwake::allowSleep()
 
 #ifdef Q_OS_WINDOWS
 
-    SetThreadExecutionState(ES_CONTINOUS);
+    SetThreadExecutionState(ES_CONTINUOUS);
 
 #elif defined(Q_OS_MACOS)
 
