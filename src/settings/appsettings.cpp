@@ -57,6 +57,11 @@ void AppSettings::init()
         "brightness",
         "4"
         ).toUInt();
+
+    m_darkMode = m_settings.value(
+        "darkMode",
+        false
+        ).toBool();
 }
 
 QString AppSettings::screenCustomText() const
@@ -195,4 +200,22 @@ void AppSettings::setBrightness(const quint8 &level){
         );
 
     emit brightnessChanged(level);
+}
+
+bool AppSettings::darkMode() const {
+    return m_darkMode;
+}
+
+void AppSettings::setDarkMode(const bool &dark)
+{
+    if(dark == m_darkMode)
+        return;
+
+    m_darkMode = dark;
+
+    m_settings.setValue(
+        "darkMode",
+        dark);
+
+    emit darkModeChanged();
 }

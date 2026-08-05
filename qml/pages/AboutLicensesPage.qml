@@ -12,7 +12,7 @@ Item {
     Rectangle {
         anchors.fill: parent
 
-        color: "#f3f5f7"
+        color: Theme.background
 
         Rectangle {
             id: topBar
@@ -25,7 +25,7 @@ Item {
                 right: parent.right
             }
 
-            color: "#474747"
+            color: Theme.header
 
             Button {
                 text: qsTr("Powrót")
@@ -70,9 +70,8 @@ Item {
 
                 radius: 16
 
-                color: "white"
-
-                border.color: "#dddddd"
+                color: Theme.surface
+                border.color: Theme.surfaceBorder
 
 
                 ListView {
@@ -126,8 +125,8 @@ Item {
 
                         color:
                             ListView.isCurrentItem
-                            ? "#d7ecff"
-                            : "#f4f4f4"
+                                ? Theme.selected
+                                : Theme.item
 
                         Label {
                             anchors.fill: parent
@@ -137,6 +136,8 @@ Item {
                             verticalAlignment: Text.AlignVCenter
 
                             text: modelData.name
+
+                            color: Theme.text
                         }
 
                         TapHandler {
@@ -160,9 +161,8 @@ Item {
 
                 radius: 16
 
-                color: "white"
-
-                border.color: "#dddddd"
+                color: Theme.surface
+                border.color: Theme.surfaceBorder
 
 
                 Flickable {
@@ -188,7 +188,7 @@ Item {
 
                         textFormat: Text.PlainText
 
-                        color: "#333333"
+                        color: Theme.text
 
                         text: licenses.text
                     }

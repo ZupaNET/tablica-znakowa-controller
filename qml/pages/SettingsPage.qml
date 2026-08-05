@@ -11,7 +11,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#f3f5f7"
+        color: Theme.background
 
         FileDialog {
             id: dbImportDialog
@@ -79,7 +79,7 @@ Item {
                 right: parent.right
             }
 
-            color: "#474747"
+            color: Theme.header
 
 
             Button {
@@ -137,8 +137,8 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     radius: 16
-                    color: "white"
-                    border.color: "#dddddd"
+                    color: Theme.card
+                    border.color: Theme.cardBorder
 
                     implicitHeight: connectionColumn.implicitHeight + 32
 
@@ -165,12 +165,16 @@ Item {
 
                                 font.bold: true
                                 font.pixelSize: 20
+
+                                color: Theme.text
                             }
                         }
 
                         Label {
                             text: qsTr("Adres IP")
                             font.bold: true
+
+                            color: Theme.text
                         }
 
                         ColumnLayout {
@@ -223,6 +227,8 @@ Item {
                         Label {
                             text: qsTr("Port")
                             font.bold: true
+
+                            color: Theme.text
                         }
 
                         ColumnLayout {
@@ -279,9 +285,8 @@ Item {
 
                     radius: 16
 
-                    color: "white"
-
-                    border.color: "#dddddd"
+                    color: Theme.card
+                    border.color: Theme.cardBorder
 
                     implicitHeight: displayColumn.implicitHeight + 32
 
@@ -308,6 +313,32 @@ Item {
 
                                 font.bold: true
                                 font.pixelSize: 20
+
+                                color: Theme.text
+                            }
+                        }
+
+                        RowLayout {
+
+                            Layout.fillWidth: true
+
+                            Label {
+                                text: qsTr("Tryb ciemny")
+
+                                color: Theme.text
+
+                                Layout.fillWidth: true
+
+                                font.pixelSize: 15
+                            }
+
+                            Switch {
+
+                                checked: AppSettings.darkMode
+
+                                onToggled: {
+                                    AppSettings.darkMode = checked
+                                }
                             }
                         }
 
@@ -347,7 +378,7 @@ Item {
 
                         Label {
                             text: qsTr("Poziom:") + " " + AppSettings.brightness + " / 4"
-                            color: "#666666"
+                            color: Theme.textSecondary
                         }
                     }
                 }
@@ -358,9 +389,8 @@ Item {
 
                     radius: 16
 
-                    color: "white"
-
-                    border.color: "#dddddd"
+                    color: Theme.card
+                    border.color: Theme.cardBorder
 
                     implicitHeight: databaseColumn.implicitHeight + 32
 
@@ -387,6 +417,8 @@ Item {
 
                                 font.bold: true
                                 font.pixelSize: 20
+
+                                color: Theme.text
                             }
                         }
 
@@ -438,8 +470,10 @@ Item {
     Popup {
         id: infoPopup
 
+        parent: Overlay.overlay
+
         x: (parent.width - width) / 2
-        y: parent.height - height - 20
+        y: parent.height - height - 40
 
         padding: 12
         modal: false
@@ -448,7 +482,7 @@ Item {
 
         background: Rectangle {
             radius: 6
-            color: "#323232"
+            color: Theme.popup
         }
 
         Label {

@@ -13,7 +13,9 @@ ApplicationWindow {
     visible: true
 
     title: AppInfo.name
-    color: "#474747"
+    color: Theme.background
+
+    Material.theme: AppSettings.darkMode ? Material.Dark : Material.Light
 
     readonly property int keyboardHeight:
         Qt.inputMethod.visible
@@ -66,6 +68,18 @@ ApplicationWindow {
 
     Overlay.overlay.height:
         mainWindow.height - mainWindow.keyboardHeight
+
+    Overlay.overlay.modal: Rectangle {
+        color: AppSettings.darkMode
+               ? "#B0000000"
+               : "#66000000"
+    }
+
+    Overlay.overlay.modeless: Rectangle {
+        color: AppSettings.darkMode
+               ? "#B0000000"
+               : "#66000000"
+    }
 
     Connections {
         target: Qt.inputMethod

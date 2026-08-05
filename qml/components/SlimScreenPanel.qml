@@ -27,6 +27,8 @@ Item {
                 font.bold: true
 
                 Layout.fillWidth: true
+
+                color: Theme.text
             }
         }
 
@@ -36,7 +38,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            spacing: 6
+            spacing: 8
 
             clip: true
 
@@ -52,9 +54,15 @@ Item {
 
                 radius: 8
 
-                color: model.shown ? "#e8f5e9" : "#f4f4f4"
+                color:
+                    model.shown
+                    ? Theme.successBackground
+                    : Theme.inactiveItem
 
-                border.color: model.shown ? "#81c784" : "#d0d0d0"
+                border.color:
+                    model.shown
+                    ? Theme.successBorder
+                    : Theme.inactiveBorder
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -90,7 +98,10 @@ Item {
 
                             radius: 17
 
-                            color: model.shown ? "#4caf50" : "#9e9e9e"
+                            color:
+                                model.shown
+                                ? Theme.badgeActive
+                                : Theme.badgeInactive
 
                             Label {
                                 anchors.centerIn: parent
@@ -111,6 +122,8 @@ Item {
                             elide: Text.ElideRight
 
                             font.pixelSize: 15
+
+                            color: Theme.text
                         }
 
                         Switch {
@@ -125,52 +138,63 @@ Item {
             }
         }
 
-        RowLayout {
+        Rectangle {
             Layout.fillWidth: true
+            Layout.preferredHeight: toolBar.implicitHeight + 19
 
-            ToolButton {
-                text: MdiFont.Icon.eye
+            color: Theme.panel
+            border.color: Theme.panelBorder
+            border.width: 1
 
-                enabled: root.model.hymnId >= 0
+            RowLayout {
+                id: toolBar
+                anchors.fill: parent
+                anchors.margins: 8
 
-                font.family: "Material Design Icons"
-                font.pixelSize: 22
+                ToolButton {
+                    text: MdiFont.Icon.eye
 
-                ToolTip.visible: hovered
-                ToolTip.text: qsTr("Pokaż wszystkie")
+                    enabled: root.model.hymnId >= 0
 
-                onClicked: {
-                    root.changeAllScreens(true)
+                    font.family: "Material Design Icons"
+                    font.pixelSize: 22
+
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Pokaż wszystkie")
+
+                    onClicked: {
+                        root.changeAllScreens(true)
+                    }
                 }
-            }
 
-            ToolButton {
-                text: MdiFont.Icon.eyeOff
+                ToolButton {
+                    text: MdiFont.Icon.eyeOff
 
-                enabled: root.model.hymnId >= 0
+                    enabled: root.model.hymnId >= 0
 
-                font.family: "Material Design Icons"
-                font.pixelSize: 22
+                    font.family: "Material Design Icons"
+                    font.pixelSize: 22
 
-                ToolTip.visible: hovered
-                ToolTip.text: qsTr("Ukryj wszystkie")
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Ukryj wszystkie")
 
-                onClicked: {
-                    root.changeAllScreens(false)
+                    onClicked: {
+                        root.changeAllScreens(false)
+                    }
                 }
-            }
 
-            Item {
-                Layout.fillWidth: true
-            }
+                Item {
+                    Layout.fillWidth: true
+                }
 
-            Switch {
-                checked: root.showPreview
+                Switch {
+                    checked: root.showPreview
 
-                text: qsTr("Pokaż podgląd")
+                    text: qsTr("Pokaż podgląd")
 
-                onToggled: {
-                    root.showPreview = checked
+                    onToggled: {
+                        root.showPreview = checked
+                    }
                 }
             }
         }

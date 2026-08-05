@@ -23,7 +23,7 @@ Item {
     Rectangle {
         anchors.fill: parent
 
-        color: "#f3f5f7"
+        color: Theme.background
 
 
         Rectangle {
@@ -37,7 +37,7 @@ Item {
                 right: parent.right
             }
 
-            color: "#474747"
+            color: Theme.header
 
 
             Column {
@@ -63,7 +63,7 @@ Item {
                 Text {
                     text: qsTr("Kontroler")
 
-                    color: "#cccccc"
+                    color: Theme.headerSecondaryText
 
                     font.pixelSize: 17
                 }
@@ -225,7 +225,7 @@ Item {
             }
 
 
-            color: "#e5e7ea"
+            color: Theme.footer
 
 
             Text {
@@ -238,7 +238,7 @@ Item {
                     " " +
                     AppInfo.company
 
-                color: "#666"
+                color: Theme.textSecondary
 
                 font.pixelSize: 14
             }
@@ -272,11 +272,15 @@ Item {
 
 
         onAccepted: {
+            TablicaConnector.shutdown()
+        }
+    }
 
-            if(TablicaConnector.shutdown())
-                infoPopup.show(qsTr("Pomyślnie wyłączono tablicę"))
-            else
-                infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
+    Connections {
+        target: TablicaConnector
+
+        function onConnectionFailure() {
+            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
         }
     }
 
@@ -285,11 +289,11 @@ Item {
     Popup {
 
         id: infoPopup
-
+		
+		parent: Overlay.overlay
 
         x: (parent.width - width) / 2
-
-        y: parent.height - height - 30
+        y: parent.height - height - 40
 
 
         padding: 14
@@ -299,7 +303,7 @@ Item {
 
             radius: 10
 
-            color: "#323232"
+            color: Theme.popup
         }
 
 

@@ -8,7 +8,7 @@ import "../Icon.js" as MdiFont
 Item {
     Rectangle {
         anchors.fill: parent
-        color: "#f3f5f7"
+        color: Theme.background
 
         Rectangle {
             id: topBar
@@ -21,7 +21,7 @@ Item {
                 right: parent.right
             }
 
-            color: "#474747"
+            color: Theme.header
 
             Button {
                 text: qsTr("Powrót")
@@ -77,8 +77,8 @@ Item {
                     Layout.fillWidth: true
 
                     radius: 16
-                    color: "white"
-                    border.color: "#dddddd"
+                    color: Theme.surface
+                    border.color: Theme.surfaceBorder
 
                     implicitHeight: intro.implicitHeight + 32
 
@@ -102,7 +102,7 @@ Item {
                             text: qsTr("Wersja:") + " " + AppInfo.version
 
                             font.pixelSize: 18
-                            color: "#666666"
+                            color: Theme.textSecondary
                         }
                     }
                 }
@@ -111,8 +111,8 @@ Item {
                     Layout.fillWidth: true
 
                     radius: 16
-                    color: "white"
-                    border.color: "#dddddd"
+                    color: Theme.surface
+                    border.color: Theme.surfaceBorder
 
                     implicitHeight: licenseL.implicitHeight + 32
 
@@ -135,7 +135,7 @@ Item {
                             "\n" +
                             "The above copyright notice, this permission notice, and its license shall be included in all copies or substantial portions of the Software."
 
-                            color: "#777"
+                            color: Theme.textMuted
 
                             wrapMode: Text.Wrap
 
@@ -148,8 +148,8 @@ Item {
                     Layout.fillWidth: true
 
                     radius: 16
-                    color: "white"
-                    border.color: "#dddddd"
+                    color: Theme.surface
+                    border.color: Theme.surfaceBorder
 
                     implicitHeight: mkeiaL.implicitHeight + 32
 
@@ -168,7 +168,7 @@ Item {
                                 qsTr("zostały stworzone przez:\n\n") +
                                 "Marek Kopeć Elektronika i Automatyka s. c."
 
-                            color: "#777"
+                            color: Theme.textMuted
 
                             wrapMode: Text.Wrap
 
@@ -181,8 +181,8 @@ Item {
                     Layout.fillWidth: true
 
                     radius: 16
-                    color: "white"
-                    border.color: "#dddddd"
+                    color: Theme.surface
+                    border.color: Theme.surfaceBorder
 
                     implicitHeight: componentsL.implicitHeight + 32
 
@@ -209,7 +209,7 @@ Item {
                                 qsTr("Szczegółowe informacje licencyjne znajdują się ") +
                                 qsTr("w katalogu resources/licenses w repozytorium oraz poniżej.")
 
-                            color: "#777"
+                            color: Theme.textMuted
 
                             wrapMode: Text.Wrap
 
@@ -222,8 +222,8 @@ Item {
                     Layout.fillWidth: true
 
                     radius: 16
-                    color: "white"
-                    border.color: "#dddddd"
+                    color: Theme.surface
+                    border.color: Theme.surfaceBorder
 
                     implicitHeight: licenses.implicitHeight + 32
 
@@ -261,9 +261,9 @@ Item {
 
         radius: 16
 
-        color: "white"
+        color: Theme.surface
 
-        border.color: "#dddddd"
+        border.color: Theme.surfaceBorder
 
         implicitHeight: column.implicitHeight + 32
 
@@ -302,7 +302,7 @@ Item {
 
                 wrapMode: Text.WordWrap
 
-                color: "#444444"
+                color: Theme.text
 
                 text: parent.parent.text
             }

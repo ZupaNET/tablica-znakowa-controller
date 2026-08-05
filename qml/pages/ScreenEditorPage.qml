@@ -26,7 +26,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#FFFFFF"
+        color: Theme.background
     }
 
     Rectangle {
@@ -39,7 +39,7 @@ Item {
         }
 
         height: 50
-        color: "#474747"
+        color: Theme.header
 
         visible: !Qt.inputMethod.visible
 
@@ -63,8 +63,6 @@ Item {
             bottom: parent.bottom
             left: parent.left
             right: parent.right
-
-            margins: 20
         }
 
         spacing: 15
@@ -105,78 +103,80 @@ Item {
 
         Rectangle {
             Layout.fillWidth: true
-            height: 1
+            Layout.preferredHeight: toolBar.implicitHeight + 16
+
+            color: Theme.panel
 
             visible: !Qt.inputMethod.visible
 
-            color: "#cccccc"
-        }
+            RowLayout {
+                id: toolBar
+                anchors.fill: parent
+                anchors.margins: 8
 
-        RowLayout {
-            Layout.fillWidth: true
+                Label {
+                    text: qsTr("Rozmiar czcionki: ")
 
-            visible: !Qt.inputMethod.visible
-
-            Label {
-                text: qsTr("Rozmiar czcionki: ")
-            }
-
-            ComboBox {
-                id: fontSelector
-
-                Layout.preferredWidth: 140
-
-                model: [
-                    qsTr("Mała"),
-                    qsTr("Średnia"),
-                    qsTr("Duża")
-                ]
-
-                currentIndex: root.initialFont
-            }
-
-            Item {
-                Layout.preferredWidth: 10
-            }
-
-            Button {
-                text: qsTr("Widok")
-
-                onClicked: {
-                    AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                    color: Theme.text
                 }
-            }
 
-            Item {
-                Layout.fillWidth: true
-            }
+                ComboBox {
+                    id: fontSelector
 
-            Button {
-                text: qsTr("Anuluj")
+                    Layout.preferredWidth: 140
 
-                onClicked: {
-                    Navigation.pop()
+                    model: [
+                        qsTr("Mała"),
+                        qsTr("Średnia"),
+                        qsTr("Duża")
+                    ]
+
+                    currentIndex: root.initialFont
                 }
-            }
 
-            Button {
-                text: qsTr("Zapisz")
+                Item {
+                    Layout.preferredWidth: 10
+                }
 
-                onClicked: {
-                    if (!root.screenModel) {
-                        console.error("Brak screenModel")
-                        return
+                Button {
+                    text: qsTr("Widok")
+
+                    onClicked: {
+                        AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
                     }
+                }
 
+                Item {
+                    Layout.fillWidth: true
+                }
 
-                    if (root.screenIdx < 0) {
-                        root.screenModel.add(editor.content, fontSelector.currentIndex)
+                Button {
+                    text: qsTr("Anuluj")
+
+                    onClicked: {
+                        Navigation.pop()
                     }
-                    else {
-                        root.screenModel.update(root.screenIdx, editor.content, fontSelector.currentIndex)
-                    }
+                }
 
-                    Navigation.pop()
+                Button {
+                    text: qsTr("Zapisz")
+
+                    onClicked: {
+                        if (!root.screenModel) {
+                            console.error("Brak screenModel")
+                            return
+                        }
+
+
+                        if (root.screenIdx < 0) {
+                            root.screenModel.add(editor.content, fontSelector.currentIndex)
+                        }
+                        else {
+                            root.screenModel.update(root.screenIdx, editor.content, fontSelector.currentIndex)
+                        }
+
+                        Navigation.pop()
+                    }
                 }
             }
         }

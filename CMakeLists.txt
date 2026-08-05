@@ -50,6 +50,7 @@ file(GLOB_RECURSE APP_HEADERS CONFIGURE_DEPENDS
 
 set(APP_QML_SINGLETONS
     qml/navigation/Navigation.qml
+    qml/Theme.qml
 )
 
 set(APP_QML

@@ -23,7 +23,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#FFFFFF"
+        color: Theme.background
     }
 
     Rectangle {
@@ -36,7 +36,7 @@ Item {
         }
 
         height: 50
-        color: "#474747"
+        color: Theme.header
 
         visible: !Qt.inputMethod.visible
 
@@ -75,8 +75,6 @@ Item {
             bottom: parent.bottom
             left: parent.left
             right: parent.right
-
-            margins: 20
         }
 
         spacing: 15
@@ -126,64 +124,66 @@ Item {
 
         Rectangle {
             Layout.fillWidth: true
-            height: 1
+            Layout.preferredHeight: toolBar.implicitHeight + 16
+
+            color: Theme.panel
 
             visible: !Qt.inputMethod.visible
 
-            color: "#cccccc"
-        }
+            RowLayout {
+                id: toolBar
+                anchors.fill: parent
+                anchors.margins: 8
 
-        RowLayout {
-            Layout.fillWidth: true
+                Label {
+                    text: qsTr("Rozmiar czcionki: ")
 
-            visible: !Qt.inputMethod.visible
-
-            Label {
-                text: qsTr("Rozmiar czcionki: ")
-            }
-
-            ComboBox {
-                id: fontSelector
-
-                Layout.preferredWidth: 140
-
-                model: [
-                    qsTr("Mała"),
-                    qsTr("Średnia"),
-                    qsTr("Duża")
-                ]
-
-                currentIndex: AppSettings.screenCustomFont
-
-                onActivated: {
-                    AppSettings.screenCustomFont = currentIndex
+                    color: Theme.text
                 }
-            }
 
-            Item {
-                Layout.preferredWidth: 10
-            }
+                ComboBox {
+                    id: fontSelector
 
-            Button {
-                text: qsTr("Widok")
+                    Layout.preferredWidth: 140
 
-                onClicked: {
-                    AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                    model: [
+                        qsTr("Mała"),
+                        qsTr("Średnia"),
+                        qsTr("Duża")
+                    ]
+
+                    currentIndex: AppSettings.screenCustomFont
+
+                    onActivated: {
+                        AppSettings.screenCustomFont = currentIndex
+                    }
                 }
-            }
 
-            Item {
-                Layout.fillWidth: true
-            }
+                Item {
+                    Layout.preferredWidth: 10
+                }
 
-            Button {
-                text: qsTr("Wyświetl")
+                Button {
+                    text: qsTr("Widok")
 
-                onClicked: {
-                    currentScreen.text = editor.content
-                    currentScreen.font = fontSelector.currentIndex
-                    TablicaConnector.enabled = true
-                    TablicaConnector.buffer = currentScreen
+                    onClicked: {
+                        AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                    }
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    text: qsTr("Wyświetl")
+
+                    onClicked: {
+                        currentScreen.text = editor.content
+                        currentScreen.font = fontSelector.currentIndex
+                        TablicaConnector.enabled = true
+                        TablicaConnector.buffer = currentScreen
+                    }
                 }
             }
         }
@@ -192,8 +192,10 @@ Item {
     Popup {
         id: infoPopup
 
+        parent: Overlay.overlay
+
         x: (parent.width - width) / 2
-        y: parent.height - height - 20
+        y: parent.height - height - 40
 
         padding: 12
         modal: false
@@ -202,7 +204,7 @@ Item {
 
         background: Rectangle {
             radius: 6
-            color: "#323232"
+            color: Theme.popup
         }
 
         Label {

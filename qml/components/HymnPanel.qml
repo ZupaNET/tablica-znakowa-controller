@@ -244,6 +244,8 @@ Item {
             text: root.setMode ? qsTr("Składniki zestawu") : qsTr("Pieśni")
             font.pixelSize: 20
             font.bold: true
+
+            color: Theme.text
         }
 
         TextField {
@@ -307,8 +309,12 @@ Item {
 
                     radius: 6
 
-                    color:wrapper.ListView.isCurrentItem ? "#d7ecff" : "#f4f4f4"
-                    border.color: "#d0d0d0"
+                    color:
+                        wrapper.ListView.isCurrentItem
+                        ? Theme.listItemSelected
+                        : Theme.listItem
+
+                    border.color: Theme.listItemBorder
 
                     RowLayout {
                         anchors.fill: parent
@@ -322,6 +328,8 @@ Item {
 
                             font.bold: wrapper.ListView.isCurrentItem
                             elide: Text.ElideRight
+
+                            color: Theme.text
                         }
 
                         ToolButton {
@@ -395,16 +403,31 @@ Item {
             }
         }
 
-        Button {
-            text: qsTr("+ Dodaj pieśń")
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: toolBar.implicitHeight + 16
 
-            enabled: model.parentId >= (root.setMode ? 0 : -1)
+            color: Theme.panel
+            border.color: Theme.panelBorder
+            border.width: 1
 
-            onClicked: {
-                if(root.setMode)
-                    hymnPicker.open()
-                else
-                    addDialog.open()
+            RowLayout {
+                id: toolBar
+                anchors.fill: parent
+                anchors.margins: 8
+
+                Button {
+                    text: qsTr("+ Dodaj pieśń")
+
+                    enabled: model.parentId >= (root.setMode ? 0 : -1)
+
+                    onClicked: {
+                        if(root.setMode)
+                            hymnPicker.open()
+                        else
+                            addDialog.open()
+                    }
+                }
             }
         }
     }

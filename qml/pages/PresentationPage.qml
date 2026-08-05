@@ -123,7 +123,7 @@ Item {
     Rectangle {
         id: root
         anchors.fill: parent
-        color: "#FFFFFF"
+        color: Theme.background
 
         Rectangle {
             id: topBar
@@ -132,7 +132,7 @@ Item {
                 right: parent.right
                 left: parent.left
             }
-            color: "#474747"
+            color: Theme.header
             height: 50
 
             Button {
@@ -177,6 +177,8 @@ Item {
                 left: parent.left
             }
 
+            color: "transparent"
+
             Rectangle {
                 id: screenView
                 anchors {
@@ -187,6 +189,8 @@ Item {
                     rightMargin: 50
                     leftMargin: 50
                 }
+
+                color: "transparent"
 
                 TablicaScreen {
                     id: tablicaScreen
@@ -241,6 +245,7 @@ Item {
 
                     text: "..."
                     font.pixelSize: 24
+                    color: Theme.text
                 }
                 onClicked: {
                     AppSettings.screenViewButtons === "open" ? AppSettings.screenViewButtons = "closed" : AppSettings.screenViewButtons = "open";
@@ -257,7 +262,10 @@ Item {
 
                 width: parent.width
                 height: 65
-                color: "#cfcfcf"
+                color: Theme.panel
+
+                border.color: Theme.panelBorder
+                border.width: 1
 
                 state: AppSettings.screenViewButtons
                 states: [
@@ -388,7 +396,9 @@ Item {
                 bottom: parent.bottom
             }
             width: parent.width * 0.2
-            color: "#cfcfcf"
+            color: Theme.panel
+            border.color: Theme.panelBorder
+            border.width: 1
             state: AppSettings.setView
             states: [
                 State {
@@ -422,7 +432,7 @@ Item {
                     margins: 10
                 }
                 text: qsTr("Zestaw:")
-                color: "#595959"
+                color: Theme.textSecondary
                 font.pixelSize: 20
                 font.bold: true
             }
@@ -454,7 +464,7 @@ Item {
 
                     contentItem: Rectangle {
                         radius: 3
-                        color: "#888888"
+                        color: Theme.scrollbar
                     }
 
                     background: Rectangle {
@@ -517,8 +527,10 @@ Item {
     Popup {
         id: infoPopup
 
+        parent: Overlay.overlay
+
         x: (parent.width - width) / 2
-        y: parent.height - height - 20
+        y: parent.height - height - 40
 
         padding: 12
         modal: false
@@ -527,7 +539,7 @@ Item {
 
         background: Rectangle {
             radius: 6
-            color: "#323232"
+            color: Theme.popup
         }
 
         Label {

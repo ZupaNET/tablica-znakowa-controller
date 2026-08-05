@@ -71,6 +71,8 @@ Dialog {
 
                     font.pixelSize: 18
                     font.bold: true
+
+                    color: Theme.text
                 }
 
                 TextField {
@@ -87,9 +89,9 @@ Dialog {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    color: "transparent"
+                    color: Theme.surface
 
-                    border.color: "#cccccc"
+                    border.color: Theme.surfaceBorder
                     border.width: 1
 
                     radius: 6
@@ -136,10 +138,10 @@ Dialog {
 
                                 color:
                                     model.id === root.selectedCategoryId
-                                    ? "#d7ecff"
-                                    : "#f4f4f4"
+                                    ? Theme.listItemSelected
+                                    : Theme.listItem
 
-                                border.color: "#dddddd"
+                                border.color: Theme.listItemBorder
 
                                 Label {
                                     anchors.fill: parent
@@ -148,6 +150,8 @@ Dialog {
                                     verticalAlignment: Text.AlignVCenter
 
                                     text: model.name
+
+                                    color: Theme.text
                                 }
 
                                 MouseArea {
@@ -175,6 +179,8 @@ Dialog {
 
                     font.pixelSize: 18
                     font.bold: true
+
+                    color: Theme.text
                 }
 
                 TextField {
@@ -191,9 +197,9 @@ Dialog {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    color: "transparent"
+                    color: Theme.surface
 
-                    border.color: "#cccccc"
+                    border.color: Theme.surfaceBorder
                     border.width: 1
 
                     radius: 6
@@ -257,9 +263,9 @@ Dialog {
 
                                 radius: 6
 
-                                color: "#f4f4f4"
+                                color: Theme.listItem
 
-                                border.color: "#dddddd"
+                                border.color: Theme.listItemBorder
 
                                 Label {
                                     anchors.fill: parent
@@ -268,6 +274,8 @@ Dialog {
                                     verticalAlignment: Text.AlignVCenter
 
                                     text: model.name
+
+                                    color: Theme.text
                                 }
 
                                 MouseArea {

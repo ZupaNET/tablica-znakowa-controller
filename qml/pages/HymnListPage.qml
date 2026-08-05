@@ -29,7 +29,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#ffffff"
+        color: Theme.background
 
         // Top Bar
         Rectangle {
@@ -43,7 +43,7 @@ Item {
                 right: parent.right
             }
 
-            color: "#474747"
+            color: Theme.header
 
 
             Button {

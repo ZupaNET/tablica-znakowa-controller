@@ -167,6 +167,8 @@ Item {
             text: qsTr("Kategorie")
             font.pixelSize: 20
             font.bold: true
+
+            color: Theme.text
         }
 
         TextField {
@@ -227,8 +229,12 @@ Item {
 
                     radius: 6
 
-                    color: wrapper.ListView.isCurrentItem ? "#d7ecff" : "#f4f4f4"
-                    border.color: "#d0d0d0"
+                    color:
+                        wrapper.ListView.isCurrentItem
+                        ? Theme.listItemSelected
+                        : Theme.listItem
+
+                    border.color: Theme.listItemBorder
 
                     RowLayout {
                         anchors.fill: parent
@@ -242,6 +248,8 @@ Item {
 
                             font.bold: wrapper.ListView.isCurrentItem
                             elide: Text.ElideRight
+
+                            color: Theme.text
                         }
 
                         ToolButton {
@@ -326,10 +334,25 @@ Item {
             }
         }
 
-        Button {
-            text: qsTr("+ Dodaj kategorię")
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: toolBar.implicitHeight + 16
 
-            onClicked: addDialog.open()
+            color: Theme.panel
+            border.color: Theme.panelBorder
+            border.width: 1
+
+            RowLayout {
+                id: toolBar
+                anchors.fill: parent
+                anchors.margins: 8
+
+                Button {
+                    text: qsTr("+ Dodaj kategorię")
+
+                    onClicked: addDialog.open()
+                }
+            }
         }
     }
 }

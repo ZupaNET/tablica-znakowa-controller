@@ -28,15 +28,29 @@ Item {
         radius: 12
 
         property color baseColor: {
+
             if (!root.shown && root.showAll)
-                return "#aaaaaa"
+                return Theme.cardDisabled
 
-            return selected ? "#d0e6ff" : "#d7d7d7"
+            return selected
+                ? Theme.cardSelected
+                : Theme.card
         }
-        property color pressedColor: "#cacaca"
 
-        color: root.ListView.isCurrentItem ? "#ffffb3" : tap.pressed ? pressedColor : baseColor
-        border.color: selected ? "#3399ff" : "#cccccc"
+        property color pressedColor:
+            Theme.cardPressed
+
+        color:
+            root.ListView.isCurrentItem
+            ? Theme.cardCurrent
+            : tap.pressed
+                ? pressedColor
+                : baseColor
+
+        border.color:
+            selected
+            ? Theme.cardSelectedBorder
+            : Theme.cardBorder
 
         Behavior on color {
             ColorAnimation { duration: 120 }
@@ -74,7 +88,7 @@ Item {
                     width: parent.width
                     text: (root.vid !== "0" ? "["+ root.vid + "] " : "") + root.title
                     font.bold: true
-                    color: "#595959"
+                    color: Theme.cardText
                     wrapMode: Text.NoWrap
                     clip: true
                     Behavior on color {
@@ -86,7 +100,7 @@ Item {
                     id: subtitleText
                     width: parent.width
                     text: root.subtitle
-                    color: "#595959"
+                    color: Theme.cardText
                     wrapMode: Text.NoWrap
                     clip: true
                 }

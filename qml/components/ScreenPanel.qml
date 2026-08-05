@@ -68,6 +68,8 @@ Item {
 
             font.pixelSize: 20
             font.bold: true
+
+            color: Theme.text
         }
 
         ListView {
@@ -90,9 +92,9 @@ Item {
 
                 radius: 8
 
-                color: "#f4f4f4"
+                color: Theme.listItem
 
-                border.color: "#d0d0d0"
+                border.color: Theme.listItemBorder
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -124,6 +126,8 @@ Item {
                             text: qsTr("Slajd") + " " + (index + 1)
 
                             font.bold: true
+
+                            color: Theme.text
                         }
 
                         ToolButton {
@@ -189,13 +193,28 @@ Item {
             }
         }
 
-        Button {
-            text: qsTr("+ Dodaj slajd")
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: toolBar.implicitHeight + 16
 
-            enabled: model.hymnId >= 0
+            color: Theme.panel
+            border.color: Theme.panelBorder
+            border.width: 1
 
-            onClicked: {
-                root.addScreen()
+            RowLayout {
+                id: toolBar
+                anchors.fill: parent
+                anchors.margins: 8
+
+                Button {
+                    text: qsTr("+ Dodaj slajd")
+
+                    enabled: model.hymnId >= 0
+
+                    onClicked: {
+                        root.addScreen()
+                    }
+                }
             }
         }
     }

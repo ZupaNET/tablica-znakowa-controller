@@ -51,6 +51,11 @@ class AppSettings : public QObject
         WRITE setBrightness
         NOTIFY brightnessChanged)
 
+    Q_PROPERTY(bool darkMode
+        READ darkMode
+        WRITE setDarkMode
+        NOTIFY darkModeChanged)
+
 explicit AppSettings(QObject* parent = nullptr)
     : QObject(parent)
 {
@@ -98,6 +103,9 @@ public:
     quint8 brightness() const;
     void setBrightness(const quint8 &level);
 
+    bool darkMode() const;
+    void setDarkMode(const bool &dark);
+
 signals:
     void screenCustomTextChanged();
     void screenCustomFontChanged();
@@ -107,6 +115,7 @@ signals:
     void ipAddressChanged(QString);
     void portChanged(quint16);
     void brightnessChanged(quint8);
+    void darkModeChanged();
 
 private:
     bool m_initialized = false;
@@ -120,6 +129,7 @@ private:
     QString m_ipAddress;
     quint16 m_port;
     quint8 m_brightness;
+    bool m_darkMode;
 
     inline static QJSEngine *s_engine = nullptr;
 };

@@ -21,15 +21,15 @@ Rectangle {
 
     color:
         mouse.containsMouse
-        ? "#e8f3ff"
+        ? Theme.surfaceHover
         : danger
-          ? "#fff1f1"
-          : "white"
+          ? Theme.dangerSurface
+          : Theme.surface
 
     border.color:
         danger
-        ? "#ef9a9a"
-        : "#dddddd"
+        ? Theme.dangerBorder
+        : Theme.surfaceBorder
 
     Behavior on color {
         ColorAnimation {
@@ -57,8 +57,8 @@ Rectangle {
 
             color:
                 danger
-                ? "#d32f2f"
-                : "#37474f"
+                ? Theme.danger
+                : Theme.text
         }
 
         Text {
@@ -70,6 +70,8 @@ Rectangle {
 
             font.pixelSize: 20
             font.bold: true
+
+            color: Theme.text
         }
 
         Text {
@@ -77,7 +79,7 @@ Rectangle {
 
             text: root.description
 
-            color: "#777"
+            color: Theme.textSecondary
 
             font.pixelSize: 13
         }
