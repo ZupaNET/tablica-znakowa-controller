@@ -338,9 +338,11 @@ Item {
             Layout.fillWidth: true
             Layout.preferredHeight: toolBar.implicitHeight + 16
 
-            color: Theme.panel
-            border.color: Theme.panelBorder
+            color: "transparent"
+            border.color: Theme.surfaceBorder
             border.width: 1
+
+            radius: 5
 
             RowLayout {
                 id: toolBar

@@ -47,9 +47,6 @@ Dialog {
             radius: 6
             color: "transparent"
 
-            border.color: Theme.surfaceBorder
-            border.width: 1
-
             SlimScreenPanel {
                 anchors.fill: parent
                 anchors.margins: 8
