@@ -102,4 +102,16 @@ ApplicationWindow {
             )
         }
     }
+
+    Component.onCompleted: {
+        Qt.uiLanguage = LanguageManager.language
+    }
+
+    Connections {
+        target: LanguageManager
+
+        function onLanguageChanged() {
+            Qt.uiLanguage = LanguageManager.language
+        }
+    }
 }

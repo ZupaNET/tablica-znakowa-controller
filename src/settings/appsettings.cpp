@@ -62,6 +62,11 @@ void AppSettings::init()
         "darkMode",
         false
         ).toBool();
+
+    m_language = m_settings.value(
+        "language",
+        QLocale::system().name()
+        ).toString();
 }
 
 QString AppSettings::screenCustomText() const
@@ -218,4 +223,23 @@ void AppSettings::setDarkMode(const bool &dark)
         dark);
 
     emit darkModeChanged();
+}
+
+QString AppSettings::language() const
+{
+    return m_language;
+}
+
+void AppSettings::setLanguage(const QString &name)
+{
+    if(name == m_language)
+        return;
+
+    m_language = name;
+
+    m_settings.setValue(
+        "language",
+        name);
+
+    emit languageChanged();
 }

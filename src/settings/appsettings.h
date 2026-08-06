@@ -56,6 +56,11 @@ class AppSettings : public QObject
         WRITE setDarkMode
         NOTIFY darkModeChanged)
 
+    Q_PROPERTY(QString language
+        READ language
+        WRITE setLanguage
+        NOTIFY languageChanged)
+
 explicit AppSettings(QObject* parent = nullptr)
     : QObject(parent)
 {
@@ -106,6 +111,9 @@ public:
     bool darkMode() const;
     void setDarkMode(const bool &dark);
 
+    QString language() const;
+    void setLanguage(const QString &name);
+
 signals:
     void screenCustomTextChanged();
     void screenCustomFontChanged();
@@ -116,6 +124,7 @@ signals:
     void portChanged(quint16);
     void brightnessChanged(quint8);
     void darkModeChanged();
+    void languageChanged();
 
 private:
     bool m_initialized = false;
@@ -130,6 +139,7 @@ private:
     quint16 m_port;
     quint8 m_brightness;
     bool m_darkMode;
+    QString m_language;
 
     inline static QJSEngine *s_engine = nullptr;
 };

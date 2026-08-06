@@ -282,6 +282,110 @@ Item {
 
                 Rectangle {
                     Layout.fillWidth: true
+                    radius: 16
+                    color: Theme.card
+                    border.color: Theme.cardBorder
+
+                    implicitHeight: appColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: appColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: MdiFont.Icon.cog
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: qsTr("Aplikacja")
+
+                                font.bold: true
+                                font.pixelSize: 20
+
+                                color: Theme.text
+                            }
+                        }
+
+                        RowLayout {
+
+                            Layout.fillWidth: true
+
+                            Label {
+                                text: qsTr("Tryb ciemny")
+
+                                color: Theme.text
+
+                                Layout.fillWidth: true
+
+                                font.pixelSize: 15
+                            }
+
+                            Switch {
+
+                                checked: AppSettings.darkMode
+
+                                onToggled: {
+                                    AppSettings.darkMode = checked
+                                }
+                            }
+                        }
+
+                        RowLayout {
+
+                            Layout.fillWidth: true
+
+                            Label {
+                                text: qsTr("Język")
+
+                                color: Theme.text
+
+                                Layout.fillWidth: true
+
+                                font.pixelSize: 15
+                            }
+
+                            ComboBox {
+                                id: languageBox
+
+                                Layout.preferredWidth: 200
+
+                                model: LanguageManager.availableLanguages
+
+                                textRole: "name"
+                                valueRole: "lang"
+
+                                Component.onCompleted: {
+                                    currentIndex = indexOfValue(LanguageManager.language)
+                                }
+
+                                onActivated: {
+                                    LanguageManager.language = currentValue
+                                }
+
+                                Connections {
+                                    target: LanguageManager
+
+                                    function onLanguageChanged() {
+                                        languageBox.currentIndex = languageBox.indexOfValue(LanguageManager.language)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
 
                     radius: 16
 
@@ -315,30 +419,6 @@ Item {
                                 font.pixelSize: 20
 
                                 color: Theme.text
-                            }
-                        }
-
-                        RowLayout {
-
-                            Layout.fillWidth: true
-
-                            Label {
-                                text: qsTr("Tryb ciemny")
-
-                                color: Theme.text
-
-                                Layout.fillWidth: true
-
-                                font.pixelSize: 15
-                            }
-
-                            Switch {
-
-                                checked: AppSettings.darkMode
-
-                                onToggled: {
-                                    AppSettings.darkMode = checked
-                                }
                             }
                         }
 

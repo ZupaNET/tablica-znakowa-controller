@@ -695,37 +695,47 @@
         <translation>Port musi być w zakresie 1-65535</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="312"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="310"/>
+        <source>Aplikacja</source>
+        <translation>Aplikacja</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="348"/>
+        <source>Język</source>
+        <translation>Język</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="416"/>
         <source>Wyświetlacz</source>
         <translation>Wyświetlacz</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="326"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="324"/>
         <source>Tryb ciemny</source>
         <translation>Tryb ciemny</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="380"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="460"/>
         <source>Poziom:</source>
         <translation>Poziom:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="416"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="496"/>
         <source>Śpiewnik</source>
         <translation>Śpiewnik</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="436"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="516"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="447"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="527"/>
         <source>Eksport</source>
         <translation>Eksport</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="458"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="538"/>
         <source>Resetuj</source>
         <translation>Resetuj</translation>
     </message>
