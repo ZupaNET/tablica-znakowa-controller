@@ -52,6 +52,7 @@ QtObject {
 
     readonly property color card: surface
     readonly property color tile: surface
+    readonly property color setCard: AppSettings.darkMode ? "#1e1e1e" : "#d7d7d7"
 
     readonly property color cardDisabled: AppSettings.darkMode ? "#3a3a3a" : "#aaaaaa"
     readonly property color cardPressed: AppSettings.darkMode ? "#333333" : "#cacaca"

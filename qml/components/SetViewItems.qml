@@ -34,7 +34,7 @@ Item {
 
             return selected
                 ? Theme.cardSelected
-                : Theme.card
+                : Theme.setCard
         }
 
         property color pressedColor:
