@@ -46,7 +46,7 @@ Item {
 
             PropertyChanges {
                 target: screen
-                color: "#111111"
+                color: "#000000"
             }
 
             PropertyChanges {
@@ -61,7 +61,7 @@ Item {
 
             PropertyChanges {
                 target: limitLine
-                color: "yellow"
+                color: "#404040"
             }
         },
 
@@ -85,7 +85,7 @@ Item {
 
             PropertyChanges {
                 target: limitLine
-                color: "yellow"
+                color: "#404040"
             }
         },
 
@@ -109,7 +109,7 @@ Item {
 
             PropertyChanges {
                 target: limitLine
-                color: "black"
+                color: "#404040"
             }
         }
     ]

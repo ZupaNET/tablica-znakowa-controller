@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import Prezenter
+import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -45,7 +46,12 @@ Item {
 
 
             Button {
-                text: qsTr("Powrót")
+                text: MdiFont.Icon.arrowLeft
+
+                Material.background: "transparent"
+                Material.foreground: "white"
+                font.family: "Material Design Icons"
+                font.pixelSize: 20
 
                 anchors {
                     left: parent.left
@@ -53,8 +59,6 @@ Item {
                 }
 
                 flat: true
-
-                Material.foreground: "white"
 
                 onClicked: {
                     Navigation.pop()
@@ -73,7 +77,12 @@ Item {
             }
 
             Button {
-                text: qsTr("Prezentuj >")
+                text: qsTr("Prezentuj") + " " + MdiFont.Icon.chevronRight
+
+                Material.background: "transparent"
+                Material.foreground: "white"
+                font.family: "Material Design Icons"
+                font.pixelSize: 20
 
                 enabled: hymnModel.parentId >= 0
 
@@ -83,8 +92,6 @@ Item {
                 }
 
                 flat: true
-
-                Material.foreground: "white"
 
                 onClicked: {
                     Navigation.push(Qt.resolvedUrl("PresentationPage.qml"),{"currentSet": hymnModel.parentId, "selectedHymnId": screenModel.hymnId})

@@ -1,7 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects
 
+import Prezenter
 import "../Icon.js" as MdiFont
 
 Item {
@@ -181,173 +183,216 @@ Item {
             }
         }
 
-        ListView {
-            id: list
-
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            clip: true
+            ListView {
+                id: list
 
-            ScrollBar.vertical: ScrollBar {
-                width: 8
-                policy: ScrollBar.AlwaysOn
-            }
+                anchors.fill: parent
 
-            Component.onCompleted: {
-                list.currentIndex = -1
-            }
+                clip: true
 
-            delegate: Item {
-                id: wrapper
-                width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
-
-                property bool filteredOut: {
-                    let filter = root.categorySearchText.trim().toLowerCase()
-                    let text = model.name.toLowerCase()
-                    let ok = text.indexOf(filter) !== -1
-
-                    if (filter === "")
-                        return false
-
-                    return !ok
+                ScrollBar.vertical: ScrollBar {
+                    width: 8
+                    policy: ScrollBar.AlwaysOn
                 }
 
+                Component.onCompleted: {
+                    list.currentIndex = -1
+                }
 
-                height: filteredOut ? 0 : 49
-                visible: !filteredOut
+                delegate: Item {
+                    id: wrapper
+                    width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
 
-                Behavior on height {
-                    NumberAnimation {
-                        duration: 150
+                    property bool filteredOut: {
+                        let filter = root.categorySearchText.trim().toLowerCase()
+                        let text = model.name.toLowerCase()
+                        let ok = text.indexOf(filter) !== -1
+
+                        if (filter === "")
+                            return false
+
+                        return !ok
                     }
-                }
 
-                Rectangle {
-                    width: parent.width
-                    height: 45
 
-                    radius: 6
+                    height: filteredOut ? 0 : 49
+                    visible: !filteredOut
 
-                    color:
-                        wrapper.ListView.isCurrentItem
-                        ? Theme.listItemSelected
-                        : Theme.listItem
-
-                    border.color: Theme.listItemBorder
-
-                    RowLayout {
-                        anchors.fill: parent
-                        anchors.leftMargin: 12
-                        anchors.rightMargin: 8
-
-                        Label {
-                            Layout.fillWidth: true
-
-                            text: model.name === "" ? qsTr("Bez kategorii") : model.name
-
-                            font.bold: wrapper.ListView.isCurrentItem
-                            elide: Text.ElideRight
-
-                            color: Theme.text
+                    Behavior on height {
+                        NumberAnimation {
+                            duration: 150
                         }
+                    }
 
-                        ToolButton {
-                            text: MdiFont.Icon.arrowUp
+                    Rectangle {
+                        width: parent.width
+                        height: 45
 
-                            enabled: model.id >= 0 && index > 1 && root.categorySearchText == ""
-                            visible: model.id >= 0
+                        radius: 6
 
-                            font.family: "Material Design Icons"
-                            font.pixelSize: 20
+                        color:
+                            wrapper.ListView.isCurrentItem
+                            ? Theme.listItemSelected
+                            : Theme.listItem
 
-                            onClicked: {
-                                root.moveCategory(index, index - 1)
+                        border.color: Theme.listItemBorder
+
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 12
+                            anchors.rightMargin: 8
+
+                            Label {
+                                Layout.fillWidth: true
+
+                                text: model.name === "" ? qsTr("Bez kategorii") : model.name
+
+                                font.bold: wrapper.ListView.isCurrentItem
+                                elide: Text.ElideRight
+
+                                color: Theme.text
                             }
-                        }
 
-                        ToolButton {
-                            text: MdiFont.Icon.arrowDown
+                            ToolButton {
+                                text: MdiFont.Icon.arrowUp
 
-                            font.family: "Material Design Icons"
-                            font.pixelSize: 20
+                                enabled: model.id >= 0 && index > 1 && root.categorySearchText == ""
+                                visible: model.id >= 0
 
-                            enabled: model.id >= 0 && index < list.count - 1 && root.categorySearchText == ""
-                            visible: model.id >= 0
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
 
-                            onClicked: {
-                                root.moveCategory(index, index + 1)
-                            }
-                        }
-
-                        ToolButton {
-                            id: moreButton
-
-                            visible: model.id >= 0
-
-                            text: MdiFont.Icon.dotsVertical
-
-                            font.family: "Material Design Icons"
-                            font.pixelSize: 22
-
-                            onClicked:
-                                menu.open()
-                        }
-
-
-                        Menu {
-                            id: menu
-                            y: moreButton.height
-
-                            MenuItem {
-                                text: qsTr("Edytuj")
-
-                                onTriggered: {
-                                    updateDialog.initialName = model.name
-                                    updateDialog.categoryRow = index
-                                    updateDialog.open()
+                                onClicked: {
+                                    root.moveCategory(index, index - 1)
                                 }
                             }
 
-                            MenuSeparator {}
+                            ToolButton {
+                                text: MdiFont.Icon.arrowDown
 
-                            MenuItem {
-                                text: qsTr("Usuń")
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
 
-                                Material.foreground: "firebrick"
+                                enabled: model.id >= 0 && index < list.count - 1 && root.categorySearchText == ""
+                                visible: model.id >= 0
 
-                                onTriggered: {
-                                    root.pendingRemoveRow = index
-                                    deleteDialog.open()
+                                onClicked: {
+                                    root.moveCategory(index, index + 1)
                                 }
                             }
-                        }
 
-                        TapHandler  {
-                            onTapped: {
-                                list.currentIndex = index
-                                root.selected(model.id)
+                            ToolButton {
+                                id: moreButton
+
+                                visible: model.id >= 0
+
+                                text: MdiFont.Icon.dotsVertical
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 22
+
+                                onClicked:
+                                    menu.open()
+                            }
+
+
+                            Menu {
+                                id: menu
+                                y: moreButton.height
+
+                                MenuItem {
+                                    text: qsTr("Edytuj")
+
+                                    onTriggered: {
+                                        updateDialog.initialName = model.name
+                                        updateDialog.categoryRow = index
+                                        updateDialog.open()
+                                    }
+                                }
+
+                                MenuSeparator {}
+
+                                MenuItem {
+                                    text: qsTr("Usuń")
+
+                                    Material.foreground: "firebrick"
+
+                                    onTriggered: {
+                                        root.pendingRemoveRow = index
+                                        deleteDialog.open()
+                                    }
+                                }
+                            }
+
+                            TapHandler  {
+                                onTapped: {
+                                    list.currentIndex = index
+                                    root.selected(model.id)
+                                }
                             }
                         }
                     }
                 }
+            }
+
+            Rectangle {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 1
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 0
+                        color: Theme.background
+                    }
+                }
+
+                visible: list.contentY > 0
+            }
+
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 1
+                        color: Theme.background
+                    }
+                }
+
+                visible: list.contentY + list.height < list.contentHeight
             }
         }
 
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: toolBar.implicitHeight + 16
+            Layout.preferredHeight: toolBar.implicitHeight + 5
 
             color: "transparent"
-            border.color: Theme.surfaceBorder
-            border.width: 1
-
-            radius: 5
 
             RowLayout {
                 id: toolBar
                 anchors.fill: parent
-                anchors.margins: 8
 
                 Button {
                     text: qsTr("+ Dodaj kategorię")

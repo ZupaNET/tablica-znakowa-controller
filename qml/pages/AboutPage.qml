@@ -24,7 +24,12 @@ Item {
             color: Theme.header
 
             Button {
-                text: qsTr("Powrót")
+                text: MdiFont.Icon.arrowLeft
+
+                Material.background: "transparent"
+                Material.foreground: "white"
+                font.family: "Material Design Icons"
+                font.pixelSize: 20
 
                 anchors {
                     left: parent.left
@@ -32,7 +37,6 @@ Item {
                 }
 
                 flat: true
-                Material.foreground: "white"
 
                 onClicked: Navigation.pop()
             }

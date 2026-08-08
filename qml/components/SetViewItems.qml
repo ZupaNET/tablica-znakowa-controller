@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
 
+import Prezenter
 import "../Icon.js" as MdiFont
 
 Item {
@@ -69,40 +70,71 @@ Item {
                 topMargin: 10
                 rightMargin: 20
                 bottomMargin: 10
-                leftMargin: 20
+                leftMargin: 10
             }
 
             Layout.fillWidth: true
-            height: textColumn.implicitHeight
+            height: textRow.implicitHeight
 
-            Column {
-                id: textColumn
-                anchors {
-                    fill: parent
-                }
+            RowLayout {
+                id: textRow
+                anchors.fill: parent
 
-                spacing: 2
+                Rectangle {
+                    Layout.preferredWidth: 18
+                    Layout.preferredHeight: 18
+                    Layout.alignment: Qt.AlignTop
 
-                Text {
-                    id: titleText
-                    width: parent.width
-                    text: (root.vid !== "0" ? "["+ root.vid + "] " : "") + root.title
-                    font.bold: true
+                    visible: root.vid !== "0"
+
+                    radius: 17
+
                     color: Theme.cardText
-                    wrapMode: Text.NoWrap
-                    clip: true
-                    Behavior on color {
-                        ColorAnimation { duration: 250 }
+
+                    Label {
+                        anchors.centerIn: parent
+
+                        text: root.vid
+
+                        color: card.baseColor
+
+                        font.bold: true
                     }
                 }
 
-                Text {
-                    id: subtitleText
-                    width: parent.width
-                    text: root.subtitle
-                    color: Theme.cardText
-                    wrapMode: Text.NoWrap
-                    clip: true
+                ColumnLayout
+                {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
+
+                    spacing: 0
+
+                    Text {
+                        id: titleText
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 0
+
+                        text: root.title
+                        font.bold: true
+                        color: Theme.cardText
+                        wrapMode: Text.NoWrap
+                        clip: true
+                        Behavior on color {
+                            ColorAnimation { duration: 250 }
+                        }
+                    }
+
+                    Text {
+                        id: subtitleText
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 0
+
+                        text: root.subtitle
+                        color: Theme.cardText
+                        wrapMode: Text.NoWrap
+                        clip: true
+                    }
                 }
             }
 

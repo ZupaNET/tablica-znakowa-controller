@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import Prezenter
 import "../Icon.js" as MdiFont
 
 Item {
@@ -168,107 +169,164 @@ Item {
             color: Theme.text
         }
 
-        ListView {
-            id: list
-
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            spacing: 6
-            clip: true
+            ListView {
+                id: list
 
-            ScrollBar.vertical: ScrollBar {
-                width: 8
-                policy: ScrollBar.AlwaysOn
-            }
+                anchors.fill: parent
 
-            Component.onCompleted: {
-                list.currentIndex = -1
-            }
+                spacing: 6
+                clip: true
 
-            delegate: Rectangle {
-                id: wrapper
+                ScrollBar.vertical: ScrollBar {
+                    width: 8
+                    policy: ScrollBar.AlwaysOn
+                }
 
-                width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
-                height: 46
+                Component.onCompleted: {
+                    list.currentIndex = -1
+                }
 
-                radius: 6
+                delegate: Rectangle {
+                    id: wrapper
 
-                color:
-                    wrapper.ListView.isCurrentItem
-                    ? Theme.listItemSelected
-                    : Theme.listItem
+                    width: list.width - list.rightMargin - list.ScrollBar.vertical.width - 1
+                    height: 46
 
-                border.color:
-                    Theme.listItemBorder
+                    radius: 6
 
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 8
+                    color:
+                        wrapper.ListView.isCurrentItem
+                        ? Theme.listItemSelected
+                        : Theme.listItem
 
-                    Label {
-                        Layout.fillWidth: true
+                    border.color:
+                        Theme.listItemBorder
 
-                        text: model.name
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 12
+                        anchors.rightMargin: 8
 
-                        font.bold: wrapper.ListView.isCurrentItem
-                        elide: Text.ElideRight
+                        Label {
+                            Layout.fillWidth: true
 
-                        color: Theme.text
-                    }
+                            text: model.name
 
-                    ToolButton {
-                        text: MdiFont.Icon.pencil
+                            font.bold: wrapper.ListView.isCurrentItem
+                            elide: Text.ElideRight
 
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
+                            color: Theme.text
+                        }
 
-                        onClicked: {
-                            updateDialog.initialName = model.name
-                            updateDialog.setRow = index
-                            updateDialog.open()
+                        ToolButton {
+                            id: moreButton
+
+                            text: MdiFont.Icon.dotsVertical
+
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 22
+
+                            onClicked:
+                                menu.open()
+                        }
+
+
+                        Menu {
+                            id: menu
+                            y: moreButton.height
+
+                            MenuItem {
+                                text: qsTr("Edytuj")
+
+                                onTriggered: {
+                                    updateDialog.initialName = model.name
+                                    updateDialog.setRow = index
+                                    updateDialog.open()
+                                }
+                            }
+
+                            MenuSeparator {}
+
+                            MenuItem {
+                                text: qsTr("Usuń")
+
+                                Material.foreground: "firebrick"
+
+                                onTriggered: {
+                                    root.pendingRemoveRow = index
+                                    deleteDialog.open()
+                                }
+                            }
                         }
                     }
 
-                    ToolButton {
-                        text: MdiFont.Icon.delete
-
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 20
-
-                        Material.foreground: "firebrick"
-
-                        onClicked: {
-                            root.pendingRemoveRow = index
-                            deleteDialog.open()
+                    TapHandler {
+                        onTapped: {
+                            list.currentIndex = index
+                            root.selected(model.id)
                         }
                     }
                 }
+            }
 
-                TapHandler {
-                    onTapped: {
-                        list.currentIndex = index
-                        root.selected(model.id)
+            Rectangle {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 1
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 0
+                        color: Theme.background
                     }
                 }
+
+                visible: list.contentY > 0
+            }
+
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 1
+                        color: Theme.background
+                    }
+                }
+
+                visible: list.contentY + list.height < list.contentHeight
             }
         }
 
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: toolBar.implicitHeight + 16
+            Layout.preferredHeight: toolBar.implicitHeight + 5
 
             color: "transparent"
-            border.color: Theme.surfaceBorder
-            border.width: 1
-
-            radius: 5
 
             RowLayout {
                 id: toolBar
                 anchors.fill: parent
-                anchors.margins: 8
 
                 Button {
                     text: qsTr("+ Dodaj zestaw")

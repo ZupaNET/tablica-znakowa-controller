@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import Prezenter
 import "../Icon.js" as MdiFont
 
 Item {
@@ -32,126 +33,169 @@ Item {
             }
         }
 
-        ListView {
-            id: list
-
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            spacing: 8
+            ListView {
+                id: list
 
-            clip: true
+                anchors.fill: parent
 
-            ScrollBar.vertical: ScrollBar {
-                width: 8
-                policy: ScrollBar.AlwaysOn
-            }
+                spacing: 8
 
-            delegate: Rectangle {
+                clip: true
 
-                width: list.width - 12
-                height: root.showPreview ? 330 : 54
+                ScrollBar.vertical: ScrollBar {
+                    width: 8
+                    policy: ScrollBar.AlwaysOn
+                }
 
-                radius: 8
+                delegate: Rectangle {
 
-                color:
-                    model.shown
-                    ? Theme.successBackground
-                    : Theme.inactiveItem
+                    width: list.width - 12
+                    height: root.showPreview ? 330 : 54
 
-                border.color:
-                    model.shown
-                    ? Theme.successBorder
-                    : Theme.inactiveBorder
+                    radius: 8
 
-                ColumnLayout {
-                    anchors.fill: parent
+                    color:
+                        model.shown
+                        ? Theme.successBackground
+                        : Theme.inactiveItem
 
-                    Item {
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
+                    border.color:
+                        model.shown
+                        ? Theme.successBorder
+                        : Theme.inactiveBorder
 
-                        Layout.minimumHeight: 0
+                    ColumnLayout {
+                        anchors.fill: parent
 
-                        visible: root.showPreview
+                        Item {
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
 
-                        TablicaScreen {
-                            anchors.fill: parent
+                            Layout.minimumHeight: 0
 
-                            content: model.text
-                            hymnFont: model.font
-                        }
-                    }
+                            visible: root.showPreview
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 12
-                        Layout.rightMargin: 8
-                        Layout.topMargin: 10
-                        Layout.bottomMargin: 10
+                            TablicaScreen {
+                                anchors.fill: parent
 
-                        Layout.alignment: Qt.AlignVCenter
-
-                        Rectangle {
-                            Layout.preferredWidth: 34
-                            Layout.preferredHeight: 34
-
-                            radius: 17
-
-                            color:
-                                model.shown
-                                ? Theme.badgeActive
-                                : Theme.badgeInactive
-
-                            Label {
-                                anchors.centerIn: parent
-
-                                text: index + 1
-
-                                color: "white"
-
-                                font.bold: true
+                                content: model.text
+                                hymnFont: model.font
                             }
                         }
 
-                        Label {
+                        RowLayout {
                             Layout.fillWidth: true
+                            Layout.leftMargin: 12
+                            Layout.rightMargin: 8
+                            Layout.topMargin: 10
+                            Layout.bottomMargin: 10
 
-                            text: model.excerpt
+                            Layout.alignment: Qt.AlignVCenter
 
-                            elide: Text.ElideRight
+                            Rectangle {
+                                Layout.preferredWidth: 34
+                                Layout.preferredHeight: 34
 
-                            font.pixelSize: 15
+                                radius: 17
 
-                            color: Theme.text
-                        }
+                                color:
+                                    model.shown
+                                    ? Theme.badgeActive
+                                    : Theme.badgeInactive
 
-                        Switch {
-                            checked: model.shown
+                                Label {
+                                    anchors.centerIn: parent
 
-                            onToggled: {
-                                root.toggleScreen(index, checked)
+                                    text: index + 1
+
+                                    color: "white"
+
+                                    font.bold: true
+                                }
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+
+                                text: model.excerpt
+
+                                elide: Text.ElideRight
+
+                                font.pixelSize: 15
+
+                                color: Theme.text
+                            }
+
+                            Switch {
+                                checked: model.shown
+
+                                onToggled: {
+                                    root.toggleScreen(index, checked)
+                                }
                             }
                         }
                     }
                 }
             }
+
+            Rectangle {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 1
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 0
+                        color: Theme.background
+                    }
+                }
+
+                visible: list.contentY > 0
+            }
+
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 1
+                        color: Theme.background
+                    }
+                }
+
+                visible: list.contentY + list.height < list.contentHeight
+            }
         }
 
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: toolBar.implicitHeight + 19
+            Layout.preferredHeight: toolBar.implicitHeight + 8
 
             color: "transparent"
-            border.color: Theme.surfaceBorder
-            border.width: 1
-
-            radius: 5
 
             RowLayout {
                 id: toolBar
                 anchors.fill: parent
-                anchors.margins: 8
 
                 ToolButton {
                     text: MdiFont.Icon.eye

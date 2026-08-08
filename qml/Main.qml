@@ -13,7 +13,8 @@ ApplicationWindow {
     visible: true
 
     title: AppInfo.name
-    color: Theme.background
+    color: Theme.appBackground
+    flags: Qt.Window | Qt.ExpandedClientAreaHint | Qt.NoTitleBarBackgroundHint
 
     Material.theme: AppSettings.darkMode ? Material.Dark : Material.Light
 

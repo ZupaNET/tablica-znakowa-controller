@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import Prezenter
 import "../Icon.js" as MdiFont
 
 Item {
@@ -72,140 +73,184 @@ Item {
             color: Theme.text
         }
 
-        ListView {
-            id: list
-
-            Layout.fillHeight: true
+        Item {
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            spacing: 8
-            clip: true
+            ListView {
+                id: list
 
-            ScrollBar.vertical: ScrollBar {
-                width: 8
-                policy: ScrollBar.AlwaysOn
-            }
+                anchors.fill: parent
 
-            delegate: Rectangle {
-                width: list.width - list.ScrollBar.vertical.width - 1
-                height: 300
+                spacing: 8
+                clip: true
 
-                radius: 8
+                ScrollBar.vertical: ScrollBar {
+                    width: 8
+                    policy: ScrollBar.AlwaysOn
+                }
 
-                color: Theme.listItem
+                delegate: Rectangle {
+                    width: list.width - list.ScrollBar.vertical.width - 1
+                    height: 300
 
-                border.color: Theme.listItemBorder
+                    radius: 8
 
-                ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: 8
+                    color: Theme.listItem
 
-                    spacing: 6
+                    border.color: Theme.listItemBorder
 
-                    Item {
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: 8
 
-                        Layout.minimumHeight: 0
+                        spacing: 6
 
-                        TablicaScreen {
-                            anchors.fill: parent
-
-                            content: model.text
-                            hymnFont: model.font
-                        }
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 32
-
-                        Label {
+                        Item {
+                            Layout.fillHeight: true
                             Layout.fillWidth: true
 
-                            text: qsTr("Slajd") + " " + (index + 1)
+                            Layout.minimumHeight: 0
 
-                            font.bold: true
+                            TablicaScreen {
+                                anchors.fill: parent
 
-                            color: Theme.text
-                        }
-
-                        ToolButton {
-                               text: MdiFont.Icon.arrowUp
-
-                               font.family: "Material Design Icons"
-                               font.pixelSize: 20
-
-                               enabled: index > 0
-
-                               onClicked: {
-                                   root.moveScreen(index, index - 1)
-                               }
-                           }
-
-                           ToolButton {
-                               text: MdiFont.Icon.arrowDown
-
-                               font.family: "Material Design Icons"
-                               font.pixelSize: 20
-
-                               enabled: index < list.count - 1
-
-                               onClicked: {
-                                   root.moveScreen(index, index + 1)
-                               }
-                           }
-
-                        ToolButton {
-                            text: MdiFont.Icon.contentCopy
-
-                            font.family: "Material Design Icons"
-                            font.pixelSize: 20
-
-                            onClicked: {
-                                root.duplicateScreen(index)
+                                content: model.text
+                                hymnFont: model.font
                             }
                         }
 
-                        ToolButton {
-                            text: MdiFont.Icon.delete
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 32
 
-                            font.family: "Material Design Icons"
-                            font.pixelSize: 20
+                            Label {
+                                Layout.fillWidth: true
 
-                            Material.foreground: "firebrick"
+                                text: qsTr("Slajd") + " " + (index + 1)
+
+                                font.bold: true
+
+                                color: Theme.text
+                            }
+
+                            ToolButton {
+                                   text: MdiFont.Icon.arrowUp
+
+                                   font.family: "Material Design Icons"
+                                   font.pixelSize: 20
+
+                                   enabled: index > 0
+
+                                   onClicked: {
+                                       root.moveScreen(index, index - 1)
+                                   }
+                               }
+
+                               ToolButton {
+                                   text: MdiFont.Icon.arrowDown
+
+                                   font.family: "Material Design Icons"
+                                   font.pixelSize: 20
+
+                                   enabled: index < list.count - 1
+
+                                   onClicked: {
+                                       root.moveScreen(index, index + 1)
+                                   }
+                               }
+
+                            ToolButton {
+                                text: MdiFont.Icon.contentCopy
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
+
+                                onClicked: {
+                                    root.duplicateScreen(index)
+                                }
+                            }
+
+                            ToolButton {
+                                text: MdiFont.Icon.delete
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
+
+                                Material.foreground: "firebrick"
 
 
-                            onClicked: {
-                                root.pendingRemoveRow = index
-                                deleteDialog.open()
+                                onClicked: {
+                                    root.pendingRemoveRow = index
+                                    deleteDialog.open()
+                                }
                             }
                         }
                     }
-                }
 
-                TapHandler {
-                    onTapped: {
-                        list.currentIndex = index
-                        root.selected(model.id, index)
+                    TapHandler {
+                        onTapped: {
+                            list.currentIndex = index
+                            root.selected(model.id, index)
+                        }
                     }
                 }
+            }
+
+            Rectangle {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 1
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 0
+                        color: Theme.background
+                    }
+                }
+
+                visible: list.contentY > 0
+            }
+
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 32
+                z: 10
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 1
+                        color: Theme.background
+                    }
+                }
+
+                visible: list.contentY + list.height < list.contentHeight
             }
         }
 
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: toolBar.implicitHeight + 16
+            Layout.preferredHeight: toolBar.implicitHeight + 5
 
             color: "transparent"
-            border.color: Theme.surfaceBorder
-            border.width: 1
-            radius: 5
 
             RowLayout {
                 id: toolBar
                 anchors.fill: parent
-                anchors.margins: 8
 
                 Button {
                     text: qsTr("+ Dodaj slajd")

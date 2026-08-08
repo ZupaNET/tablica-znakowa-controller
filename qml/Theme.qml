@@ -7,6 +7,7 @@ QtObject {
 
     // Background
 
+    readonly property color appBackground: AppSettings.darkMode ? "#242424" : "#474747"
     readonly property color background: AppSettings.darkMode ? "#121212" : "#f3f5f7"
     readonly property color surface: AppSettings.darkMode ? "#1e1e1e" : "#ffffff"
     readonly property color header: AppSettings.darkMode ? "#242424" : "#474747"

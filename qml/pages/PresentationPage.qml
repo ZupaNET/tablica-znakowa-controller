@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 
 import Prezenter
+import "../Icon.js" as MdiFont
 
 Item {
     id: root1
@@ -142,9 +143,14 @@ Item {
                     leftMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: qsTr("Powrót")
-                flat: true
+                text: MdiFont.Icon.arrowLeft
+
+                Material.background: "transparent"
                 Material.foreground: "white"
+                font.family: "Material Design Icons"
+                font.pixelSize: 20
+
+                flat: true
                 onClicked: {
                     Navigation.pop();
                 }
@@ -157,8 +163,13 @@ Item {
                     rightMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: qsTr("Transmisja")
+                text: qsTr("Transmisja") + " " + MdiFont.Icon.cast
+
+                Material.background: "transparent"
                 Material.foreground: "white"
+                font.family: "Material Design Icons"
+                font.pixelSize: 20
+
                 highlighted: TablicaConnector.enabled
                 flat: true
                 onClicked: {
@@ -239,11 +250,12 @@ Item {
                 Text {
                     anchors {
                         top: parent.top
-                        topMargin: 5
+                        topMargin: 20
                         horizontalCenter: parent.horizontalCenter
                     }
 
-                    text: "..."
+                    text: MdiFont.Icon.dotsHorizontal
+                    font.family: "Material Design Icons"
                     font.pixelSize: 24
                     color: Theme.text
                 }
@@ -377,9 +389,25 @@ Item {
             anchors {
                 top: topBar.bottom
                 right: setView.left
-                rightMargin: -20
+                rightMargin: -30
             }
-            text: setView.state === "open" ? ">" : "<"
+
+            Text {
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    topMargin: 15
+                    leftMargin: 10
+                    verticalCenter: parent.verticalCenter
+                }
+
+                text: setView.state === "open" ? MdiFont.Icon.chevronRight : MdiFont.Icon.chevronLeft
+
+                font.family: "Material Design Icons"
+                font.pixelSize: 24
+                color: Theme.text
+            }
+
             onClicked: {
                 if (setView.state === "open") {
                     AppSettings.setView = "closed";
