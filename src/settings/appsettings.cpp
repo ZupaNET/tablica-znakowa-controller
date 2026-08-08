@@ -28,6 +28,16 @@ void AppSettings::init()
 
     m_initialized = true;
 
+    m_screenCustomText = m_settings.value(
+        "screenCustomText",
+        ""
+        ).toString();
+
+    m_screenCustomFont = m_settings.value(
+        "screenCustomFont",
+        2
+        ).toInt();
+
     m_screenView = m_settings.value(
         "screenView",
         "screenView"
@@ -81,6 +91,11 @@ void AppSettings::setScreenCustomText(const QString &text)
 
     m_screenCustomText = text;
 
+    m_settings.setValue(
+        "screenCustomText",
+        text
+        );
+
     emit screenCustomTextChanged();
 }
 
@@ -95,6 +110,11 @@ void AppSettings::setScreenCustomFont(const int &font)
         return;
 
     m_screenCustomFont = font;
+
+    m_settings.setValue(
+        "screenCustomFont",
+        font
+        );
 
     emit screenCustomFontChanged();
 }
