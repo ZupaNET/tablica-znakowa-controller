@@ -78,7 +78,6 @@ private:
     void setFont(quint8 font);
 
     bool sendScreen(const Screen& scr);
-    bool clearScreen();
     bool sendLine(QString line, quint8 lineNumber);
     bool display();
 
@@ -95,6 +94,7 @@ signals:
     void portChanged();
 
     void connectionFailure();
+    void commandQueueEmpty();
 public:
     void setBuffer(const Screen& buffer);
     Screen getBuffer();
@@ -112,6 +112,7 @@ public:
     Q_INVOKABLE bool testStop();
 
     Q_INVOKABLE void resendBuffer();
+    Q_INVOKABLE bool clearScreen();
 
 public slots:
     void setBrightnessNow(quint8 brightness);

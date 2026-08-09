@@ -23,6 +23,41 @@ ApplicationWindow {
             ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom
             : 0
 
+    property bool closing: false
+
+    onClosing: function(close) {
+        if(TablicaConnector.enabled === false)
+        {
+            close.accepted = true
+            return
+        }
+
+        if (closing)
+            return
+
+        close.accepted = false
+        closing = true
+
+        TablicaConnector.enabled = true
+        TablicaConnector.clearScreen()
+    }
+
+    Connections {
+        target: TablicaConnector
+
+        function onCommandQueueEmpty() {
+            if (!mainWindow.closing)
+                return
+
+            Qt.quit()
+        }
+
+        function onConnectionFailure() {
+            if(mainWindow.closing)
+                Qt.quit()
+        }
+    }
+
     Item {
         id: rootContent
 

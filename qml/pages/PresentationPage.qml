@@ -119,6 +119,7 @@ Item {
 
     Component.onDestruction: {
         ScreenAwake.allowSleep()
+        TablicaConnector.clearScreen()
     }
 
     Rectangle {

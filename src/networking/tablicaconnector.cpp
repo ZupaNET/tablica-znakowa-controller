@@ -206,8 +206,10 @@ void TablicaConnector::processQueue()
     if(commandRunning)
         return;
 
-    if(commandQueue.isEmpty())
+    if (commandQueue.isEmpty()) {
+        emit commandQueueEmpty();
         return;
+    }
 
 
     commandRunning = true;
