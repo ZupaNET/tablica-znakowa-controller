@@ -70,6 +70,14 @@ Dialog {
         }
     }
 
+    onClosed: {
+        categorySearch.clear()
+        hymnSearch.clear()
+        categorySearch.focus = false
+        hymnSearch.focus = false
+        Qt.inputMethod.hide()
+    }
+
 
     ColumnLayout {
         anchors.fill: parent
@@ -98,6 +106,8 @@ Dialog {
                 }
 
                 TextField {
+                    id: categorySearch
+
                     Layout.preferredWidth: categoryView.width
                     Layout.leftMargin: 6
                     Layout.preferredHeight: 45
@@ -264,6 +274,8 @@ Dialog {
                 }
 
                 TextField {
+                    id: hymnSearch
+
                     Layout.preferredWidth: hymnView.width
                     Layout.leftMargin: 6
                     Layout.preferredHeight: 45
