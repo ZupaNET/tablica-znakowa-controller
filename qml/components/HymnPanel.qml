@@ -382,21 +382,25 @@ Item {
                                 id: menu
                                 y: moreButton.height
 
-                                MenuItem {
-                                    visible: !root.setMode
+                                Loader {
+                                    active: !root.setMode
 
-                                    text: qsTr("Edytuj")
+                                    sourceComponent: MenuItem {
+                                        text: qsTr("Edytuj")
 
-                                    onTriggered: {
-                                        updateDialog.initialName = model.name
-                                        updateDialog.initialCategoryId = model.categoryId
-                                        updateDialog.hymnRow = index
-                                        updateDialog.open()
+                                        onTriggered: {
+                                            updateDialog.initialName = model.name
+                                            updateDialog.initialCategoryId = model.categoryId
+                                            updateDialog.hymnRow = index
+                                            updateDialog.open()
+                                        }
                                     }
                                 }
 
-                                MenuSeparator {
-                                    visible: !root.setMode
+                                Loader {
+                                    active: !root.setMode
+
+                                    sourceComponent: MenuSeparator {}
                                 }
 
                                 MenuItem {
