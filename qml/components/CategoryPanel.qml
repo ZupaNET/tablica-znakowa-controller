@@ -303,6 +303,7 @@ Item {
 
                             Menu {
                                 id: menu
+                                x: moreButton.x + moreButton.width - width
                                 y: moreButton.height
 
                                 MenuItem {
