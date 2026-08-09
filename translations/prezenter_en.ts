@@ -4,17 +4,12 @@
 <context>
     <name>AboutLicensesPage</name>
     <message>
-        <location filename="../qml/pages/AboutLicensesPage.qml" line="31"/>
-        <source>Powrót</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutLicensesPage.qml" line="48"/>
+        <location filename="../qml/pages/AboutLicensesPage.qml" line="51"/>
         <source>Licencje</source>
         <translation>Licenses</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutLicensesPage.qml" line="221"/>
+        <location filename="../qml/pages/AboutLicensesPage.qml" line="224"/>
         <source>Nie można załadować licencji.</source>
         <translation>Couldn&apos;t load the license text.</translation>
     </message>
@@ -22,32 +17,27 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="27"/>
-        <source>Powrót</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/AboutPage.qml" line="43"/>
+        <location filename="../qml/pages/AboutPage.qml" line="47"/>
         <source>O aplikacji</source>
         <translation>About</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="94"/>
+        <location filename="../qml/pages/AboutPage.qml" line="98"/>
         <source>Kontroler</source>
         <translation>Controller</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="102"/>
+        <location filename="../qml/pages/AboutPage.qml" line="106"/>
         <source>Wersja:</source>
         <translation>Version:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="167"/>
+        <location filename="../qml/pages/AboutPage.qml" line="171"/>
         <source>Oryginalna tablica LED oraz pierwotne aplikacje </source>
         <translation>The original LED display and the original applications </translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="168"/>
+        <location filename="../qml/pages/AboutPage.qml" line="172"/>
         <source>zostały stworzone przez:
 
 </source>
@@ -56,7 +46,7 @@
 </translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="200"/>
+        <location filename="../qml/pages/AboutPage.qml" line="204"/>
         <source>Aplikacja wykorzystuje następujące komponenty:
 
 </source>
@@ -65,17 +55,17 @@
 </translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="209"/>
+        <location filename="../qml/pages/AboutPage.qml" line="213"/>
         <source>Szczegółowe informacje licencyjne znajdują się </source>
         <translation>Detailed licensing information can be found </translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="210"/>
+        <location filename="../qml/pages/AboutPage.qml" line="214"/>
         <source>w katalogu resources/licenses w repozytorium oraz poniżej.</source>
         <translation>in the resources/licenses directory in the repository and below.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="239"/>
+        <location filename="../qml/pages/AboutPage.qml" line="243"/>
         <source>Licencje i informacje prawne</source>
         <translation>Licenses and Legal Information</translation>
     </message>
@@ -83,58 +73,58 @@
 <context>
     <name>CategoryPanel</name>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="62"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="64"/>
         <source>Nowa kategoria</source>
         <translation>New Category</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="77"/>
-        <location filename="../qml/components/CategoryPanel.qml" line="115"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="79"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="117"/>
         <source>Nazwa kategorii</source>
         <translation>Category Name</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="97"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="99"/>
         <source>Zmiana nazwy kategorii</source>
         <translation>Renaming a Category</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="137"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="139"/>
         <source>Usunąć kategorię?</source>
         <translation>Delete this category?</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="147"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="149"/>
         <source>Czy na pewno chcesz usunąć tę kategorię?</source>
         <translation>Are you sure you want to delete this category?</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="167"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="169"/>
         <source>Kategorie</source>
         <translation>Categories</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="177"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="179"/>
         <source>Szukaj kategorii...</source>
         <translation>Search categories...</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="247"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="252"/>
         <source>Bez kategorii</source>
         <translation>Uncategorized</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="303"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="308"/>
         <source>Edytuj</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="315"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="320"/>
         <source>Usuń</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../qml/components/CategoryPanel.qml" line="351"/>
+        <location filename="../qml/components/CategoryPanel.qml" line="398"/>
         <source>+ Dodaj kategorię</source>
         <translation>+ Add a category</translation>
     </message>
@@ -142,66 +132,71 @@
 <context>
     <name>HymnListPage</name>
     <message>
-        <location filename="../qml/pages/HymnListPage.qml" line="50"/>
-        <source>Powrót</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/HymnListPage.qml" line="69"/>
+        <location filename="../qml/pages/HymnListPage.qml" line="73"/>
         <source>Lista pieśni</source>
         <translation>List of Hymns</translation>
     </message>
     <message>
-        <location filename="../qml/pages/HymnListPage.qml" line="78"/>
-        <source>Prezentuj &gt;</source>
-        <translation>Show &gt;</translation>
+        <location filename="../qml/pages/HymnListPage.qml" line="82"/>
+        <source>Prezentuj</source>
+        <translation>Show</translation>
     </message>
 </context>
 <context>
     <name>HymnPanel</name>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="78"/>
+        <location filename="../qml/components/HymnPanel.qml" line="77"/>
         <source>Nowa pieśń</source>
         <translation>New Hymn</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="93"/>
-        <location filename="../qml/components/HymnPanel.qml" line="152"/>
+        <location filename="../qml/components/HymnPanel.qml" line="92"/>
+        <location filename="../qml/components/HymnPanel.qml" line="151"/>
         <source>Nazwa pieśni</source>
         <translation>Hymn Name</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="123"/>
+        <location filename="../qml/components/HymnPanel.qml" line="122"/>
         <source>Edytuj pieśń</source>
         <translation>Edit Hymn</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="214"/>
+        <location filename="../qml/components/HymnPanel.qml" line="213"/>
         <source>Usunąć pieśń?</source>
         <translation>Delete the hymn?</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="224"/>
+        <location filename="../qml/components/HymnPanel.qml" line="223"/>
         <source>Czy na pewno chcesz usunąć tę pieśń?</source>
         <translation>Are you sure you want to delete this hymn?</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="244"/>
+        <location filename="../qml/components/HymnPanel.qml" line="243"/>
         <source>Składniki zestawu</source>
         <translation>Set contents</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="244"/>
+        <location filename="../qml/components/HymnPanel.qml" line="243"/>
         <source>Pieśni</source>
         <translation>Hymns</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="256"/>
+        <location filename="../qml/components/HymnPanel.qml" line="255"/>
         <source>Szukaj pieśni...</source>
         <translation>Search hymns...</translation>
     </message>
     <message>
-        <location filename="../qml/components/HymnPanel.qml" line="420"/>
+        <location filename="../qml/components/HymnPanel.qml" line="387"/>
+        <source>Edytuj</source>
+        <translation>Edit</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/HymnPanel.qml" line="402"/>
+        <source>Usuń</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/HymnPanel.qml" line="480"/>
         <source>+ Dodaj pieśń</source>
         <translation>+ Add a hymn</translation>
     </message>
@@ -312,56 +307,40 @@
         <translation>Are you sure you want to turn off the board?</translation>
     </message>
     <message>
-        <source>Pomyślnie wyłączono tablicę</source>
-        <translation type="vanished">The board has been successfully turned off</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/MenuPage.qml" line="283"/>
+        <location filename="../qml/pages/MenuPage.qml" line="284"/>
         <source>Nie można połączyć się z tablicą</source>
         <translation>Unable to connect to the LED board</translation>
-    </message>
-</context>
-<context>
-    <name>PresentationModel</name>
-    <message>
-        <source>Pusty</source>
-        <translation type="vanished">Empty</translation>
     </message>
 </context>
 <context>
     <name>PresentationPage</name>
     <message>
-        <location filename="../qml/pages/PresentationPage.qml" line="103"/>
+        <location filename="../qml/pages/PresentationPage.qml" line="104"/>
         <source>Nie można połączyć się z tablicą</source>
         <translation>Unable to connect to the LED board</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PresentationPage.qml" line="145"/>
-        <source>Powrót</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/PresentationPage.qml" line="160"/>
+        <location filename="../qml/pages/PresentationPage.qml" line="166"/>
         <source>Transmisja</source>
         <translation>Transmit</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PresentationPage.qml" line="302"/>
+        <location filename="../qml/pages/PresentationPage.qml" line="314"/>
         <source>Widok</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PresentationPage.qml" line="333"/>
+        <location filename="../qml/pages/PresentationPage.qml" line="345"/>
         <source>Właściwości</source>
         <translation>Properties</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PresentationPage.qml" line="356"/>
+        <location filename="../qml/pages/PresentationPage.qml" line="368"/>
         <source>Edytuj slajd</source>
         <translation>Edit slide</translation>
     </message>
     <message>
-        <location filename="../qml/pages/PresentationPage.qml" line="434"/>
+        <location filename="../qml/pages/PresentationPage.qml" line="462"/>
         <source>Zestaw:</source>
         <translation>Set:</translation>
     </message>
@@ -369,17 +348,13 @@
 <context>
     <name>QObject</name>
     <message>
-        <source>Pusty</source>
-        <translation type="vanished">Empty</translation>
-    </message>
-    <message>
         <location filename="../src/core/dto/screen.h" line="48"/>
         <source>Pusty</source>
         <comment>Screen</comment>
         <translation>Empty</translation>
     </message>
     <message>
-        <location filename="../src/repositories/categoryrepository.cpp" line="16"/>
+        <location filename="../src/repositories/categoryrepository.cpp" line="17"/>
         <source>Bez kategorii</source>
         <comment>CategoryRepository</comment>
         <translation>Uncategorized</translation>
@@ -388,47 +363,42 @@
 <context>
     <name>QuickScreenPage</name>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="20"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="21"/>
         <source>Nie można połączyć się z tablicą</source>
         <translation>Unable to connect to the LED board</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="44"/>
-        <source>Powrót</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="63"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="67"/>
         <source>Wyświetlanie tekstu</source>
         <translation>Quick Text Display</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="139"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="143"/>
         <source>Rozmiar czcionki: </source>
         <translation>Font size: </translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="150"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="154"/>
         <source>Mała</source>
         <translation>Small</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="151"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="155"/>
         <source>Średnia</source>
         <translation>Medium</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="152"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="156"/>
         <source>Duża</source>
         <translation>Large</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="167"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="171"/>
         <source>Widok</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="../qml/pages/QuickScreenPage.qml" line="179"/>
+        <location filename="../qml/pages/QuickScreenPage.qml" line="183"/>
         <source>Wyświetl</source>
         <translation>Show</translation>
     </message>
@@ -484,27 +454,27 @@
 <context>
     <name>ScreenPanel</name>
     <message>
-        <location filename="../qml/components/ScreenPanel.qml" line="36"/>
+        <location filename="../qml/components/ScreenPanel.qml" line="37"/>
         <source>Usunąć slajd?</source>
         <translation>Delete the slide?</translation>
     </message>
     <message>
-        <location filename="../qml/components/ScreenPanel.qml" line="46"/>
+        <location filename="../qml/components/ScreenPanel.qml" line="47"/>
         <source>Czy na pewno chcesz usunąć ten slajd?</source>
         <translation>Are you sure you want to delete this slide?</translation>
     </message>
     <message>
-        <location filename="../qml/components/ScreenPanel.qml" line="67"/>
+        <location filename="../qml/components/ScreenPanel.qml" line="68"/>
         <source>Slajdy</source>
         <translation>Slides</translation>
     </message>
     <message>
-        <location filename="../qml/components/ScreenPanel.qml" line="126"/>
+        <location filename="../qml/components/ScreenPanel.qml" line="130"/>
         <source>Slajd</source>
         <translation>Slide</translation>
     </message>
     <message>
-        <location filename="../qml/components/ScreenPanel.qml" line="210"/>
+        <location filename="../qml/components/ScreenPanel.qml" line="256"/>
         <source>+ Dodaj slajd</source>
         <translation>+ Add a slide</translation>
     </message>
@@ -520,56 +490,61 @@
 <context>
     <name>SetListPage</name>
     <message>
-        <location filename="../qml/pages/SetListPage.qml" line="48"/>
-        <source>Powrót</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SetListPage.qml" line="67"/>
+        <location filename="../qml/pages/SetListPage.qml" line="71"/>
         <source>Zestawy</source>
         <translation>Sets</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetListPage.qml" line="76"/>
-        <source>Prezentuj &gt;</source>
-        <translation>Show &gt;</translation>
+        <location filename="../qml/pages/SetListPage.qml" line="80"/>
+        <source>Prezentuj</source>
+        <translation>Show</translation>
     </message>
 </context>
 <context>
     <name>SetPanel</name>
     <message>
-        <location filename="../qml/components/SetPanel.qml" line="60"/>
+        <location filename="../qml/components/SetPanel.qml" line="61"/>
         <source>Nowy zestaw</source>
         <translation>New Set</translation>
     </message>
     <message>
-        <location filename="../qml/components/SetPanel.qml" line="75"/>
-        <location filename="../qml/components/SetPanel.qml" line="113"/>
+        <location filename="../qml/components/SetPanel.qml" line="76"/>
+        <location filename="../qml/components/SetPanel.qml" line="114"/>
         <source>Nazwa zestawu</source>
         <translation>Set Name</translation>
     </message>
     <message>
-        <location filename="../qml/components/SetPanel.qml" line="95"/>
+        <location filename="../qml/components/SetPanel.qml" line="96"/>
         <source>Zmiana nazwy zestawu</source>
         <translation>Renaming a set</translation>
     </message>
     <message>
-        <location filename="../qml/components/SetPanel.qml" line="134"/>
+        <location filename="../qml/components/SetPanel.qml" line="135"/>
         <source>Usunąć zestaw?</source>
         <translation>Delete the set?</translation>
     </message>
     <message>
-        <location filename="../qml/components/SetPanel.qml" line="144"/>
+        <location filename="../qml/components/SetPanel.qml" line="145"/>
         <source>Czy na pewno chcesz usunąć ten zestaw?</source>
         <translation>Are you sure you want to delete this set?</translation>
     </message>
     <message>
-        <location filename="../qml/components/SetPanel.qml" line="164"/>
+        <location filename="../qml/components/SetPanel.qml" line="165"/>
         <source>Zestawy</source>
         <translation>Sets</translation>
     </message>
     <message>
-        <location filename="../qml/components/SetPanel.qml" line="272"/>
+        <location filename="../qml/components/SetPanel.qml" line="243"/>
+        <source>Edytuj</source>
+        <translation>Edit</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/SetPanel.qml" line="255"/>
+        <source>Usuń</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/SetPanel.qml" line="332"/>
         <source>+ Dodaj zestaw</source>
         <translation>+ Add a set</translation>
     </message>
@@ -577,22 +552,18 @@
 <context>
     <name>SetViewItems</name>
     <message>
-        <location filename="../qml/components/SetViewItems.qml" line="162"/>
+        <location filename="../qml/components/SetViewItems.qml" line="194"/>
         <source>Slajd ukryty</source>
         <translation>Slide hidden</translation>
     </message>
     <message>
-        <location filename="../qml/components/SetViewItems.qml" line="163"/>
+        <location filename="../qml/components/SetViewItems.qml" line="195"/>
         <source>Slajd widoczny</source>
         <translation>Slide visible</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
-    <message>
-        <source>Import śpiewwnika</source>
-        <translation type="vanished">Importing a hymnal</translation>
-    </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="18"/>
         <source>Import śpiewnika</source>
@@ -650,92 +621,87 @@
         <translation>The hymnal has been reset</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="86"/>
-        <source>Powrót</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="105"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="108"/>
         <source>Ustawienia</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="164"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="167"/>
         <source>Łączność</source>
         <translation>Connectivity</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="174"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="177"/>
         <source>Adres IP</source>
         <translation>IP Address</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="192"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="195"/>
         <source>np. 192.168.1.100</source>
         <translation>e.g., 192.168.1.100</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="217"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="220"/>
         <source>Niepoprawny adres IP</source>
         <translation>Invalid IP address</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="228"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="231"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="246"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="249"/>
         <source>np. 60023</source>
         <translation>e.g., 60023</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="271"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="274"/>
         <source>Port musi być w zakresie 1-65535</source>
         <translation>The port must be within the range of 1–65,535</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="310"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="313"/>
         <source>Aplikacja</source>
         <translation>Application</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="348"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="351"/>
         <source>Język</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="416"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="419"/>
         <source>Wyświetlacz</source>
         <translation>Display</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="324"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="327"/>
         <source>Tryb ciemny</source>
         <translation>Dark mode</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="460"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="463"/>
         <source>Poziom:</source>
         <translation>Level:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="496"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="499"/>
         <source>Śpiewnik</source>
         <translation>Hymnal</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="516"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="519"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="527"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="530"/>
         <source>Eksport</source>
         <translation>Export</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="538"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="541"/>
         <source>Resetuj</source>
         <translation>Reset</translation>
     </message>
@@ -743,22 +709,22 @@
 <context>
     <name>SlimScreenPanel</name>
     <message>
-        <location filename="../qml/components/SlimScreenPanel.qml" line="24"/>
+        <location filename="../qml/components/SlimScreenPanel.qml" line="25"/>
         <source>Slajdy</source>
         <translation>Slides</translation>
     </message>
     <message>
-        <location filename="../qml/components/SlimScreenPanel.qml" line="163"/>
+        <location filename="../qml/components/SlimScreenPanel.qml" line="209"/>
         <source>Pokaż wszystkie</source>
         <translation>Show all</translation>
     </message>
     <message>
-        <location filename="../qml/components/SlimScreenPanel.qml" line="179"/>
+        <location filename="../qml/components/SlimScreenPanel.qml" line="225"/>
         <source>Ukryj wszystkie</source>
         <translation>Hide all</translation>
     </message>
     <message>
-        <location filename="../qml/components/SlimScreenPanel.qml" line="193"/>
+        <location filename="../qml/components/SlimScreenPanel.qml" line="239"/>
         <source>Pokaż podgląd</source>
         <translation>Show preview</translation>
     </message>
