@@ -13,25 +13,75 @@ Dialog {
 
     modal: true
 
+    background: Rectangle {
+        color: Theme.background
+        radius: 12
+    }
+
+    header: Item {
+        implicitHeight: 58
+
+        Rectangle {
+            anchors.fill: parent
+            color: Theme.background
+
+            radius: 12
+        }
+
+        Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            height: 12
+            color: Theme.background
+        }
+
+        Label {
+            anchors {
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+                leftMargin: 20
+            }
+
+            text: root.title
+            color: Theme.text
+
+            font.pixelSize: 20
+            font.bold: true
+        }
+    }
+
+    footer: DialogButtonBox {
+        implicitHeight: 60
+
+        background: Rectangle {
+            color: Theme.background
+            radius: 12
+        }
+    }
+
 	Overlay.modal: Rectangle {
 		color: Theme.dimBackground
 	}
 
     width: Math.min(
-        parent.width * 0.85,
-        850
+        parent.width * 0.90,
+        900
     )
 
     height: Math.min(
-        parent.height * 0.75,
-        650
+        parent.height * 0.83,
+        750
     )
 
-    padding: 16
+    leftPadding: 16
+    rightPadding: 16
 
     parent: Overlay.overlay
 	anchors.centerIn: Overlay.overlay
     dim: true
+    clip: true
 
     standardButtons: Dialog.Cancel
 
@@ -81,14 +131,13 @@ Dialog {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 12
+        spacing: 0
 
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            spacing: 12
-
+            spacing: 6
 
             ColumnLayout {
                 Layout.minimumWidth: 250
@@ -169,7 +218,7 @@ Dialog {
                                 color:
                                     model.id === root.selectedCategoryId
                                     ? Theme.listItemSelected
-                                    : Theme.listItemLighter
+                                    : Theme.listItem
 
                                 border.color: Theme.listItemBorder
 
@@ -202,7 +251,7 @@ Dialog {
                         anchors.left: parent.left
                         anchors.right: parent.right
 
-                        height: 32
+                        height: 16
                         z: 10
 
                         gradient: Gradient {
@@ -232,7 +281,7 @@ Dialog {
                         anchors.left: parent.left
                         anchors.right: parent.right
 
-                        height: 32
+                        height: 16
                         z: 10
 
                         gradient: Gradient {
@@ -354,7 +403,7 @@ Dialog {
 
                                 radius: 6
 
-                                color: Theme.listItemLighter
+                                color: Theme.listItem
 
                                 border.color: Theme.listItemBorder
 
@@ -387,7 +436,7 @@ Dialog {
                         anchors.left: parent.left
                         anchors.right: parent.right
 
-                        height: 32
+                        height: 16
                         z: 10
 
                         gradient: Gradient {
@@ -417,7 +466,7 @@ Dialog {
                         anchors.left: parent.left
                         anchors.right: parent.right
 
-                        height: 32
+                        height: 16
                         z: 10
 
                         gradient: Gradient {
