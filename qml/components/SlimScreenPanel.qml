@@ -54,7 +54,7 @@ Item {
                 delegate: Rectangle {
 
                     width: list.width - 12
-                    height: root.showPreview ? 330 : 54
+                    height: root.showPreview ? 290 : 54
 
                     radius: 8
 
