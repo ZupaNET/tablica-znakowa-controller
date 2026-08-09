@@ -7,21 +7,45 @@ Item {
 
     anchors.fill: parent
 
+    readonly property real aspectRatio: 3/2
+    readonly property real tablicaWidth: 192
+    readonly property real tablicaHeight: 128
+
+    readonly property string tablicaFontFamily: {
+        switch(root.hymnFont){
+        case 0: return "MiniSet2"
+        case 1: return "MiniForma2"
+        case 2: return "FreeSans"
+        }
+        return "MiniSet2"
+    }
+
+    readonly property real tablicaFontSize:
+    {
+        switch(root.hymnFont){
+        case 0: return 8.0
+        case 1: return 8.0
+        case 2: return 11.7 // FreeSans is not necessary fully metric-correct with MSSans, should be 12
+        }
+        return 8.0
+    }
+
+    readonly property real tablicaLineHeight:
+    {
+        switch(root.hymnFont){
+        case 0: return 9.0
+        case 1: return 11.0
+        case 2: return 14.0
+        }
+        return 9.0
+    }
+
     property alias content: screenText.text
-    property int hymnFont: 0
-
-    property real outerMargin: 20
+    property int hymnFont: 0    
     property real textPadding: 8
-    property real aspectRatio: 3 / 2
-
     property bool editable: false
 
     signal contentTextChanged(string content)
-
-    FontMetricsUtility
-    {
-        id: fontUtility
-    }
 
     property int charsPerLine: {
         switch(root.hymnFont) {
@@ -52,9 +76,10 @@ Item {
             PropertyChanges {
                 target: screenText
 
-                font.family: screen.screenFont
+                font.family: root.tablicaFontFamily
                 font.bold: false
-                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 0)
+                font.pixelSize: root.tablicaFontSize * screen.scale
+                lineHeight: root.tablicaLineHeight * screen.scale
 
                 color: "#FF0000"
             }
@@ -78,7 +103,7 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1, screen.textWidth)
+                font.pixelSize: root.tablicaFontSize * screen.scale
 
                 color: "#FFFFFF"
             }
@@ -102,7 +127,7 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1, screen.textWidth)
+                font.pixelSize: root.tablicaFontSize * screen.scale
 
                 color: "#000000"
             }
@@ -118,23 +143,10 @@ Item {
         id: screen
         anchors.centerIn: parent
 
-        property string screenFont: {
-            switch(root.hymnFont){
-            case 0: return "MiniSet2"
-            case 1: return "MiniForma2"
-            case 2: return "FreeSans"
-            }
-            return "MiniSet2"
-        }
+        readonly property real scale: Math.min((screenText.height / root.tablicaHeight), (screenText.width / root.tablicaWidth))
 
-        property real availableWidth: parent.width - 2 * root.outerMargin
-        property real availableHeight: parent.height - 2 * root.outerMargin
-
-        width: Math.min(availableWidth, availableHeight * root.aspectRatio)
+        width: Math.min( parent.width, parent.height * root.aspectRatio )
         height: width / root.aspectRatio
-
-        property real textWidth: width - 2 * root.textPadding
-        property real textHeight: height - 2 * root.textPadding
 
         border.color: "#474747"
         border.width: 2
@@ -142,33 +154,42 @@ Item {
 
         clip: true
 
-        TextArea {
-            id: screenText
-
+        Item {
+            id: textAreaContainer
             anchors.fill: parent
+            anchors.margins: root.textPadding
 
-            enabled: root.editable
-            opacity: 1.0
-            palette.disabled.text: color
+            clip: true
 
-            focusPolicy: Qt.NoFocus
+            EnhancedTextArea {
+                id: screenText
 
-            leftPadding: root.textPadding
-            rightPadding: root.textPadding
-            topPadding: root.textPadding
-            bottomPadding: root.textPadding
+                anchors.fill: parent
 
-            readOnly: !root.editable
-            wrapMode: TextEdit.NoWrap
+                leftPadding: 0
+                rightPadding: 0
+                topPadding: 0
+                bottomPadding: 0
 
-            horizontalAlignment: Text.AlignLeft
+                background: null
 
-            verticalAlignment: Text.AlignTop
+                wrapMode: TextEdit.NoWrap
 
-            background: null
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignTop
 
-            onTextChanged: {
-                root.contentTextChanged(text)
+                lineHeightMode: LineHeightHelper.FixedHeight
+
+                readOnly: !root.editable
+                enabled: root.editable
+                opacity: 1.0
+                palette.disabled.text: color
+
+                focusPolicy: Qt.NoFocus
+
+                onTextChanged: {
+                    root.contentTextChanged(text)
+                }
             }
         }
 
@@ -178,7 +199,7 @@ Item {
             width: 1
             height: screenText.height
 
-            x: screenText.leftPadding + limitMetrics.width
+            x: screenText.x + limitMetrics.width
             y: 0
 
             visible: root.editable

@@ -205,6 +205,8 @@ Item {
 
                 TablicaScreen {
                     id: tablicaScreen
+                    anchors.margins: 20
+
                     content: TablicaConnector.buffer.text
                     hymnFont: TablicaConnector.buffer.font
                 }

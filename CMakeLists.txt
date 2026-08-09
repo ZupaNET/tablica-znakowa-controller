@@ -80,6 +80,7 @@ set(APP_QML
     qml/components/SlimScreenPanel.qml
     qml/components/ScreenSwitcherDialog.qml
     qml/components/MenuTile.qml
+    qml/components/EnhancedTextArea.qml
 )
 
 set(APP_RESOURCES

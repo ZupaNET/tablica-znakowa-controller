@@ -89,6 +89,8 @@ Item {
                 TablicaScreen {
                     id: editor
 
+                    anchors.margins: 20
+
                     width: flick.width
                     height: Math.max(flick.height, implicitHeight)
 
