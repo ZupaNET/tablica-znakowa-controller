@@ -54,7 +54,7 @@ Item {
 
                 font.family: screen.screenFont
                 font.bold: false
-                font.pixelSize: fontUtility.pixelSizeForHeight(screenText.height, root.hymnFont, 0)
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 0)
 
                 color: "#FF0000"
             }
@@ -78,7 +78,7 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: fontUtility.pixelSizeForHeight(screenText.height, root.hymnFont, 1)
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1, screen.textWidth)
 
                 color: "#FFFFFF"
             }
@@ -102,7 +102,7 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: fontUtility.pixelSizeForHeight(screenText.height, root.hymnFont, 1)
+                font.pixelSize: fontUtility.pixelSizeForHeight(screen.textHeight, root.hymnFont, 1, screen.textWidth)
 
                 color: "#000000"
             }
@@ -142,38 +142,33 @@ Item {
 
         clip: true
 
-        Item{
-            anchors.centerIn: parent
-            width: parent.width - 2 * root.textPadding
-            height: width / root.aspectRatio
+        TextArea {
+            id: screenText
 
-            TextArea {
-                id: screenText
+            anchors.fill: parent
 
-                anchors.fill: parent
+            enabled: root.editable
+            opacity: 1.0
+            palette.disabled.text: color
 
-                enabled: root.editable
-                opacity: 1.0
-                palette.disabled.text: color
+            focusPolicy: Qt.NoFocus
 
-                focusPolicy: Qt.NoFocus
+            leftPadding: root.textPadding
+            rightPadding: root.textPadding
+            topPadding: root.textPadding
+            bottomPadding: root.textPadding
 
-                leftPadding: 0
-                rightPadding: 0
-                topPadding: 0
-                bottomPadding: 0
+            readOnly: !root.editable
+            wrapMode: TextEdit.NoWrap
 
-                readOnly: !root.editable
-                wrapMode: TextEdit.NoWrap
+            horizontalAlignment: Text.AlignLeft
 
-                horizontalAlignment: Text.AlignLeft
-                verticalAlignment: Text.AlignTop
+            verticalAlignment: Text.AlignTop
 
-                background: null
+            background: null
 
-                onTextChanged: {
-                    root.contentTextChanged(text)
-                }
+            onTextChanged: {
+                root.contentTextChanged(text)
             }
         }
 
@@ -183,7 +178,7 @@ Item {
             width: 1
             height: screenText.height
 
-            x: root.textPadding + limitMetrics.width
+            x: screenText.leftPadding + limitMetrics.width
             y: 0
 
             visible: root.editable

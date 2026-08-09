@@ -15,7 +15,7 @@ class FontMetricsUtility : public QObject
 public:
     explicit FontMetricsUtility(QObject *parent = nullptr);
 
-    Q_INVOKABLE qreal pixelSizeForHeight(int height, int fontId, bool forceArial = false) const;
+    Q_INVOKABLE qreal pixelSizeForHeight(int height, int fontId, bool forceArial = false, int width = -1) const;
 
     Q_INVOKABLE void clearCache();
 
