@@ -48,6 +48,24 @@ Dialog {
     property string categorySearchText: ""
     property string hymnSearchText: ""
 
+    property int existingRevision: 0
+
+    Connections {
+        target: root.existingModel
+
+        function onRowsInserted() {
+            root.existingRevision++
+        }
+
+        function onRowsRemoved() {
+            root.existingRevision++
+        }
+
+        function onDataChanged() {
+            root.existingRevision++
+        }
+    }
+
 
     ColumnLayout {
         anchors.fill: parent
@@ -274,6 +292,7 @@ Dialog {
                             width: ListView.view.width
 
                             property bool isExisting: {
+                                root.existingRevision
 
                                 if (!root.existingModel)
                                     return false
