@@ -280,7 +280,8 @@ Item {
         target: TablicaConnector
 
         function onConnectionFailure() {
-            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
+            if(root.focus)
+                infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
         }
     }
 
