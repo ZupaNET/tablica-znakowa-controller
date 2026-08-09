@@ -34,6 +34,9 @@ void TablicaConnector::init()
     this->port = appSettings->port();
     this->brightness = appSettings->brightness();
 
+    connectionCooldown.setSingleShot(true);
+    connect(&connectionCooldown, &QTimer::timeout, this, [this]() { connectionBlocked = false; });
+
     connect(appSettings, &AppSettings::ipAddressChanged, this, &TablicaConnector::setIpAddress);
     connect(appSettings, &AppSettings::portChanged, this, &TablicaConnector::setPort);
     connect(appSettings, &AppSettings::brightnessChanged, this, &TablicaConnector::setBrightnessNow);
@@ -188,6 +191,9 @@ bool TablicaConnector::submitCommand(){
 
 bool TablicaConnector::sendCommand(QString command)
 {
+    if (connectionBlocked)
+        return false;
+
     commandQueue.enqueue(command);
 
     processQueue();
@@ -219,11 +225,17 @@ void TablicaConnector::processQueue()
             this,
             [this](bool ok)
             {
-                if(!ok)
-                    emit connectionFailure();
-
-
                 commandRunning = false;
+
+                if (!ok) {
+                    commandQueue.clear();
+
+                    connectionBlocked = true;
+                    connectionCooldown.start(2000);
+
+                    emit connectionFailure();
+                    return;
+                }
 
                 processQueue();
             });

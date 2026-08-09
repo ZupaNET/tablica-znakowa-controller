@@ -67,6 +67,8 @@ private:
     quint8 font = 1;
     QQueue<QString> commandQueue;
     bool commandRunning = false;
+    QTimer connectionCooldown;
+    bool connectionBlocked = false;
 
     AppSettings* appSettings;
 
