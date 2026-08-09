@@ -68,6 +68,7 @@ QtObject {
     readonly property color inactiveItem: item
 
     readonly property color listItem: item
+    readonly property color listItemLighter: AppSettings.darkMode ? "#5a5a5a" : "#f4f4f4"
     readonly property color listItemSelected: AppSettings.darkMode ? "#204a75" : "#d7ecff"
 
     readonly property color inactiveBorder: AppSettings.darkMode ? "#444444" : "#d0d0d0"

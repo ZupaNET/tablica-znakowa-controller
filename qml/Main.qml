@@ -16,6 +16,7 @@ ApplicationWindow {
     color: Theme.appBackground
 
     Material.theme: AppSettings.darkMode ? Material.Dark : Material.Light
+    Material.accent: Material.Red
 
     readonly property int keyboardHeight:
         Qt.inputMethod.visible

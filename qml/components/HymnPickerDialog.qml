@@ -17,7 +17,6 @@ Dialog {
 		color: Theme.dimBackground
 	}
 
-
     width: Math.min(
         parent.width * 0.85,
         850
@@ -114,7 +113,7 @@ Dialog {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    color: Theme.surface
+                    color: "transparent"
 
                     ListView {
                         id: categoryView
@@ -160,7 +159,7 @@ Dialog {
                                 color:
                                     model.id === root.selectedCategoryId
                                     ? Theme.listItemSelected
-                                    : Theme.listItem
+                                    : Theme.listItemLighter
 
                                 border.color: Theme.listItemBorder
 
@@ -203,7 +202,7 @@ Dialog {
                             }
                             GradientStop {
                                 position: 0
-                                color: "white"
+                                color: root.background.color
                             }
                         }
 
@@ -233,7 +232,7 @@ Dialog {
                             }
                             GradientStop {
                                 position: 1
-                                color: "white"
+                                color: root.background.color
                             }
                         }
 
@@ -280,7 +279,7 @@ Dialog {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    color: Theme.surface
+                    color: "transparent"
 
                     ListView {
                         id: hymnView
@@ -343,7 +342,7 @@ Dialog {
 
                                 radius: 6
 
-                                color: Theme.listItem
+                                color: Theme.listItemLighter
 
                                 border.color: Theme.listItemBorder
 
@@ -386,7 +385,7 @@ Dialog {
                             }
                             GradientStop {
                                 position: 0
-                                color: "white"
+                                color: root.background.color
                             }
                         }
 
@@ -416,7 +415,7 @@ Dialog {
                             }
                             GradientStop {
                                 position: 1
-                                color: "white"
+                                color: root.background.color
                             }
                         }
 
