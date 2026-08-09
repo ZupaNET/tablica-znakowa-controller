@@ -81,7 +81,8 @@ Item {
 
                             TablicaScreen {
                                 anchors.fill: parent
-                                anchors.margins: 8
+                                anchors.leftMargin: 8
+                                anchors.rightMargin: 8
 
                                 content: model.text
                                 hymnFont: model.font
@@ -148,7 +149,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-                height: 16
+                height: 8
                 z: 10
 
                 gradient: Gradient {
@@ -178,7 +179,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-                height: 16
+                height: 8
                 z: 10
 
                 gradient: Gradient {

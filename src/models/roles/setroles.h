@@ -12,7 +12,8 @@ public:
     enum Roles
     {
         IdRole = Qt::UserRole + 1,
-        NameRole
+        NameRole,
+        OrderRole
     };
 
 
@@ -20,7 +21,8 @@ public:
     {
         return {
             {IdRole, "id"},
-            {NameRole, "name"}
+            {NameRole, "name"},
+            {OrderRole, "order"}
         };
     }
 };

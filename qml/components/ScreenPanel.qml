@@ -206,7 +206,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-                height: 16
+                height: 8
                 z: 10
 
                 gradient: Gradient {
@@ -236,7 +236,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-                height: 16
+                height: 8
                 z: 10
 
                 gradient: Gradient {

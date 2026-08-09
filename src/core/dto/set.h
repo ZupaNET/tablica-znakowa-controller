@@ -11,10 +11,12 @@ struct Set {
 
     Q_PROPERTY(int setId MEMBER id)
     Q_PROPERTY(QString setName MEMBER name)
+    Q_PROPERTY(int order MEMBER order)
 
 public:
     int id;
     QString name;
+    int order;
 };
 Q_DECLARE_METATYPE(Set)
 

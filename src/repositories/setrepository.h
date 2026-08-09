@@ -13,6 +13,7 @@ public:
     Set create(const QString& name);
     void update(int id, QString name);
     void remove(int id);
+    void move(int setId, int from, int to);
     QList<Hymn> getHymns(int setId);
     QList<Screen> getScreens(int setId, int hymnId);
     Hymn addHymn(int setId, int hymnId);

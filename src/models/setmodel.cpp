@@ -83,6 +83,24 @@ void SetModel::removeRow(int row)
     endRemoveRows();
 }
 
+void SetModel::move(int from, int to)
+{
+    if(from < 0 || to < 0)
+        return;
+
+    if (from == to ||
+        from < 0 || from >= m_data.size() ||
+        to   < 0 || to   >= m_data.size())
+        return;
+
+    beginMoveRows({}, from, from, {}, from < to ? to + 1 : to);
+    m_data.move(from, to);
+    endMoveRows();
+
+    int movedId = m_data[to].id;
+    repo.move(movedId, from, to);
+}
+
 Set SetModel::get(int index) const{
     if(index < 0 || index >= m_data.size())
         return {};

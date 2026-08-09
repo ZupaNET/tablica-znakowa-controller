@@ -15,6 +15,7 @@ Item {
     signal addSet(string name)
     signal updateSet(int row, string name)
     signal removeSet(int row)
+    signal moveSet(int from, int to)
 
     Connections {
         target: root.model
@@ -235,6 +236,32 @@ Item {
                         }
 
                         ToolButton {
+                            text: MdiFont.Icon.arrowUp
+
+                            enabled: index > 0
+
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
+
+                            onClicked: {
+                                root.moveSet(index, index - 1)
+                            }
+                        }
+
+                        ToolButton {
+                            text: MdiFont.Icon.arrowDown
+
+                            font.family: "Material Design Icons"
+                            font.pixelSize: 20
+
+                            enabled: index < list.count - 1
+
+                            onClicked: {
+                                root.moveSet(index, index + 1)
+                            }
+                        }
+
+                        ToolButton {
                             id: moreButton
 
                             text: MdiFont.Icon.dotsVertical
@@ -291,7 +318,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-                height: 32
+                height: 8
                 z: 10
 
                 gradient: Gradient {
@@ -321,7 +348,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
 
-                height: 32
+                height: 8
                 z: 10
 
                 gradient: Gradient {

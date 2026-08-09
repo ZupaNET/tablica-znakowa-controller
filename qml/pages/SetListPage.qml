@@ -115,7 +115,7 @@ Item {
 
             SetPanel {
                 Layout.fillHeight: true
-                Layout.preferredWidth:  parent.width * 0.25
+                Layout.preferredWidth:  parent.width * 0.32
 
                 model: setModel
 
@@ -144,12 +144,16 @@ Item {
                     hymnModel.reload()
                 }
 
+                onMoveSet: (from, to) => {
+                    setModel.move(from, to)
+                }
+
             }
 
             HymnPanel {
                 id: hymnPanel
                 Layout.fillHeight: true
-                Layout.preferredWidth: parent.width * 0.35
+                Layout.preferredWidth: parent.width * 0.32
 
                 setMode: true
 

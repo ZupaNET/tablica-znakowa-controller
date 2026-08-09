@@ -11,11 +11,11 @@ QList<Set> SetRepository::getAll() {
     QSqlQuery q(
         DatabaseConnector::instance().db()
     );
-    q.prepare("SELECT Id, Name FROM Sets ORDER BY Name");
+    q.prepare("SELECT Id, Name, DisplayOrder FROM Sets ORDER BY DisplayOrder");
     q.exec();
 
     while (q.next())
-        list.append({q.value(0).toInt(), q.value(1).toString()});
+        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
 
     return list;
 }
@@ -24,7 +24,14 @@ Set SetRepository::create(const QString &name)
 {
     QSqlQuery q(DatabaseConnector::instance().db());
 
-    q.prepare("INSERT INTO Sets(Name) VALUES(?)");
+    q.prepare(R"(
+        INSERT INTO Sets(Name, DisplayOrder)
+        VALUES(
+            ?,
+            (SELECT COALESCE(MAX(DisplayOrder) + 1, 0)
+             FROM Sets)
+        )
+    )");
     q.addBindValue(name);
 
     if (!q.exec()) {
@@ -35,7 +42,7 @@ Set SetRepository::create(const QString &name)
     int id = q.lastInsertId().toInt();
 
     q.prepare(R"(
-        SELECT Id, Name
+        SELECT Id, Name, DisplayOrder
         FROM Sets
         WHERE Id = ?
     )");
@@ -49,7 +56,8 @@ Set SetRepository::create(const QString &name)
 
     return {
         q.value(0).toInt(),
-        q.value(1).toString()
+        q.value(1).toString(),
+        q.value(2).toInt()
     };
 }
 
@@ -70,6 +78,57 @@ void SetRepository::remove(int id) {
     q.prepare("DELETE FROM Sets WHERE Id=?");
     q.addBindValue(id);
     q.exec();
+}
+
+void SetRepository::move(int setId, int from, int to)
+{
+    auto db = DatabaseConnector::instance().db();
+
+    db.transaction();
+
+    QSqlQuery q(db);
+
+    if (from < to)
+    {
+        q.prepare(R"(
+            UPDATE Sets
+            SET DisplayOrder = DisplayOrder - 1
+            WHERE DisplayOrder > ?
+              AND DisplayOrder <= ?
+        )");
+
+        q.addBindValue(from);
+        q.addBindValue(to);
+
+        q.exec();
+    }
+    else
+    {
+        q.prepare(R"(
+            UPDATE Sets
+            SET DisplayOrder = DisplayOrder + 1
+            WHERE DisplayOrder >= ?
+              AND DisplayOrder < ?
+        )");
+
+        q.addBindValue(to);
+        q.addBindValue(from);
+
+        q.exec();
+    }
+
+    q.prepare(R"(
+        UPDATE Sets
+        SET DisplayOrder = ?
+        WHERE Id = ?
+    )");
+
+    q.addBindValue(to);
+    q.addBindValue(setId);
+
+    q.exec();
+
+    db.commit();
 }
 
 QList<Hymn> SetRepository::getHymns(int setId) {
