@@ -14,6 +14,10 @@ Dialog {
 
     modal: true
 
+	Overlay.modal: Rectangle {
+		color: Theme.dimBackground
+	}
+
     width: 650
     height: 600
 

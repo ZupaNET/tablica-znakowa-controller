@@ -255,6 +255,10 @@ Item {
 
         modal: true
 
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
+
         parent: Overlay.overlay
 		anchors.centerIn: Overlay.overlay
 

@@ -68,6 +68,10 @@ Item {
 		anchors.centerIn: Overlay.overlay
         dim: true
 
+        Overlay.modal: Rectangle {
+            color: Theme.dimBackground
+        }
+
         standardButtons: Dialog.Ok | Dialog.Cancel
 
         width: 320
@@ -98,6 +102,10 @@ Item {
 
         title: qsTr("Zmiana nazwy kategorii")
         modal: true
+
+        Overlay.modal: Rectangle {
+            color: Theme.dimBackground
+        }
 
         property string initialName: ""
         property int categoryRow: -1
@@ -138,6 +146,10 @@ Item {
 
         title: qsTr("Usunąć kategorię?")
         modal: true
+		
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
 
         parent: Overlay.overlay
         anchors.centerIn: Overlay.overlay

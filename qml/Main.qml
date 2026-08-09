@@ -69,18 +69,6 @@ ApplicationWindow {
     Overlay.overlay.height:
         mainWindow.height - mainWindow.keyboardHeight
 
-    Overlay.overlay.modal: Rectangle {
-        color: AppSettings.darkMode
-               ? "#B0000000"
-               : "#66000000"
-    }
-
-    Overlay.overlay.modeless: Rectangle {
-        color: AppSettings.darkMode
-               ? "#B0000000"
-               : "#66000000"
-    }
-
     Connections {
         target: Qt.inputMethod
 

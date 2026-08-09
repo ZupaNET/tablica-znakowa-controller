@@ -77,6 +77,10 @@ Item {
         title: qsTr("Nowa pieśń")
         modal: true
 
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
+
         parent: Overlay.overlay
 		anchors.centerIn: Overlay.overlay
         dim: true
@@ -121,6 +125,10 @@ Item {
 
         title: qsTr("Edytuj pieśń")
         modal: true
+
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
 
         property string initialName: ""
         property int initialCategoryId: -2
@@ -212,6 +220,10 @@ Item {
 
         title: qsTr("Usunąć pieśń?")
         modal: true
+
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
 
         parent: Overlay.overlay
         anchors.centerIn: Overlay.overlay

@@ -13,6 +13,11 @@ Dialog {
 
     modal: true
 
+	Overlay.modal: Rectangle {
+		color: Theme.dimBackground
+	}
+
+
     width: Math.min(
         parent.width * 0.85,
         850

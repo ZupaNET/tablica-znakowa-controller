@@ -61,6 +61,10 @@ Item {
         title: qsTr("Nowy zestaw")
         modal: true
 
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
+
         parent: Overlay.overlay
 		anchors.centerIn: Overlay.overlay
         dim: true
@@ -95,6 +99,10 @@ Item {
 
         title: qsTr("Zmiana nazwy zestawu")
         modal: true
+
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
 
         property string initialName: ""
         property int setRow: -1
@@ -134,6 +142,10 @@ Item {
 
         title: qsTr("Usunąć zestaw?")
         modal: true
+
+		Overlay.modal: Rectangle {
+			color: Theme.dimBackground
+		}
 
         parent: Overlay.overlay
 		anchors.centerIn: Overlay.overlay

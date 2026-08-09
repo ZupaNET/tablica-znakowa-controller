@@ -14,6 +14,7 @@ QtObject {
     readonly property color footer: AppSettings.darkMode ? "#1b1b1b" : "#e5e7ea"
     readonly property color panel: AppSettings.darkMode ? "#242424" : "#cfcfcf"
     readonly property color popup: AppSettings.darkMode ? "#2b2b2b" : "#323232"
+    readonly property color dimBackground: AppSettings.darkMode ? "#B0000000" : "#66000000"
 
     // Borders & separators
 
