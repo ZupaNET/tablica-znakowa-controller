@@ -2,6 +2,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include "database/databaseconnector.h"
+#include "core/utils/naturalsort.h"
 
 QList<Hymn> HymnRepository::getAll() {
     QList<Hymn> list;
@@ -21,6 +22,13 @@ QList<Hymn> HymnRepository::getAll() {
             categoryId
         });
     }
+
+    // Natural sort
+    NaturalSort::Comparator sorter{QLocale(QLocale::Polish)};
+    std::sort(list.begin(), list.end(), [&sorter](const Hymn &a, const Hymn &b){
+        return sorter.compare(a.name, b.name) < 0;
+    });
+
     return list;
 }
 
@@ -34,12 +42,14 @@ QList<Hymn> HymnRepository::getByCategory(int categoryId) {
         SELECT Id, Name, CategoryId
         FROM Hymns
         WHERE CategoryId IS NULL
+        ORDER BY Name
     )");
     } else {
         q.prepare(R"(
         SELECT Id, Name, CategoryId
         FROM Hymns
         WHERE CategoryId = ?
+        ORDER BY Name
     )");
         q.addBindValue(categoryId);
     }
@@ -57,6 +67,13 @@ QList<Hymn> HymnRepository::getByCategory(int categoryId) {
             categoryId
         });
     }
+
+    // Natural sort
+    NaturalSort::Comparator sorter{QLocale(QLocale::Polish)};
+    std::sort(list.begin(), list.end(), [&sorter](const Hymn &a, const Hymn &b){
+        return sorter.compare(a.name, b.name) < 0;
+    });
+
     return list;
 }
 

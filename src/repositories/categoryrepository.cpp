@@ -2,6 +2,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include "database/databaseconnector.h"
+#include "core/utils/naturalsort.h"
 
 
 CategoryRepository::CategoryRepository() {}
@@ -116,6 +117,13 @@ QList<Hymn> CategoryRepository::getHymns(int categoryId) {
             categoryId
         });
     }
+
+    // Natural sort
+    NaturalSort::Comparator sorter{QLocale(QLocale::Polish)};
+    std::sort(list.begin(), list.end(), [&sorter](const Hymn &a, const Hymn &b){
+        return sorter.compare(a.name, b.name) < 0;
+    });
+
     return list;
 }
 
