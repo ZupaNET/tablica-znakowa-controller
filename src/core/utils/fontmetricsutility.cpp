@@ -27,112 +27,120 @@ QString FontMetricsUtility::makeCacheKey(int height, int fontId, bool forceArial
         .arg(forceArial ? 1 : 0);
 }
 
-qreal FontMetricsUtility::pixelSizeForHeight(int height, int fontId, bool forceArial, int width) const
+qreal FontMetricsUtility::pixelSizeForHeight(int height, int fontId, bool forceArial) const
 {
-    if(height <= 0)
+    if (height <= 0)
         return 0;
 
-    if(fontId < 0 || fontId >= m_fonts.size())
+    if (fontId < 0 || fontId >= m_fonts.size())
         return 0;
 
-
-    QString key = makeCacheKey(
+    const QString key = makeCacheKey(
         height,
         fontId,
         forceArial
         );
-
 
     {
         QMutexLocker locker(&m_cacheMutex);
 
         auto it = m_cache.constFind(key);
 
-        if(it != m_cache.constEnd())
+        if (it != m_cache.constEnd())
             return it.value();
     }
 
+    const auto &fontInfo = m_fonts[fontId];
 
-    QString family = forceArial ? "Arimo" : m_fonts[fontId].family;
+    const QString family =
+        forceArial ? QStringLiteral("Arimo")
+                   : fontInfo.family;
 
-
-    double rows = m_fonts[fontId].rows;
-
+    const int columns = fontInfo.maxCols;
+    const int rows = fontInfo.rows;
 
     QFont font;
     font.setFamily(family);
     font.setBold(forceArial);
 
+    const qreal safety = 1;
 
-    double targetLineHeight = height / rows;
+    const qreal targetHeight =
+        (static_cast<qreal>(height) / rows) * safety;
 
+    QString sample;
+    sample.fill(QChar('O'), columns);
 
-    double low = 1;
-    double high = height;
-    double best = 1;
+    qreal low = 1.0;
+    qreal high = 1.0;
 
-
-    const int charsPerLine = m_fonts[fontId].maxCols;
-
-    while((high - low) > 0.1)
+    auto fits = [&](qreal pixelSize) -> bool
     {
-        double mid = (low + high) / 2.0;
-
-        font.setPixelSize(qRound(mid));
+        font.setPixelSize(qMax(1, qRound(pixelSize)));
 
         QFontMetricsF fm(font);
 
-
-        double lineHeight =
+        const qreal lineHeight =
             fm.ascent()
             + fm.descent()
             + fm.leading();
 
+        if (lineHeight > targetHeight)
+            return false;
 
-        bool heightOk = lineHeight <= targetLineHeight;
-
-
-        bool widthOk = true;
-
-
-        if(forceArial && width > 0)
+        if (forceArial)
         {
-            QString sample;
+            const qreal charWidth =
+                fm.horizontalAdvance(QChar('O'));
 
-            for(int i = 0; i < charsPerLine; ++i)
-                sample += "O";
+            const qreal textWidth =
+                charWidth * columns;
 
+            const qreal availableWidth =
+                static_cast<qreal>(height) * 3.0 / 2.0;
 
-            double textWidth = fm.horizontalAdvance(sample);
-
-            widthOk = textWidth <= width;
+            if (textWidth > availableWidth * safety)
+                return false;
         }
 
+        return true;
+    };
 
-        if(heightOk && widthOk)
-        {
-            best = mid;
-            low = mid;
-        }
-        else
-        {
-            high = mid;
-        }
+    while (fits(high))
+    {
+        high *= 2.0;
+
+        if (high > 512.0)
+            break;
     }
 
+    for (int i = 0; i < 32; ++i)
+    {
+        const qreal mid = (low + high) / 2.0;
 
-    qreal result = best;
+        if (fits(mid))
+            low = mid;
+        else
+            high = mid;
+    }
 
+    int result = qFloor(low);
+
+    while (result > 1)
+    {
+        if (fits(result))
+            break;
+
+        --result;
+    }
 
     {
         QMutexLocker locker(&m_cacheMutex);
         m_cache.insert(key, result);
     }
 
-
     return result;
 }
-
 void FontMetricsUtility::clearCache()
 {
     QMutexLocker locker(&m_cacheMutex);
