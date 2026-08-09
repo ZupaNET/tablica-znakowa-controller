@@ -76,7 +76,9 @@ Dialog {
                 }
 
                 TextField {
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: categoryView.width
+                    Layout.leftMargin: 6
+                    Layout.preferredHeight: 45
 
                     placeholderText: qsTr("Szukaj kategorii...")
 
@@ -91,12 +93,8 @@ Dialog {
 
                     color: Theme.surface
 
-                    border.color: Theme.surfaceBorder
-                    border.width: 1
-
-                    radius: 6
-
                     ListView {
+                        id: categoryView
                         anchors.fill: parent
                         anchors.margins: 6
 
@@ -166,6 +164,66 @@ Dialog {
                             }
                         }
                     }
+
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+
+                        height: 32
+                        z: 10
+
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 1
+                                color: "transparent"
+                            }
+                            GradientStop {
+                                position: 0
+                                color: "white"
+                            }
+                        }
+
+                        opacity: categoryView.contentY > 0 ? 1 : 0
+                        visible: opacity > 0
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 180
+                                easing.type: Easing.OutCubic
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+
+                        height: 32
+                        z: 10
+
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0
+                                color: "transparent"
+                            }
+                            GradientStop {
+                                position: 1
+                                color: "white"
+                            }
+                        }
+
+                        opacity: categoryView.contentY + categoryView.height < categoryView.contentHeight ? 1 : 0
+                        visible: opacity > 0
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 180
+                                easing.type: Easing.OutCubic
+                            }
+                        }
+                    }
                 }
             }
 
@@ -184,7 +242,9 @@ Dialog {
                 }
 
                 TextField {
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: hymnView.width
+                    Layout.leftMargin: 6
+                    Layout.preferredHeight: 45
 
                     placeholderText: qsTr("Szukaj pieśni...")
 
@@ -199,12 +259,8 @@ Dialog {
 
                     color: Theme.surface
 
-                    border.color: Theme.surfaceBorder
-                    border.width: 1
-
-                    radius: 6
-
                     ListView {
+                        id: hymnView
                         anchors.fill: parent
                         anchors.margins: 6
 
@@ -287,6 +343,66 @@ Dialog {
                                         root.close()
                                     }
                                 }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+
+                        height: 32
+                        z: 10
+
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 1
+                                color: "transparent"
+                            }
+                            GradientStop {
+                                position: 0
+                                color: "white"
+                            }
+                        }
+
+                        opacity: hymnView.contentY > 0 ? 1 : 0
+                        visible: opacity > 0
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 180
+                                easing.type: Easing.OutCubic
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+
+                        height: 32
+                        z: 10
+
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0
+                                color: "transparent"
+                            }
+                            GradientStop {
+                                position: 1
+                                color: "white"
+                            }
+                        }
+
+                        opacity: hymnView.contentY + hymnView.height < hymnView.contentHeight ? 1 : 0
+                        visible: opacity > 0
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 180
+                                easing.type: Easing.OutCubic
                             }
                         }
                     }

@@ -292,7 +292,15 @@ Item {
                     }
                 }
 
-                visible: list.contentY > 0
+                opacity: list.contentY > 0 ? 1 : 0
+                visible: opacity > 0
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 180
+                        easing.type: Easing.OutCubic
+                    }
+                }
             }
 
             Rectangle {
@@ -314,7 +322,15 @@ Item {
                     }
                 }
 
-                visible: list.contentY + list.height < list.contentHeight
+                opacity: list.contentY + list.height < list.contentHeight ? 1 : 0
+                visible: opacity > 0
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 180
+                        easing.type: Easing.OutCubic
+                    }
+                }
             }
         }
 
