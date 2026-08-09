@@ -31,6 +31,11 @@ class AppSettings : public QObject
         WRITE setScreenViewButtons
         NOTIFY screenViewButtonsChanged)
 
+    Q_PROPERTY(bool showPreview
+        READ showPreview
+        WRITE setShowPreview
+        NOTIFY showPreviewChanged)
+
     Q_PROPERTY(QString setView
         READ setView
         WRITE setSetView
@@ -96,6 +101,9 @@ public:
     QString screenViewButtons() const;
     void setScreenViewButtons(const QString &state);
 
+    bool showPreview() const;
+    void setShowPreview(const bool &preview);
+
     QString setView() const;
     void setSetView(const QString &state);
 
@@ -119,6 +127,7 @@ signals:
     void screenCustomFontChanged();
     void screenViewChanged();
     void screenViewButtonsChanged();
+    void showPreviewChanged();
     void setViewChanged();
     void ipAddressChanged(QString);
     void portChanged(quint16);
@@ -134,6 +143,7 @@ private:
     int m_screenCustomFont = 2;
     QString m_screenView;
     QString m_screenViewButtons;
+    bool m_showPreview;
     QString m_setView;
     QString m_ipAddress;
     quint16 m_port;

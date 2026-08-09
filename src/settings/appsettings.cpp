@@ -48,6 +48,11 @@ void AppSettings::init()
         "open"
         ).toString();
 
+    m_showPreview = m_settings.value(
+        "showPreview",
+        false
+        ).toBool();
+
     m_setView = m_settings.value(
         "setView",
         "open"
@@ -153,6 +158,26 @@ void AppSettings::setScreenViewButtons(const QString &mode){
         );
 
     emit screenViewButtonsChanged();
+}
+
+bool AppSettings::showPreview() const
+{
+    return m_showPreview;
+}
+
+void AppSettings::setShowPreview(const bool &preview)
+{
+    if(preview == m_showPreview)
+        return;
+
+    m_showPreview = preview;
+
+    m_settings.setValue(
+        "showPreview",
+        preview
+        );
+
+    emit showPreviewChanged();
 }
 
 QString AppSettings::setView() const{

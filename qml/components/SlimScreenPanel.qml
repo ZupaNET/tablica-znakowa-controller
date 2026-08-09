@@ -9,7 +9,7 @@ Item {
     id: root
 
     property alias model: list.model
-    property bool showPreview: false
+    property bool showPreview: AppSettings.showPreview
 
     signal changeAllScreens(bool visible)
     signal toggleScreen(int row, bool visible)
@@ -81,6 +81,7 @@ Item {
 
                             TablicaScreen {
                                 anchors.fill: parent
+                                anchors.margins: 8
 
                                 content: model.text
                                 hymnFont: model.font
@@ -256,6 +257,7 @@ Item {
 
                     onToggled: {
                         root.showPreview = checked
+                        AppSettings.showPreview = checked
                     }
                 }
             }
