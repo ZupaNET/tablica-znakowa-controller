@@ -1,33 +1,23 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QFontDatabase>
-#include <QStyleHints>
 #include <QIcon>
 #include <QTranslator>
 #include <QLocale>
 #include <QDir>
+
 #include "core/appinfo.h"
 
-QStringList availableLanguages()
-{
-    QStringList result;
 
-    QDir dir(":/i18n");
-
-    foreach (const QString &file, dir.entryList({"prezenter_*.qm"}, QDir::Files))
-    {
-        QString lang =
-            file;
-
-        lang.remove("prezenter_");
-        lang.remove(".qm");
-
-        result.append(lang);
-    }
-
-    return result;
-}
+QStringList availableLanguages();
 
 int main(int argc, char *argv[])
 {
@@ -91,4 +81,23 @@ int main(int argc, char *argv[])
     }
 
     return QCoreApplication::exec();
+}
+
+QStringList availableLanguages()
+{
+    QStringList result;
+
+    QDir dir(":/i18n");
+
+    foreach (const QString &file, dir.entryList({"prezenter_*.qm"}, QDir::Files))
+    {
+        QString lang = file;
+
+        lang.remove("prezenter_");
+        lang.remove(".qm");
+
+        result.append(lang);
+    }
+
+    return result;
 }

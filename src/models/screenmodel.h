@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef SCREENMODEL_H
 #define SCREENMODEL_H
 
@@ -25,14 +32,15 @@ public:
     QHash<int,QByteArray> roleNames() const override;
 
     Q_INVOKABLE void reload() override;
-    Q_INVOKABLE void add(QString text, int font);
+    Q_INVOKABLE void add(const QString& text, int font);
     Q_INVOKABLE void update(int row, const QString& text, int font);
     Q_INVOKABLE void duplicate(int row);
     Q_INVOKABLE void removeRow(int row);
     Q_INVOKABLE void move(int from, int to);
     Q_INVOKABLE Screen get(int index) const;
 
-    Q_INVOKABLE Screen emptyScreen() const { return Screen{}; }
+    Q_INVOKABLE Screen emptyScreen() const { return Screen::emptyScreen(); }
+
 signals:
     void hymnIdChanged();
 

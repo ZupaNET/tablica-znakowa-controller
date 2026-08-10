@@ -1,8 +1,15 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef SCREENAWAKE_H
 #define SCREENAWAKE_H
 
 #include <QObject>
-#include <QtQml>
+#include <QtQml/QtQml>
 
 class ScreenAwake : public QObject
 {

@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef PRESENTATIONSERVICE_H
 #define PRESENTATIONSERVICE_H
 
@@ -7,9 +14,9 @@
 
 class PresentationService
 {
-public:
 
-    QList<Screen> build(int setId, bool showAll);
+public:
+    QList<Screen> build(int setId, bool showAll = false);
 
 private:
     SetRepository setRepo;

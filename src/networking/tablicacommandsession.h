@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef TABLICACOMMANDSESSION_H
 #define TABLICACOMMANDSESSION_H
 
@@ -11,7 +18,7 @@ class TablicaCommandSession : public QObject
 
 public:
 
-    explicit TablicaCommandSession(QHostAddress address, quint16 port, QString command, QObject *parent = nullptr);
+    explicit TablicaCommandSession(const QString& address, quint16 port, const QString& command, QObject *parent = nullptr);
 
     void start();
 

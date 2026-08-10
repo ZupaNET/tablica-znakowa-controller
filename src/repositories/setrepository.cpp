@@ -1,28 +1,42 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "setrepository.h"
+
 #include <QSqlQuery>
 #include <QSqlError>
-#include <QDebug>
-#include <QList>
-#include <QVector>
+
 #include "database/databaseconnector.h"
 
-QList<Set> SetRepository::getAll() {
+QList<Set> SetRepository::getAll()
+{
     QList<Set> list;
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("SELECT Id, Name, DisplayOrder FROM Sets ORDER BY DisplayOrder");
+    QSqlQuery q( DatabaseConnector::instance().db() );
+
+    q.prepare(R"(
+        SELECT Id, Name, DisplayOrder
+        FROM Sets
+        ORDER BY DisplayOrder
+    )");
     q.exec();
 
     while (q.next())
-        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
+        list.append({
+            q.value(0).toInt(),
+            q.value(1).toString(),
+            q.value(2).toInt()
+        });
 
     return list;
 }
 
 Set SetRepository::create(const QString &name)
 {
-    QSqlQuery q(DatabaseConnector::instance().db());
+    QSqlQuery q( DatabaseConnector::instance().db() );
 
     q.prepare(R"(
         INSERT INTO Sets(Name, DisplayOrder)
@@ -61,28 +75,34 @@ Set SetRepository::create(const QString &name)
     };
 }
 
-void SetRepository::update(int id, QString name) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("UPDATE Sets SET Name=? WHERE Id=?");
+void SetRepository::update(int id, const QString& name)
+{
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        UPDATE Sets
+        SET Name=?
+        WHERE Id=?
+    )");
+
     q.addBindValue(name);
     q.addBindValue(id);
     q.exec();
 }
 
-void SetRepository::remove(int id) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("DELETE FROM Sets WHERE Id=?");
+void SetRepository::remove(int id)
+{
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        DELETE FROM Sets
+        WHERE Id=?
+    )");
     q.addBindValue(id);
     q.exec();
 }
 
 void SetRepository::move(int setId, int from, int to)
 {
-    auto db = DatabaseConnector::instance().db();
+    QSqlDatabase db = DatabaseConnector::instance().db();
 
     db.transaction();
 
@@ -131,24 +151,27 @@ void SetRepository::move(int setId, int from, int to)
     db.commit();
 }
 
-QList<Hymn> SetRepository::getHymns(int setId) {
+QList<Hymn> SetRepository::getHymns(int setId)
+{
     QList<Hymn> list;
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
+    QSqlQuery q( DatabaseConnector::instance().db() );
     q.prepare(R"(
-            SELECT h.Id, h.Name, h.CategoryId
-            FROM Sets_Hymns sh
-            JOIN Hymns h ON h.Id = sh.HymnId
-            WHERE sh.SetId=?
-            ORDER BY sh.DisplayOrder
-        )");
+        SELECT h.Id, h.Name, h.CategoryId
+        FROM Sets_Hymns sh
+        JOIN Hymns h ON h.Id = sh.HymnId
+        WHERE sh.SetId=?
+        ORDER BY sh.DisplayOrder
+    )");
 
     q.addBindValue(setId);
     q.exec();
 
     while (q.next()) {
-        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
+        list.append({
+            q.value(0).toInt(),
+            q.value(1).toString(),
+            q.value(2).toInt()
+        });
     }
 
     return list;
@@ -157,9 +180,7 @@ QList<Hymn> SetRepository::getHymns(int setId) {
 QList<Screen> SetRepository::getScreens(int setId, int hymnId)
 {
     QList<Screen> list;
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
+    QSqlQuery q( DatabaseConnector::instance().db() );
     q.prepare(R"(
         SELECT
             s.Id,
@@ -213,15 +234,14 @@ QList<Screen> SetRepository::getScreens(int setId, int hymnId)
     return list;
 }
 
-Hymn SetRepository::addHymn(int setId, int hymnId) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
+Hymn SetRepository::addHymn(int setId, int hymnId)
+{
+    QSqlQuery q( DatabaseConnector::instance().db() );
     q.prepare(R"(
-            INSERT INTO Sets_Hymns (SetId, HymnId, DisplayOrder)
-            VALUES (?, ?,
-                (SELECT COALESCE(MAX(DisplayOrder)+1,0) FROM Sets_Hymns WHERE SetId=?))
-        )");
+        INSERT INTO Sets_Hymns (SetId, HymnId, DisplayOrder)
+        VALUES (?, ?,
+            (SELECT COALESCE(MAX(DisplayOrder)+1,0) FROM Sets_Hymns WHERE SetId=?))
+    )");
 
     q.addBindValue(setId);
     q.addBindValue(hymnId);
@@ -250,7 +270,7 @@ Hymn SetRepository::addHymn(int setId, int hymnId) {
 
 void SetRepository::removeHymn(int setId, int hymnId)
 {
-    auto db = DatabaseConnector::instance().db();
+    QSqlDatabase db = DatabaseConnector::instance().db();
 
     db.transaction();
 
@@ -295,7 +315,7 @@ void SetRepository::removeHymn(int setId, int hymnId)
 
 void SetRepository::move(int setId, int hymnId, int from, int to)
 {
-    auto db = DatabaseConnector::instance().db();
+    QSqlDatabase db = DatabaseConnector::instance().db();
 
     db.transaction();
 
@@ -350,7 +370,7 @@ void SetRepository::move(int setId, int hymnId, int from, int to)
 
 void SetRepository::changeScreenVisibility(int setId, int screenId, bool shown)
 {
-    auto db = DatabaseConnector::instance().db();
+    QSqlDatabase db = DatabaseConnector::instance().db();
 
     {
         QSqlQuery check(db);
@@ -417,7 +437,7 @@ void SetRepository::changeScreenVisibility(int setId, int screenId, bool shown)
 
 void SetRepository::changeScreenVisibilityByHymn(int setId, int hymnId, bool shown)
 {
-    auto db = DatabaseConnector::instance().db();
+    QSqlDatabase db = DatabaseConnector::instance().db();
     {
         QSqlQuery check(db);
 

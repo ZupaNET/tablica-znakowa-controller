@@ -1,29 +1,45 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "categoryrepository.h"
+
 #include <QSqlQuery>
 #include <QSqlError>
+
 #include "database/databaseconnector.h"
 #include "core/utils/naturalsort.h"
 
-
-CategoryRepository::CategoryRepository() {}
-
-QList<Category> CategoryRepository::getAll() {
+QList<Category> CategoryRepository::getAll()
+{
     QList<Category> list;
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("SELECT Id, Name, DisplayOrder FROM Categories ORDER BY DisplayOrder");
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        SELECT Id,
+               Name,
+               DisplayOrder
+        FROM Categories
+        ORDER BY DisplayOrder
+    )");
     q.exec();
+
     list.append({-1, QObject::tr("Bez kategorii", "CategoryRepository"), -1});
     while (q.next())
-        list.append({q.value(0).toInt(), q.value(1).toString(), q.value(2).toInt()});
+        list.append({
+            q.value(0).toInt(),
+            q.value(1).toString(),
+            q.value(2).toInt()
+        });
 
     return list;
 }
 
 Category CategoryRepository::create(const QString &name)
 {
-    QSqlQuery q(DatabaseConnector::instance().db());
+    QSqlQuery q( DatabaseConnector::instance().db() );
 
     q.prepare(R"(
         INSERT INTO Categories(Name, DisplayOrder)
@@ -63,45 +79,50 @@ Category CategoryRepository::create(const QString &name)
     };
 }
 
-void CategoryRepository::update(int id, QString name) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("UPDATE Categories SET Name=? WHERE Id=?");
+void CategoryRepository::update(int id, const QString& name)
+{
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        UPDATE Categories
+        SET Name=?
+        WHERE Id=?
+    )");
     q.addBindValue(name);
     q.addBindValue(id);
     q.exec();
 }
 
-void CategoryRepository::remove(int id) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("DELETE FROM Categories WHERE Id=?");
+void CategoryRepository::remove(int id)
+{
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        DELETE FROM Categories
+        WHERE Id=?
+    )");
     q.addBindValue(id);
     q.exec();
 }
 
-QList<Hymn> CategoryRepository::getHymns(int categoryId) {
+QList<Hymn> CategoryRepository::getHymns(int categoryId)
+{
     QList<Hymn> list;
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
+    QSqlQuery q( DatabaseConnector::instance().db() );
+
     if (categoryId >= 0) {
         q.prepare(R"(
-        SELECT h.Id, h.Name, h.CategoryId
-        FROM Hymns h
-        WHERE h.CategoryId = ?
-        ORDER BY h.Name
+            SELECT h.Id, h.Name, h.CategoryId
+            FROM Hymns h
+            WHERE h.CategoryId = ?
+            ORDER BY h.Name
         )");
 
         q.addBindValue(categoryId);
     } else {
         q.prepare(R"(
-        SELECT h.Id, h.Name, h.CategoryId
-        FROM Hymns h
-        WHERE h.CategoryId IS NULL
-        ORDER BY h.Name
+            SELECT h.Id, h.Name, h.CategoryId
+            FROM Hymns h
+            WHERE h.CategoryId IS NULL
+            ORDER BY h.Name
         )");
     }
     q.exec();
@@ -129,7 +150,7 @@ QList<Hymn> CategoryRepository::getHymns(int categoryId) {
 
 void CategoryRepository::move(int categoryId, int from, int to)
 {
-    auto db = DatabaseConnector::instance().db();
+    QSqlDatabase db = DatabaseConnector::instance().db();
 
     db.transaction();
 

@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "setscreenmodel.h"
 
 int SetScreenModel::setId() const
@@ -35,7 +42,7 @@ void SetScreenModel::setHymnId(int id)
 
 QVariant SetScreenModel::data(const QModelIndex& index,int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
         return {};
 
     const Screen& item = m_data[index.row()];
@@ -67,20 +74,7 @@ QVariant SetScreenModel::data(const QModelIndex& index,int role) const
         return item.shown;
 
     case ExcerptRole:
-    {
-        QStringList lines = item.text.split('\n');
-
-        for (const auto& line : std::as_const(lines))
-        {
-            QString trimmed = line.trimmed();
-
-            if (trimmed.length() >= 4)
-                return trimmed;
-        }
-
-        return "";
-    }
-
+        return item.getExcerpt();
     }
 
     return {};
@@ -111,26 +105,18 @@ void SetScreenModel::changeScreenVisibility(int row, bool shown)
     if(row < 0 || row >= m_data.size())
         return;
 
-    auto& screen = m_data[row];
+    Screen& screen = m_data[row];
 
     if(screen.shown == shown)
         return;
 
-    repo.changeScreenVisibility(
-        m_setId,
-        screen.id,
-        shown
-        );
+    repo.changeScreenVisibility(m_setId, screen.id, shown);
 
     screen.shown = shown;
 
     QModelIndex idx = index(row);
 
-    emit dataChanged(
-        idx,
-        idx,
-        {ShownRole}
-        );
+    emit dataChanged(idx, idx, {ShownRole});
 }
 
 void SetScreenModel::changeAllScreenVisibility(bool shown)
@@ -138,15 +124,11 @@ void SetScreenModel::changeAllScreenVisibility(bool shown)
     if(m_setId < 0 || m_hymnId < 0)
         return;
 
-    repo.changeScreenVisibilityByHymn(
-        m_setId,
-        m_hymnId,
-        shown
-        );
+    repo.changeScreenVisibilityByHymn(m_setId, m_hymnId, shown);
 
     bool changed = false;
 
-    for(auto& screen : m_data)
+    for(Screen& screen : m_data)
     {
         if(screen.shown != shown)
         {
@@ -158,18 +140,15 @@ void SetScreenModel::changeAllScreenVisibility(bool shown)
     if(!changed || m_data.isEmpty())
         return;
 
-    emit dataChanged(
-        index(0),
-        index(m_data.size() - 1),
-        {ShownRole}
-        );
+    emit dataChanged(index(0), index(m_data.size() - 1), {ShownRole});
 }
 
-Screen SetScreenModel::get(int index) const{
+Screen SetScreenModel::get(int index) const
+{
     if(index < 0 || index >= m_data.size())
         return {};
 
-    const auto& s = m_data[index];
+    const Screen& s = m_data[index];
 
     return s;
 }

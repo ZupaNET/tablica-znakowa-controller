@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "databasemanager.h"
 #include "databaseconnector.h"
 #include <QFile>
@@ -21,8 +28,7 @@ DatabaseManager *DatabaseManager::create(QQmlEngine *, QJSEngine *engine)
 
     // Explicitly specify C++ ownership so that the engine doesn't delete
     // the instance.
-    QJSEngine::setObjectOwnership(&instance(),
-                                  QJSEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(&instance(), QJSEngine::CppOwnership);
     return &instance();
 }
 

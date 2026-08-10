@@ -1,8 +1,17 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Prezenter
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef LANGUAGEMANAGER_H
 #define LANGUAGEMANAGER_H
 
 #include <QObject>
-#include <QtQml>
+#include <QtQml/QJSEngine>
+#include <QtQml/QQmlEngine>
+#include <QTranslator>
 
 class LanguageManager : public QObject
 {

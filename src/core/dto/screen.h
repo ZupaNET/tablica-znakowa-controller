@@ -1,8 +1,14 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include <QObject>
-#include <QtQml>
+#include <QtQml/QtQml>
 #include <QString>
 
 struct Screen {
@@ -24,6 +30,17 @@ public:
     int order;
     int font;
     bool shown;
+
+    QString getExcerpt() const
+    {
+        for(const QString &line : text.split('\n'))
+        {
+            const QString trimmed = line.trimmed();
+            if(trimmed.size() >= 4)
+                return trimmed;
+        }
+        return "";
+    }
 
     bool operator==(const Screen& other) const
     {

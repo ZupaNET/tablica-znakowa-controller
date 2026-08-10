@@ -1,8 +1,15 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef LINEHEIGHTHELPER_H
 #define LINEHEIGHTHELPER_H
 
 #include <QObject>
-#include <QtQml>
+#include <QtQml/QtQml>
 #include <QPointer>
 #include <QQuickTextDocument>
 

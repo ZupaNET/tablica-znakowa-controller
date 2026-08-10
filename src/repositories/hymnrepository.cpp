@@ -1,15 +1,29 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "hymnrepository.h"
+
 #include <QSqlQuery>
 #include <QSqlError>
+
 #include "database/databaseconnector.h"
 #include "core/utils/naturalsort.h"
 
-QList<Hymn> HymnRepository::getAll() {
+QList<Hymn> HymnRepository::getAll()
+{
     QList<Hymn> list;
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("SELECT Id, Name, CategoryId FROM hymns ORDER BY Name");
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        SELECT Id,
+               Name,
+               CategoryId
+        FROM hymns
+        ORDER BY Name
+    )");
     q.exec();
     while (q.next()) {
         int categoryId = q.isNull(2)
@@ -32,11 +46,11 @@ QList<Hymn> HymnRepository::getAll() {
     return list;
 }
 
-QList<Hymn> HymnRepository::getByCategory(int categoryId) {
+QList<Hymn> HymnRepository::getByCategory(int categoryId)
+{
     QList<Hymn> list;
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
+    QSqlQuery q( DatabaseConnector::instance().db() );
+
     if (categoryId == -1) {
         q.prepare(R"(
         SELECT Id, Name, CategoryId
@@ -79,9 +93,12 @@ QList<Hymn> HymnRepository::getByCategory(int categoryId) {
 
 Hymn HymnRepository::create(const QString &name, int categoryId)
 {
-    QSqlQuery q(DatabaseConnector::instance().db());
+    QSqlQuery q( DatabaseConnector::instance().db() );
 
-    q.prepare("INSERT INTO Hymns(Name, CategoryId) VALUES(?, ?)");
+    q.prepare(R"(
+        INSERT INTO Hymns(Name, CategoryId)
+        VALUES(?, ?)
+    )");
 
     q.addBindValue(name);
 
@@ -117,11 +134,14 @@ Hymn HymnRepository::create(const QString &name, int categoryId)
     };
 }
 
-void HymnRepository::update(int id, const QString& name, int categoryId) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("UPDATE Hymns SET Name=?, CategoryId=? WHERE Id=?");
+void HymnRepository::update(int id, const QString& name, int categoryId)
+{
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        UPDATE Hymns
+        SET Name=?, CategoryId=?
+        WHERE Id=?
+    )");
     q.addBindValue(name);
     q.addBindValue(categoryId < 0 ? QVariant(QMetaType::fromType<int>()) : categoryId);
     q.addBindValue(id);
@@ -129,10 +149,11 @@ void HymnRepository::update(int id, const QString& name, int categoryId) {
 }
 
 void HymnRepository::remove(int id) {
-    QSqlQuery q(
-        DatabaseConnector::instance().db()
-    );
-    q.prepare("DELETE FROM Hymns WHERE Id=?");
+    QSqlQuery q( DatabaseConnector::instance().db() );
+    q.prepare(R"(
+        DELETE FROM Hymns
+        WHERE Id=?
+    )");
     q.addBindValue(id);
     q.exec();
 }

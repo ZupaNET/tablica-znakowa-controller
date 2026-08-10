@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef SETHYMNMODEL_H
 #define SETHYMNMODEL_H
 
@@ -26,7 +33,6 @@ public:
 protected:
 
     QList<Hymn> fetch(int id) override;
-
 
 private:
 

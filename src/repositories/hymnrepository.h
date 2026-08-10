@@ -1,8 +1,16 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef HYMNREPOSITORY_H
 #define HYMNREPOSITORY_H
 
-#include "core/dto/hymn.h"
 #include <QList>
+
+#include "core/dto/hymn.h"
 
 class HymnRepository
 {

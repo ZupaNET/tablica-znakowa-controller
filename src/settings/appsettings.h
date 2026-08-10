@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Prezenter
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
@@ -11,60 +18,17 @@ class AppSettings : public QObject
     QML_SINGLETON
     QML_ELEMENT
 
-    Q_PROPERTY(QString screenCustomText
-        READ screenCustomText
-        WRITE setScreenCustomText
-        NOTIFY screenCustomTextChanged)
-
-    Q_PROPERTY(int screenCustomFont
-        READ screenCustomFont
-        WRITE setScreenCustomFont
-        NOTIFY screenCustomFontChanged)
-
-    Q_PROPERTY(QString screenView
-        READ screenView
-        WRITE setScreenView
-        NOTIFY screenViewChanged)
-
-    Q_PROPERTY(QString screenViewButtons
-        READ screenViewButtons
-        WRITE setScreenViewButtons
-        NOTIFY screenViewButtonsChanged)
-
-    Q_PROPERTY(bool showPreview
-        READ showPreview
-        WRITE setShowPreview
-        NOTIFY showPreviewChanged)
-
-    Q_PROPERTY(QString setView
-        READ setView
-        WRITE setSetView
-        NOTIFY setViewChanged)
-
-    Q_PROPERTY(QString ipAddress
-        READ ipAddress
-        WRITE setIpAddress
-        NOTIFY ipAddressChanged)
-
-    Q_PROPERTY(quint16 port
-        READ port
-        WRITE setPort
-        NOTIFY portChanged)
-
-    Q_PROPERTY(quint8 brightness
-        READ brightness
-        WRITE setBrightness
-        NOTIFY brightnessChanged)
-
-    Q_PROPERTY(bool darkMode
-        READ darkMode
-        WRITE setDarkMode
-        NOTIFY darkModeChanged)
-
-    Q_PROPERTY(QString language
-        READ language
-        WRITE setLanguage
-        NOTIFY languageChanged)
+    Q_PROPERTY(QString screenCustomText     READ screenCustomText   WRITE setScreenCustomText   NOTIFY screenCustomTextChanged)
+    Q_PROPERTY(int screenCustomFont         READ screenCustomFont   WRITE setScreenCustomFont   NOTIFY screenCustomFontChanged)
+    Q_PROPERTY(QString screenView           READ screenView         WRITE setScreenView         NOTIFY screenViewChanged)
+    Q_PROPERTY(QString screenViewButtons    READ screenViewButtons  WRITE setScreenViewButtons  NOTIFY screenViewButtonsChanged)
+    Q_PROPERTY(bool showPreview             READ showPreview        WRITE setShowPreview        NOTIFY showPreviewChanged)
+    Q_PROPERTY(QString setView              READ setView            WRITE setSetView            NOTIFY setViewChanged)
+    Q_PROPERTY(QString ipAddress            READ ipAddress          WRITE setIpAddress          NOTIFY ipAddressChanged)
+    Q_PROPERTY(quint16 port                 READ port               WRITE setPort               NOTIFY portChanged)
+    Q_PROPERTY(quint8 brightness            READ brightness         WRITE setBrightness         NOTIFY brightnessChanged)
+    Q_PROPERTY(bool darkMode                READ darkMode           WRITE setDarkMode           NOTIFY darkModeChanged)
+    Q_PROPERTY(QString language             READ language           WRITE setLanguage           NOTIFY languageChanged)
 
 explicit AppSettings(QObject* parent = nullptr)
     : QObject(parent)

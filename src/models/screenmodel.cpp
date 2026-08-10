@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "screenmodel.h"
 
 int ScreenModel::hymnId() const
@@ -5,19 +12,20 @@ int ScreenModel::hymnId() const
     return m_hymnId;
 }
 
-void ScreenModel::setHymnId(int id) {
+void ScreenModel::setHymnId(int id)
+{
     if (m_hymnId == id) return;
+
     m_hymnId = id;
     emit hymnIdChanged();
+
     reload();
 }
 
-QVariant ScreenModel::data(const QModelIndex& index,int role) const
+QVariant ScreenModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
-    {
         return {};
-    }
 
     const Screen& item = m_data[index.row()];
 
@@ -42,17 +50,7 @@ QVariant ScreenModel::data(const QModelIndex& index,int role) const
         return item.font;
 
     case ExcerptRole:
-    {
-        const QStringList lines = item.text.split('\n');
-
-        for (const QString &line : lines)
-        {
-            if (!line.trimmed().isEmpty())
-                return line.trimmed();
-        }
-
-        return "";
-    }
+        return item.getExcerpt();
     }
 
 
@@ -70,7 +68,8 @@ void ScreenModel::reload()
     else updateData(repo.getByHymn(m_hymnId));
 }
 
-void ScreenModel::add(QString text, int font) {
+void ScreenModel::add(const QString& text, int font)
+{
     Screen s = repo.create(m_hymnId, text, font);
 
     beginInsertRows({}, m_data.size(), m_data.size());
@@ -92,7 +91,7 @@ void ScreenModel::update(int row, const QString& text, int font)
     if(row < 0 || row >= m_data.size())
         return;
 
-    auto& s = m_data[row];
+    Screen& s = m_data[row];
 
     QString newText = s.text;
     int newFont = s.font;
@@ -144,7 +143,8 @@ void ScreenModel::duplicate(int row)
     endInsertRows();
 }
 
-void ScreenModel::removeRow(int row) {
+void ScreenModel::removeRow(int row)
+{
     beginRemoveRows({}, row, row);
 
     repo.remove(m_data[row].id);
@@ -169,11 +169,12 @@ void ScreenModel::move(int from, int to)
     repo.move(m_hymnId, movedId, from, to);
 }
 
-Q_INVOKABLE Screen ScreenModel::get(int index) const{
+Q_INVOKABLE Screen ScreenModel::get(int index) const
+{
     if(index < 0 || index >= m_data.size())
         return {};
 
-    const auto& s = m_data[index];
+    const Screen& s = m_data[index];
 
     return s;
 }

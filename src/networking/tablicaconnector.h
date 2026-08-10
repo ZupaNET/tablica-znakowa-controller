@@ -1,11 +1,17 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef TABLICACONNECTOR_H
 #define TABLICACONNECTOR_H
 
 #include <QObject>
-#include <QtQml>
-#include <QHostAddress>
+#include <QtQml/QtQml>
+
 #include "core/dto/screen.h"
-#include "settings/appsettings.h"
 
 class TablicaConnector : public QObject
 {
@@ -13,29 +19,10 @@ class TablicaConnector : public QObject
     QML_SINGLETON
     QML_ELEMENT
 
-    Q_PROPERTY(Screen buffer
-        READ getBuffer
-        WRITE setBuffer
-        NOTIFY bufferChanged
-    )
-
-    Q_PROPERTY(bool enabled
-        READ isEnabled
-        WRITE setEnabled
-        NOTIFY enabledChanged
-    )
-
-    Q_PROPERTY(QString ipAddress
-        READ getIpAddress
-        WRITE setIpAddress
-        NOTIFY ipAddressChanged
-    )
-
-    Q_PROPERTY(quint16 port
-        READ getPort
-        WRITE setPort
-        NOTIFY portChanged
-    )
+    Q_PROPERTY(Screen buffer        READ getBuffer      WRITE setBuffer     NOTIFY bufferChanged)
+    Q_PROPERTY(bool enabled         READ getEnabled     WRITE setEnabled    NOTIFY enabledChanged)
+    Q_PROPERTY(QString ipAddress    READ getIpAddress   WRITE setIpAddress  NOTIFY ipAddressChanged)
+    Q_PROPERTY(quint16 port         READ getPort        WRITE setPort       NOTIFY portChanged)
 
 explicit TablicaConnector(QObject* parent = nullptr)
     : QObject(parent)
@@ -59,18 +46,19 @@ public:
 
 private:
     bool m_initialized = false;
-    Screen buffer;
+
+    Screen buffer = Screen::emptyScreen();
     bool enabled = false;
-    QHostAddress ipAddress = QHostAddress("192.168.0.100");
+
+    QString ipAddress = "192.168.0.100";
     quint16 port = 60023;
     quint8 brightness = 2;
-    quint8 font = 1;
+    quint8 font = 2;
+
     QQueue<QString> commandQueue;
     bool commandRunning = false;
     QTimer connectionCooldown;
     bool connectionBlocked = false;
-
-    AppSettings* appSettings;
 
     void init();
 
@@ -78,11 +66,11 @@ private:
     void setFont(quint8 font);
 
     bool sendScreen(const Screen& scr);
-    bool sendLine(QString line, quint8 lineNumber);
+    bool sendLine(const QString& line, quint8 lineNumber);
     bool display();
 
     bool submitCommand();
-    bool sendCommand(QString command);
+    bool sendCommand(const QString& command);
     void processQueue();
 
     inline static QJSEngine *s_engine = nullptr;
@@ -100,9 +88,9 @@ public:
     Screen getBuffer();
 
     void setEnabled(bool state);
-    bool isEnabled();
+    bool getEnabled();
 
-    QString getIpAddress();
+    QString getIpAddress() const;
 
     quint16 getPort();
 
@@ -116,7 +104,7 @@ public:
 
 public slots:
     void setBrightnessNow(quint8 brightness);
-    void setIpAddress(QString ipAddress);
+    void setIpAddress(const QString& ipAddress);
     void setPort(quint16 port);
 
 };

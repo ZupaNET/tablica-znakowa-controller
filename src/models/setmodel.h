@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef SETMODEL_H
 #define SETMODEL_H
 
@@ -18,7 +25,7 @@ public:
     QHash<int,QByteArray> roleNames() const override;
 
     Q_INVOKABLE void reload() override;
-    Q_INVOKABLE void add(QString name);
+    Q_INVOKABLE void add(const QString& name);
     Q_INVOKABLE void update(int row, const QString& name);
     Q_INVOKABLE void removeRow(int row);
     Q_INVOKABLE void move(int from, int to);

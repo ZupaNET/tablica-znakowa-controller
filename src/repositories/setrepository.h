@@ -1,17 +1,25 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef SETREPOSITORY_H
 #define SETREPOSITORY_H
+
+#include <QList>
 
 #include "core/dto/set.h"
 #include "core/dto/hymn.h"
 #include "core/dto/screen.h"
-#include <QVariantList>
 
 class SetRepository
 {
 public:
     QList<Set> getAll();
     Set create(const QString& name);
-    void update(int id, QString name);
+    void update(int id, const QString& name);
     void remove(int id);
     void move(int setId, int from, int to);
     QList<Hymn> getHymns(int setId);

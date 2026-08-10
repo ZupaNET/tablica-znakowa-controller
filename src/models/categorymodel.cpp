@@ -1,11 +1,16 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "categorymodel.h"
 
 QVariant CategoryModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
-    {
         return {};
-    }
 
     const Category& item = m_data[index.row()];
 
@@ -35,18 +40,14 @@ void CategoryModel::reload()
 }
 
 
-void CategoryModel::add(QString name)
+void CategoryModel::add(const QString& name)
 {
     Category category = repo.create(name);
 
     if(category.id < 0)
         return;
 
-    beginInsertRows(
-        {},
-        m_data.size(),
-        m_data.size()
-        );
+    beginInsertRows({}, m_data.size(), m_data.size());
 
     m_data.append(category);
 
@@ -101,7 +102,8 @@ void CategoryModel::removeRow(int row)
     endRemoveRows();
 }
 
-Q_INVOKABLE Category CategoryModel::get(int index) const{
+Q_INVOKABLE Category CategoryModel::get(int index) const
+{
     if(index < 0 || index >= m_data.size())
         return {};
 

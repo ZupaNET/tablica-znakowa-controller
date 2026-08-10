@@ -1,11 +1,16 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "categoryhymnmodel.h"
 
 QVariant CategoryHymnModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
-    {
         return {};
-    }
 
     const Hymn& item = m_data[index.row()];
 
@@ -30,7 +35,7 @@ QHash<int,QByteArray> CategoryHymnModel::roleNames() const
     return HymnRoles::roleNames();
 }
 
-void CategoryHymnModel::add(QString name)
+void CategoryHymnModel::add(const QString& name)
 {
     Hymn s = hymnRepo.create(name, m_parentId);
 
@@ -95,7 +100,8 @@ void CategoryHymnModel::reload()
     else updateData(fetch(parentId()));
 }
 
-Hymn CategoryHymnModel::get(int index) const{
+Hymn CategoryHymnModel::get(int index) const
+{
     if(index < 0 || index >= m_data.size())
         return {};
 

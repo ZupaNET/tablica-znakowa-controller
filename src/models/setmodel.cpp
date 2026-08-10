@@ -1,8 +1,15 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "setmodel.h"
 
 QVariant SetModel::data(const QModelIndex& index, int role) const
 {
-    if(!index.isValid())
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
         return {};
 
     const Set& item = m_data[index.row()];
@@ -14,6 +21,9 @@ QVariant SetModel::data(const QModelIndex& index, int role) const
 
     case NameRole:
         return item.name;
+
+    case OrderRole:
+        return item.order;
     }
 
     return {};
@@ -29,20 +39,13 @@ void SetModel::reload()
     updateData(repo.getAll());
 }
 
-void SetModel::add(QString name)
+void SetModel::add(const QString& name)
 {
     Set s = repo.create(name);
 
-    beginInsertRows(
-        {},
-        m_data.size(),
-        m_data.size()
-        );
+    beginInsertRows({}, m_data.size(), m_data.size());
 
-    m_data.append(Set{
-        s.id,
-        name
-    });
+    m_data.append(Set{s.id, name});
 
     endInsertRows();
 }
@@ -72,11 +75,7 @@ void SetModel::removeRow(int row)
 
     repo.remove(id);
 
-    beginRemoveRows(
-        {},
-        row,
-        row
-        );
+    beginRemoveRows({}, row, row);
 
     m_data.removeAt(row);
 
@@ -101,11 +100,12 @@ void SetModel::move(int from, int to)
     repo.move(movedId, from, to);
 }
 
-Set SetModel::get(int index) const{
+Set SetModel::get(int index) const
+{
     if(index < 0 || index >= m_data.size())
         return {};
 
-    const auto& s = m_data[index];
+    const Set& s = m_data[index];
 
     return s;
 }

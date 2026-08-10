@@ -1,8 +1,15 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "sethymnmodel.h"
 
 QVariant SetHymnModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_data.size())
+    if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
         return {};
 
     const Hymn& item = m_data[index.row()];
@@ -49,7 +56,8 @@ void SetHymnModel::addHymn(int hymnId)
     endInsertRows();
 }
 
-void SetHymnModel::removeHymn(int row) {
+void SetHymnModel::removeHymn(int row)
+{
     if (row < 0 || row >= m_data.size())
         return;
 
@@ -79,7 +87,7 @@ Hymn SetHymnModel::get(int index) const{
     if(index < 0 || index >= m_data.size())
         return {};
 
-    const auto& s = m_data[index];
+    const Hymn& s = m_data[index];
 
     return s;
 }

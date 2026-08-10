@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "databaseconnector.h"
 #include <QDebug>
 #include <QStandardPaths>
@@ -22,23 +29,25 @@ DatabaseConnector *DatabaseConnector::create(QQmlEngine *, QJSEngine *engine)
 
     // Explicitly specify C++ ownership so that the engine doesn't delete
     // the instance.
-    QJSEngine::setObjectOwnership(&instance(),
-                                  QJSEngine::CppOwnership);
+    QJSEngine::setObjectOwnership(&instance(), QJSEngine::CppOwnership);
     return &instance();
 }
 
-QString DatabaseConnector::getDatabasePath(){
+QString DatabaseConnector::getDatabasePath()
+{
     QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir().mkpath(dir);
 
     return dir+"/hymnal.db";
 }
 
-QSqlDatabase DatabaseConnector::db(){
+QSqlDatabase DatabaseConnector::db()
+{
     return m_db;
 }
 
-bool DatabaseConnector::init(const QString& path){
+bool DatabaseConnector::init(const QString& path)
+{
     QString realPath = path;
 
     if(realPath.isEmpty()){

@@ -1,10 +1,15 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
-#include <QObject>
-#include <QtQml>
+#include <QtQml/QtQml>
 #include <QString>
-#include <QVariantList>
 
 struct Category {
     Q_GADGET

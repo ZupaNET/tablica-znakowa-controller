@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef CATEGORYHYMNMODEL_H
 #define CATEGORYHYMNMODEL_H
 
@@ -19,7 +26,7 @@ public:
     QHash<int,QByteArray> roleNames() const override;
 
     Q_INVOKABLE void reload() override;
-    Q_INVOKABLE void add(QString name);
+    Q_INVOKABLE void add(const QString& name);
     Q_INVOKABLE void update(int row, const QString& name);
     Q_INVOKABLE void changeCategory(int row, int newCategoryId);
     Q_INVOKABLE void removeRow(int row);
@@ -28,7 +35,6 @@ public:
 protected:
 
     QList<Hymn> fetch(int id) override;
-
 
 private:
 

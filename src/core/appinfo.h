@@ -1,9 +1,16 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #ifndef APPINFO_H
 #define APPINFO_H
 
 #include <QObject>
 #include <QString>
-#include <QtQml>
+#include <QtQml/QtQml>
 
 class AppInfo : public QObject
 {

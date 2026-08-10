@@ -1,52 +1,76 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 #include "presentationmodel.h"
 
 void PresentationModel::setSetId(int id) {
     if (m_setId == id) return;
+
     m_setId = id;
     emit setIdChanged();
+
     reload();
 }
 
 void PresentationModel::setShowAll(bool show)
 {
     if(m_showAll == show) return;
+
     m_showAll = show;
     emit showAllChanged();
+
     reload();
 }
 
 void PresentationModel::setHymnMode(bool enable)
 {
     if(m_hymnMode == enable) return;
+
     m_hymnMode = enable;
     emit hymnModeChanged();
+
     reload();
 }
 
-QVariant PresentationModel::data(const QModelIndex& index, int role) const {
+QVariant PresentationModel::data(const QModelIndex& index, int role) const
+{
     if (!index.isValid() || index.row() < 0 || index.row() >= m_data.size())
-    {
         return {};
-    }
 
-    auto& s = m_data[index.row()];
-    if (role==IdRole) return s.id;
-    if (role==ScreenRole) return QVariant::fromValue(s);
-    if (role==TextRole) return s.text;
-    if (role==OrderRole) return s.order;
-    if (role==FontRole) return s.font;
-    if (role==HymnNameRole) return s.hymnName;
-    if (role==ShownRole) return s.shown;
-    if (role==ExcerptRole){
-        QStringList lines = s.text.split('\n');
+    const Screen& s = m_data[index.row()];
 
-        for (const auto& line : std::as_const(lines))
-        {
-            if (!line.trimmed().isEmpty())
-                return line.trimmed();
-        }
+    switch (role)
+    {
+    case IdRole:
+        return s.id;
 
-        return "";
+    case ScreenRole:
+        return QVariant::fromValue(s);
+
+    case TextRole:
+        return s.text;
+
+    case OrderRole:
+        return s.order;
+
+    case FontRole:
+        return s.font;
+
+    case HymnNameRole:
+        return s.hymnName;
+
+    case ShownRole:
+        return s.shown;
+
+    case ExcerptRole:
+        return s.getExcerpt();
+
+    default:
+        return {};
     }
 
     return {};
@@ -62,7 +86,7 @@ void PresentationModel::update(int row, const QString& text, int font)
     if(row < 0 || row >= m_data.size())
         return;
 
-    auto& s = m_data[row];
+    Screen& s = m_data[row];
 
     if (!text.isNull())
         s.text = text;
@@ -74,15 +98,7 @@ void PresentationModel::update(int row, const QString& text, int font)
 
     QModelIndex idx = index(row);
 
-    emit dataChanged(
-        idx,
-        idx,
-        {
-            TextRole,
-            FontRole,
-            ExcerptRole
-        }
-        );
+    emit dataChanged(idx, idx, { TextRole, FontRole, ExcerptRole });
 }
 
 void PresentationModel::changeScreenVisibility(int row, bool shown)
@@ -143,7 +159,8 @@ void PresentationModel::changeScreenVisibility(int row, bool shown)
 
 }
 
-Q_INVOKABLE void PresentationModel::reload() {
+Q_INVOKABLE void PresentationModel::reload()
+{
     if (m_setId < 0) return;
 
     if(!m_hymnMode)
@@ -158,7 +175,8 @@ Q_INVOKABLE void PresentationModel::reload() {
     }
 }
 
-Q_INVOKABLE Screen PresentationModel::get(int index) const{
+Q_INVOKABLE Screen PresentationModel::get(int index) const
+{
     if(index < 0 || index >= m_data.size())
         return {};
 
