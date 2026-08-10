@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -87,7 +86,7 @@ Item {
 
 
             Button {
-                text: MdiFont.Icon.arrowLeft
+                text: Icon.arrowLeft
 
                 Material.background: "transparent"
                 Material.foreground: "white"
@@ -161,7 +160,7 @@ Item {
                             spacing: 10
 
                             Label {
-                                text: MdiFont.Icon.lan
+                                text: Icon.lan
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 28
@@ -307,7 +306,7 @@ Item {
                             spacing: 10
 
                             Label {
-                                text: MdiFont.Icon.cog
+                                text: Icon.cog
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 28
@@ -413,7 +412,7 @@ Item {
                             spacing: 10
 
                             Label {
-                                text: MdiFont.Icon["brightness-6"]
+                                text: Icon.brightness6
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 28
@@ -432,7 +431,7 @@ Item {
                         RowLayout {
 
                             Label {
-                                text: MdiFont.Icon.weatherNight
+                                text: Icon.weatherNight
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 20
@@ -456,7 +455,7 @@ Item {
                             }
 
                             Label {
-                                text: MdiFont.Icon.whiteBalanceSunny
+                                text: Icon.whiteBalanceSunny
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 20
@@ -493,7 +492,7 @@ Item {
                             spacing: 10
 
                             Label {
-                                text: MdiFont.Icon.book
+                                text: Icon.book
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 28

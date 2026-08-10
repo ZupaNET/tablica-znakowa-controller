@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -46,7 +45,7 @@ Item {
 
 
             Button {
-                text: MdiFont.Icon.arrowLeft
+                text: Icon.arrowLeft
 
                 Material.background: "transparent"
                 Material.foreground: "white"
@@ -77,7 +76,7 @@ Item {
             }
 
             Button {
-                text: qsTr("Prezentuj") + " " + MdiFont.Icon.chevronRight
+                text: qsTr("Prezentuj") + " " + Icon.chevronRight
 
                 Material.background: "transparent"
                 Material.foreground: "white"

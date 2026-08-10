@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Effects
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root1
@@ -144,7 +143,7 @@ Item {
                     leftMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: MdiFont.Icon.arrowLeft
+                text: Icon.arrowLeft
 
                 Material.background: "transparent"
                 Material.foreground: "white"
@@ -164,7 +163,7 @@ Item {
                     rightMargin: 10
                     verticalCenter: parent.verticalCenter
                 }
-                text: qsTr("Transmisja") + " " + MdiFont.Icon.cast
+                text: qsTr("Transmisja") + " " + Icon.cast
 
                 Material.background: "transparent"
                 Material.foreground: "white"
@@ -257,7 +256,7 @@ Item {
                         horizontalCenter: parent.horizontalCenter
                     }
 
-                    text: MdiFont.Icon.dotsHorizontal
+                    text: Icon.dotsHorizontal
                     font.family: "Material Design Icons"
                     font.pixelSize: 24
                     color: Theme.text
@@ -404,7 +403,7 @@ Item {
                     verticalCenter: parent.verticalCenter
                 }
 
-                text: setView.state === "open" ? MdiFont.Icon.chevronRight : MdiFont.Icon.chevronLeft
+                text: setView.state === "open" ? Icon.chevronRight : Icon.chevronLeft
 
                 font.family: "Material Design Icons"
                 font.pixelSize: 24

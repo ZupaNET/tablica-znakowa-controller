@@ -2,8 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "../Icon.js" as MdiFont
-
 import Prezenter
 
 Item {
@@ -28,7 +26,7 @@ Item {
             color: Theme.header
 
             Button {
-                text: MdiFont.Icon.arrowLeft
+                text: Icon.arrowLeft
 
                 Material.background: "transparent"
                 Material.foreground: "white"

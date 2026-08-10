@@ -3,7 +3,6 @@ import QtQuick.Controls
 
 import Prezenter
 
-
 ApplicationWindow {
     id: mainWindow
 

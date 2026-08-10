@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Effects
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -271,7 +270,7 @@ Item {
                             }
 
                             ToolButton {
-                                text: MdiFont.Icon.arrowUp
+                                text: Icon.arrowUp
 
                                 enabled: model.id >= 0 && index > 1 && root.categorySearchText == ""
                                 visible: model.id >= 0
@@ -285,7 +284,7 @@ Item {
                             }
 
                             ToolButton {
-                                text: MdiFont.Icon.arrowDown
+                                text: Icon.arrowDown
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 20
@@ -303,7 +302,7 @@ Item {
 
                                 visible: model.id >= 0
 
-                                text: MdiFont.Icon.dotsVertical
+                                text: Icon.dotsVertical
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 22

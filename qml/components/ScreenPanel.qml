@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -139,7 +138,7 @@ Item {
                             }
 
                             ToolButton {
-                                   text: MdiFont.Icon.arrowUp
+                                   text: Icon.arrowUp
 
                                    font.family: "Material Design Icons"
                                    font.pixelSize: 20
@@ -152,7 +151,7 @@ Item {
                                }
 
                                ToolButton {
-                                   text: MdiFont.Icon.arrowDown
+                                   text: Icon.arrowDown
 
                                    font.family: "Material Design Icons"
                                    font.pixelSize: 20
@@ -165,7 +164,7 @@ Item {
                                }
 
                             ToolButton {
-                                text: MdiFont.Icon.contentCopy
+                                text: Icon.contentCopy
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 20
@@ -176,7 +175,7 @@ Item {
                             }
 
                             ToolButton {
-                                text: MdiFont.Icon.delete
+                                text: Icon.delete
 
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 20

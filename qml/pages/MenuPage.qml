@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -103,7 +102,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                icon: MdiFont.Icon.book
+                icon: Icon.book
 
                 title: qsTr("Lista pieśni")
 
@@ -122,7 +121,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                icon: MdiFont.Icon.viewDashboard
+                icon: Icon.viewDashboard
 
                 title: qsTr("Zestawy")
 
@@ -141,7 +140,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                icon: MdiFont.Icon.textBox
+                icon: Icon.textBox
 
                 title: qsTr("Dowolny slajd")
 
@@ -160,7 +159,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                icon: MdiFont.Icon.cog
+                icon: Icon.cog
 
                 title: qsTr("Ustawienia")
 
@@ -178,7 +177,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                icon: MdiFont.Icon.information
+                icon: Icon.information
 
                 title: qsTr("O aplikacji")
 
@@ -197,7 +196,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                icon: MdiFont.Icon.power
+                icon: Icon.power
 
                 title: qsTr("Wyłącz tablicę")
 

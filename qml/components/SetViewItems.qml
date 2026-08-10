@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick.Effects
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -183,8 +182,8 @@ Item {
             flat: true
 
             text: !root.shown
-                  ? MdiFont.Icon.eyeOff
-                  : MdiFont.Icon.eye
+                  ? Icon.eyeOff
+                  : Icon.eye
 
             font.family: "Material Design Icons"
             font.pixelSize: 20

@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -216,7 +215,7 @@ Item {
                 anchors.fill: parent
 
                 ToolButton {
-                    text: MdiFont.Icon.eye
+                    text: Icon.eye
 
                     enabled: root.model.hymnId >= 0
 
@@ -232,7 +231,7 @@ Item {
                 }
 
                 ToolButton {
-                    text: MdiFont.Icon.eyeOff
+                    text: Icon.eyeOff
 
                     enabled: root.model.hymnId >= 0
 

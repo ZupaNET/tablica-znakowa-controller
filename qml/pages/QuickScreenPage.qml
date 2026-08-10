@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import Prezenter
-import "../Icon.js" as MdiFont
 
 Item {
     id: root
@@ -42,7 +41,7 @@ Item {
         visible: !Qt.inputMethod.visible
 
         Button {
-            text: MdiFont.Icon.arrowLeft
+            text: Icon.arrowLeft
 
             Material.background: "transparent"
             Material.foreground: "white"

@@ -52,11 +52,11 @@ file(GLOB_RECURSE APP_HEADERS CONFIGURE_DEPENDS
 set(APP_QML_SINGLETONS
     qml/navigation/Navigation.qml
     qml/Theme.qml
+    qml/Icon.qml
 )
 
 set(APP_QML
     qml/Main.qml
-    qml/Icon.js
 
     ${APP_QML_SINGLETONS}
 
