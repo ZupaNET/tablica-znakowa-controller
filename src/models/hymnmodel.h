@@ -29,6 +29,7 @@ public:
     Q_INVOKABLE void add(const QString& name, int categoryId);
     Q_INVOKABLE void update(int row, const QString& name, int categoryId);
     Q_INVOKABLE void removeRow(int row);
+    Q_INVOKABLE Hymn get(int index) const;
 
 private:
     HymnRepository repo;

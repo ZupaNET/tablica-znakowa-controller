@@ -1,0 +1,598 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
+
+import Prezenter
+
+Item {
+    id: root
+
+    Rectangle {
+        anchors.fill: parent
+        color: Theme.background
+
+        FileDialog {
+            id: dbImportDialog
+            title: qsTr("Import śpiewnika")
+            nameFilters: [qsTr("Śpiewnik (*.db)")]
+
+            onAccepted: {
+                if(!DatabaseManager.importDatabase(selectedFiles[0]))
+                    infoPopup.show(qsTr("Wystąpił problem podczas wczytywania śpiewnika"))
+                else
+                    infoPopup.show(qsTr("Wczytano śpiewnik"))
+            }
+        }
+
+        FileDialog {
+            id: dbExportDialog
+
+            title: qsTr("Eksport śpiewnika")
+
+            fileMode: FileDialog.SaveFile
+            defaultSuffix: "db"
+
+            nameFilters: [qsTr("Śpiewnik (*.db)")]
+
+            onAccepted: {
+                if(!DatabaseManager.exportDatabase(selectedFile))
+                    infoPopup.show(qsTr("Wystąpił problem podczas zapisywania śpiewnika"))
+                else
+                    infoPopup.show(qsTr("Zapisano śpiewnik"))
+            }
+        }
+
+        Dialog {
+            id: dbResetDialog
+
+            title: qsTr("Zresetować śpiewnik?")
+            modal: true
+
+			Overlay.modal: Rectangle {
+				color: Theme.dimBackground
+			}
+
+            parent: Overlay.overlay
+            anchors.centerIn: Overlay.overlay
+            dim: true
+
+            standardButtons: Dialog.Yes | Dialog.No
+
+            Label {
+                text: qsTr("Czy na pewno chcesz zresetować śpiewnik?")
+            }
+
+            onAccepted: {
+                if(!DatabaseManager.resetDatabase())
+                    infoPopup.show(qsTr("Wystąpił problem podczas resetowania śpiewnika"))
+                else
+                    infoPopup.show(qsTr("Zresetowano śpiewnik"))
+            }
+        }
+
+        Rectangle {
+            id: topBar
+
+            height: 50
+
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+
+            color: Theme.header
+
+
+            Button {
+                text: Icon.arrowLeft
+
+                Material.background: "transparent"
+                Material.foreground: "white"
+                font.family: "Material Design Icons"
+                font.pixelSize: 20
+
+                anchors {
+                    left: parent.left
+                    verticalCenter: parent.verticalCenter
+                }
+
+                flat: true
+
+                onClicked: {
+                    Navigation.pop()
+                }
+            }
+
+            Text {
+                anchors.centerIn: parent
+
+                text: qsTr("Ustawienia")
+
+                color: "white"
+
+                font.pixelSize: 22
+                font.bold: true
+            }
+        }
+
+        Flickable {
+
+            anchors {
+                top: topBar.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+
+                margins: 24
+            }
+
+            contentWidth: width
+            contentHeight: layout.implicitHeight
+
+            clip: true
+
+            ColumnLayout {
+                id: layout
+
+                width: parent.width
+
+                spacing: 20
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    radius: 16
+                    color: Theme.card
+                    border.color: Theme.cardBorder
+
+                    implicitHeight: connectionColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: connectionColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: Icon.lan
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: qsTr("Łączność")
+
+                                font.bold: true
+                                font.pixelSize: 20
+
+                                color: Theme.text
+                            }
+                        }
+
+                        Label {
+                            text: qsTr("Adres IP")
+                            font.bold: true
+
+                            color: Theme.text
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+
+                            spacing: 6
+
+                            TextField {
+                                id: ipField
+
+                                Layout.fillWidth: true
+
+                                text: AppSettings.ipAddress
+
+                                placeholderText: qsTr("np. 192.168.1.100")
+
+                                inputMethodHints: Qt.ImhFormattedNumbersOnly
+
+                                validator: RegularExpressionValidator {
+                                    regularExpression:
+                                        /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+                                }
+
+                                onEditingFinished: {
+                                    if (acceptableInput) {
+                                        AppSettings.ipAddress = text
+                                    }
+                                }
+
+                                onTextEdited: {
+                                    ipError.visible = !acceptableInput && text.length > 0
+                                }
+                            }
+
+                            Label {
+                                id: ipError
+
+                                Layout.fillWidth: true
+
+                                text: qsTr("Niepoprawny adres IP")
+
+                                color: "#e53935"
+
+                                font.pixelSize: 13
+
+                                visible: false
+                            }
+                        }
+
+                        Label {
+                            text: qsTr("Port")
+                            font.bold: true
+
+                            color: Theme.text
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+
+                            spacing: 6
+
+                            TextField {
+                                id: portField
+
+                                Layout.fillWidth: true
+
+                                text: AppSettings.port
+
+                                placeholderText: qsTr("np. 60023")
+
+                                inputMethodHints: Qt.ImhDigitsOnly
+
+                                validator: IntValidator {
+                                    bottom: 1
+                                    top: 65535
+                                }
+
+                                onEditingFinished: {
+                                    if (acceptableInput) {
+                                        AppSettings.port = parseInt(text)
+                                    }
+                                }
+
+                                onTextEdited: {
+                                    portError.visible = !acceptableInput && text.length > 0
+                                }
+                            }
+
+                            Label {
+                                id: portError
+
+                                Layout.fillWidth: true
+
+                                text: qsTr("Port musi być w zakresie 1-65535")
+
+                                color: "#e53935"
+
+                                font.pixelSize: 13
+
+                                visible: false
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    radius: 16
+                    color: Theme.card
+                    border.color: Theme.cardBorder
+
+                    implicitHeight: appColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: appColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: Icon.cog
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: qsTr("Aplikacja")
+
+                                font.bold: true
+                                font.pixelSize: 20
+
+                                color: Theme.text
+                            }
+                        }
+
+                        RowLayout {
+
+                            Layout.fillWidth: true
+
+                            Label {
+                                text: qsTr("Tryb ciemny")
+
+                                color: Theme.text
+
+                                Layout.fillWidth: true
+
+                                font.pixelSize: 15
+                            }
+
+                            Switch {
+
+                                checked: AppSettings.darkMode
+
+                                onToggled: {
+                                    AppSettings.darkMode = checked
+                                }
+                            }
+                        }
+
+                        RowLayout {
+
+                            Layout.fillWidth: true
+
+                            Label {
+                                text: qsTr("Język")
+
+                                color: Theme.text
+
+                                Layout.fillWidth: true
+
+                                font.pixelSize: 15
+                            }
+
+                            ComboBox {
+                                id: languageBox
+
+                                Layout.preferredWidth: 200
+
+                                model: LanguageManager.availableLanguages
+
+                                textRole: "name"
+                                valueRole: "lang"
+
+                                Component.onCompleted: {
+                                    currentIndex = indexOfValue(LanguageManager.language)
+                                }
+
+                                onActivated: {
+                                    LanguageManager.language = currentValue
+                                }
+
+                                Connections {
+                                    target: LanguageManager
+
+                                    function onLanguageChanged() {
+                                        languageBox.currentIndex = languageBox.indexOfValue(LanguageManager.language)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+
+                    radius: 16
+
+                    color: Theme.card
+                    border.color: Theme.cardBorder
+
+                    implicitHeight: displayColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: displayColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: Icon.brightness6
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: qsTr("Wyświetlacz")
+
+                                font.bold: true
+                                font.pixelSize: 20
+
+                                color: Theme.text
+                            }
+                        }
+
+                        RowLayout {
+
+                            Label {
+                                text: Icon.weatherNight
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
+                            }
+
+                            Slider {
+
+                                Layout.fillWidth: true
+
+                                from: 1
+                                to: 4
+
+                                stepSize: 1
+
+                                snapMode: Slider.SnapAlways
+
+                                value: AppSettings.brightness
+
+                                onMoved:
+                                    AppSettings.brightness = value
+                            }
+
+                            Label {
+                                text: Icon.whiteBalanceSunny
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 20
+                            }
+                        }
+
+                        Label {
+                            text: qsTr("Poziom:") + " " + AppSettings.brightness + " / 4"
+                            color: Theme.textSecondary
+                        }
+                    }
+                }
+
+                Rectangle {
+
+                    Layout.fillWidth: true
+
+                    radius: 16
+
+                    color: Theme.card
+                    border.color: Theme.cardBorder
+
+                    implicitHeight: databaseColumn.implicitHeight + 32
+
+                    ColumnLayout {
+                        id: databaseColumn
+
+                        anchors.fill: parent
+                        anchors.margins: 16
+
+                        spacing: 18
+
+                        RowLayout {
+                            spacing: 10
+
+                            Label {
+                                text: Icon.book
+
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 28
+                            }
+
+                            Label {
+                                text: qsTr("Śpiewnik")
+
+                                font.bold: true
+                                font.pixelSize: 20
+
+                                color: Theme.text
+                            }
+                        }
+
+                        RowLayout {
+
+                            Layout.fillWidth: true
+
+                            spacing: 16
+
+                            Button {
+
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 64
+
+                                text: qsTr("Import")
+                                font.pixelSize: 15
+
+                                onClicked: dbImportDialog.open()
+                            }
+
+                            Button {
+
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 64
+
+                                text: qsTr("Eksport")
+                                font.pixelSize: 15
+
+                                onClicked: dbExportDialog.open()
+                            }
+
+                            Button {
+
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 64
+
+                                text: qsTr("Resetuj")
+                                font.pixelSize: 15
+
+                                onClicked: dbResetDialog.open()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: infoPopup
+
+        parent: Overlay.overlay
+
+        x: (parent.width - width) / 2
+        y: parent.height - height - 40
+
+        padding: 12
+        modal: false
+        focus: false
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            radius: 6
+            color: Theme.popup
+        }
+
+        Label {
+            id: infoText
+            color: "white"
+        }
+
+        Timer {
+            id: hideTimer
+            interval: 2500
+            onTriggered: infoPopup.close()
+        }
+
+        function show(message) {
+            infoText.text = message
+            open()
+            hideTimer.restart()
+        }
+    }
+}

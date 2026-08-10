@@ -98,3 +98,13 @@ void HymnModel::removeRow(int row)
 
     endRemoveRows();
 }
+
+Hymn HymnModel::get(int index) const
+{
+    if(index < 0 || index >= m_data.size())
+        return {};
+
+    const auto& s = m_data[index];
+
+    return s;
+}

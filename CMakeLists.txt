@@ -50,9 +50,10 @@ file(GLOB_RECURSE APP_HEADERS CONFIGURE_DEPENDS
 )
 
 set(APP_QML_SINGLETONS
-    qml/navigation/Navigation.qml
-    qml/Theme.qml
-    qml/Icon.qml
+    qml/app/Navigation.qml
+    qml/app/Theme.qml
+
+    qml/icons/Icon.qml
 )
 
 set(APP_QML
@@ -60,27 +61,43 @@ set(APP_QML
 
     ${APP_QML_SINGLETONS}
 
-    qml/pages/MenuPage.qml
-    qml/pages/SettingsPage.qml
-    qml/pages/SetListPage.qml
-    qml/pages/PresentationPage.qml
-    qml/pages/HymnListPage.qml
-    qml/pages/ScreenEditorPage.qml
-    qml/pages/QuickScreenPage.qml
-    qml/pages/AboutPage.qml
-    qml/pages/AboutLicensesPage.qml
+    qml/components/controls/DialogHeader.qml
+    qml/components/controls/ListPanelFade.qml
+    qml/components/controls/EnhancedTextArea.qml
+    qml/components/controls/MenuTile.qml
+    qml/components/controls/TablicaScreen.qml
 
-    qml/components/SetViewItems.qml
-    qml/components/TablicaScreen.qml
-    qml/components/CategoryPanel.qml
-    qml/components/HymnPanel.qml
-    qml/components/ScreenPanel.qml
-    qml/components/SetPanel.qml
-    qml/components/HymnPickerDialog.qml
-    qml/components/SlimScreenPanel.qml
-    qml/components/ScreenSwitcherDialog.qml
-    qml/components/MenuTile.qml
-    qml/components/EnhancedTextArea.qml
+    qml/components/delegates/ListPanelDelegate.qml
+    qml/components/delegates/ScreenPanelDelegate.qml
+    qml/components/delegates/SetViewItems.qml
+
+    qml/components/dialogs/ConfirmDialog.qml
+    qml/components/dialogs/EditItemDialog.qml
+    qml/components/dialogs/HymnPickerDialog.qml
+    qml/components/dialogs/ScreenSwitcherDialog.qml
+
+    qml/components/panels/ListPanel.qml
+    qml/components/panels/CategoryPanel.qml
+    qml/components/panels/HymnPanel.qml
+    qml/components/panels/ScreenPanel.qml
+    qml/components/panels/SetPanel.qml
+
+    qml/pages/about/AboutPage.qml
+    qml/pages/about/AboutLicensesPage.qml
+
+    qml/pages/editors/ScreenEditorPage.qml
+
+    qml/pages/hymns/HymnListPage.qml
+
+    qml/pages/menu/MenuPage.qml
+
+    qml/pages/presentation/PresentationPage.qml
+    qml/pages/presentation/QuickScreenPage.qml
+
+    qml/pages/sets/SetListPage.qml
+
+    qml/pages/settings/SettingsPage.qml
+
 )
 
 set(APP_RESOURCES

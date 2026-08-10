@@ -1,3 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
 import QtQuick
 import QtQuick.Controls
 
@@ -17,12 +24,11 @@ ApplicationWindow {
     Material.theme: AppSettings.darkMode ? Material.Dark : Material.Light
     Material.accent: Material.Red
 
-    readonly property int keyboardHeight:
-        Qt.inputMethod.visible
-            ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom
-            : 0
+    readonly property int keyboardHeight: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom : 0
 
     property bool closing: false
+
+    Overlay.overlay.height: mainWindow.height - mainWindow.keyboardHeight
 
     onClosing: function(close) {
         if(TablicaConnector.enabled === false)
@@ -57,6 +63,18 @@ ApplicationWindow {
         }
     }
 
+    Component.onCompleted: {
+        Qt.uiLanguage = LanguageManager.language
+    }
+
+    Connections {
+        target: LanguageManager
+
+        function onLanguageChanged() {
+            Qt.uiLanguage = LanguageManager.language
+        }
+    }
+
     Item {
         id: rootContent
 
@@ -69,10 +87,7 @@ ApplicationWindow {
             y: 0
 
             width: rootContent.width
-
-            height:
-                rootContent.height
-                - mainWindow.keyboardHeight
+            height: rootContent.height - mainWindow.keyboardHeight
 
             StackView {
                 id: stack
@@ -85,9 +100,7 @@ ApplicationWindow {
             }
 
             Keys.onReleased: (event) => {
-
                 if (event.key === Qt.Key_Back) {
-
                     if (Navigation.back()) {
                         event.accepted = true
                     }
@@ -101,40 +114,25 @@ ApplicationWindow {
         }
     }
 
-    Overlay.overlay.height:
-        mainWindow.height - mainWindow.keyboardHeight
-
     Connections {
         target: Qt.inputMethod
 
         function onVisibleChanged() {
             console.log(
-                "DPR:",
+                "[Main] DPR:",
                 Screen.devicePixelRatio
             )
 
             console.log(
-                "Keyboard px:",
+                "[Main] Keyboard px:",
                 Qt.inputMethod.keyboardRectangle.height
             )
 
             console.log(
-                "Keyboard dp:",
+                "[Main] Keyboard dp:",
                 Qt.inputMethod.keyboardRectangle.height
                 / Screen.devicePixelRatio
             )
-        }
-    }
-
-    Component.onCompleted: {
-        Qt.uiLanguage = LanguageManager.language
-    }
-
-    Connections {
-        target: LanguageManager
-
-        function onLanguageChanged() {
-            Qt.uiLanguage = LanguageManager.language
         }
     }
 }
