@@ -12,8 +12,6 @@ import Prezenter
 Item {
     id: root
 
-    anchors.fill: parent
-
     readonly property real aspectRatio: 3/2
     readonly property real tablicaWidth: 192
     readonly property real tablicaHeight: 128
@@ -110,7 +108,8 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: root.tablicaFontSize * screen.scale
+                font.pixelSize: root.tablicaFontSize * screen.scale * 0.97
+                lineHeight: root.tablicaLineHeight * screen.scale
 
                 color: "#FFFFFF"
             }
@@ -134,7 +133,8 @@ Item {
 
                 font.family: "Arimo"
                 font.bold: true
-                font.pixelSize: root.tablicaFontSize * screen.scale
+                font.pixelSize: root.tablicaFontSize * screen.scale * 0.97
+                lineHeight: root.tablicaLineHeight * screen.scale
 
                 color: "#000000"
             }
@@ -204,9 +204,9 @@ Item {
             id: limitLine
 
             width: 1
-            height: screenText.height
+            height: textAreaContainer.height + 2*root.textPadding
 
-            x: screenText.x + limitMetrics.width
+            x: textAreaContainer.x + limitMetrics.width
             y: 0
 
             visible: root.editable
