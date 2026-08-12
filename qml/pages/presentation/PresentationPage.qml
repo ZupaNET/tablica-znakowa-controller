@@ -213,6 +213,7 @@ Item {
                 TablicaScreen {
                     id: tablicaScreen
                     anchors.margins: 20
+                    anchors.fill: parent
 
                     content: TablicaConnector.buffer.text
                     hymnFont: TablicaConnector.buffer.font
