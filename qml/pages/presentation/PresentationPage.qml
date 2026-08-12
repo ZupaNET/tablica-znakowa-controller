@@ -516,7 +516,7 @@ Item {
                         screensView.currentIndex = root1.findFirstScreenByHymnId(root1.selectedHymnId)
                 }
 
-                delegate: SetViewItems {
+                delegate: SetViewItemDelegate {
                     id: setViewItemsDelegate
                     width: ListView.view.width - 10
 
@@ -524,16 +524,8 @@ Item {
                     title: model.hymnName
                     subtitle: model.excerpt
 
-                    showAll: screensModel.showAll
-                    shown: model.shown
-
-
                     onClicked: {
                         screensView.currentIndex = index;
-                    }
-
-                    onVisibilityChanged: shown => {
-                        screensModel.changeScreenVisibility(index, shown)
                     }
                 }
                 onCurrentIndexChanged: {

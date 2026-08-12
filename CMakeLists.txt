@@ -69,7 +69,7 @@ set(APP_QML
 
     qml/components/delegates/ListPanelDelegate.qml
     qml/components/delegates/ScreenPanelDelegate.qml
-    qml/components/delegates/SetViewItems.qml
+    qml/components/delegates/SetViewItemDelegate.qml
 
     qml/components/dialogs/ConfirmDialog.qml
     qml/components/dialogs/EditItemDialog.qml

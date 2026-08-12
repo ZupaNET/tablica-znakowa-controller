@@ -20,11 +20,7 @@ Item {
     property string vid
     property bool selected: false
 
-    property bool showAll: false
-    property bool shown: false
-
     signal clicked
-    signal visibilityChanged(bool shown)
 
     height: 60
 
@@ -34,37 +30,16 @@ Item {
 
         radius: 12
 
-        property color baseColor: {
+        property color baseColor: selected ? Theme.cardSelected : Theme.setCard
+        property color pressedColor: Theme.cardPressed
 
-            if (!root.shown && root.showAll)
-                return Theme.cardDisabled
-
-            return selected
-                ? Theme.cardSelected
-                : Theme.setCard
-        }
-
-        property color pressedColor:
-            Theme.cardPressed
-
-        color:
-            root.ListView.isCurrentItem
-            ? Theme.cardCurrent
-            : tap.pressed
-                ? pressedColor
-                : baseColor
-
-        border.color:
-            selected
-            ? Theme.cardSelectedBorder
-            : Theme.cardBorder
-
+        color: root.ListView.isCurrentItem ? Theme.cardCurrent : tap.pressed ? pressedColor : baseColor
+        border.color: selected ? Theme.cardSelectedBorder : Theme.cardBorder
         Behavior on color {
             ColorAnimation { duration: 120 }
         }
 
         scale: tap.pressed ? 0.97 : 1.0
-
         Behavior on scale {
             NumberAnimation { duration: 100 }
         }
@@ -79,7 +54,6 @@ Item {
                 leftMargin: 10
             }
 
-            Layout.fillWidth: true
             height: textRow.implicitHeight
 
             RowLayout {
@@ -152,8 +126,7 @@ Item {
                     bottom: parent.bottom
                 }
 
-                visible: titleText.paintedWidth > titleText.width
-                      || subtitleText.paintedWidth > subtitleText.width
+                visible: titleText.paintedWidth > titleText.width || subtitleText.paintedWidth > subtitleText.width
 
                 gradient: Gradient {
                     orientation: Gradient.Horizontal
@@ -171,37 +144,6 @@ Item {
                         color: card.color
                     }
                 }
-            }
-        }
-
-        ToolButton {
-            visible: root.showAll
-
-            width: 36
-            height: 36
-
-            anchors {
-                right: parent.right
-                rightMargin: 8
-                verticalCenter: parent.verticalCenter
-            }
-
-            flat: true
-
-            text: !root.shown
-                  ? Icon.eyeOff
-                  : Icon.eye
-
-            font.family: "Material Design Icons"
-            font.pixelSize: 20
-
-            ToolTip.visible: hovered
-            ToolTip.text: !root.shown
-                          ? qsTr("Slajd ukryty")
-                          : qsTr("Slajd widoczny")
-
-            onClicked: {
-                root.visibilityChanged(!root.shown)
             }
         }
     }
