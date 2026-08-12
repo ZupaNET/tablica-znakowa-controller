@@ -101,7 +101,7 @@ Item {
             ToolButton {
                 id: moreButton
 
-                visible: root.menuEnabled
+                visible: root.menuEnabled && index >= root.minIndexReorder
 
                 enabled: !root.isSearching
 
