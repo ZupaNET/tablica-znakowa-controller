@@ -102,7 +102,7 @@ Item {
     HymnPickerDialog {
         id: hymnPicker
 
-        existingModel: root.model
+        currentSetId: root.model.parentId
 
         onSelected: hymnId => {
             root.addHymnToSet(hymnId)

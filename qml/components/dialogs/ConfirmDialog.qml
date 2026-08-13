@@ -26,7 +26,7 @@ Dialog {
     standardButtons: Dialog.Yes | Dialog.No
 
     Overlay.modal: Rectangle {
-        color: Theme.background
+        color: Theme.dimBackground
     }
 
     Label {

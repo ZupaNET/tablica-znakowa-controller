@@ -13,6 +13,8 @@ Rectangle {
     property ListView listView
     property bool isTop: true
 
+    property color fadeColor: Theme.background
+
     anchors.top: root.isTop ? parent.top : undefined
     anchors.bottom: root.isTop ? undefined : parent.bottom
     anchors.left: parent.left
@@ -28,7 +30,7 @@ Rectangle {
         }
         GradientStop {
             position: root.isTop ? 0 : 1
-            color: Theme.background
+            color: root.fadeColor
         }
     }
 

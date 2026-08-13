@@ -16,6 +16,7 @@ Dialog {
 
     property int setId: -1
     property int hymnId: -1
+    property int savedScreenId: -1
 
     title: qsTr("Widoczność slajdów")
 

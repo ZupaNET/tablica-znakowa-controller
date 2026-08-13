@@ -19,13 +19,12 @@ Item {
     function copyrightText() {
         let year = new Date().getFullYear()
 
-        return year <= startYear
-                ? startYear
-                : startYear + "-" + year
+        return year <= startYear ? startYear : startYear + "-" + year
     }
 
     Rectangle {
         anchors.fill: parent
+
         color: Theme.background
 
         Rectangle {
@@ -96,9 +95,7 @@ Item {
                 title: qsTr("Lista pieśni")
                 description: qsTr("Zarządzanie śpiewnikiem")
 
-                onClicked: Navigation.push(
-                    Qt.resolvedUrl("../hymns/HymnListPage.qml")
-                )
+                onClicked: Navigation.push(Qt.resolvedUrl("../hymns/HymnListPage.qml"))
             }
 
             MenuTile {
@@ -112,9 +109,7 @@ Item {
                 title: qsTr("Zestawy")
                 description: qsTr("Wyświetlanie slajdów")
 
-                onClicked: Navigation.push(
-                    Qt.resolvedUrl("../sets/SetListPage.qml")
-                )
+                onClicked: Navigation.push(Qt.resolvedUrl("../sets/SetListPage.qml"))
             }
 
             MenuTile {
@@ -128,9 +123,7 @@ Item {
                 title: qsTr("Dowolny slajd")
                 description: qsTr("Ręczne wyświetlanie")
 
-                onClicked: Navigation.push(
-                    Qt.resolvedUrl("../presentation/QuickScreenPage.qml")
-                )
+                onClicked: Navigation.push(Qt.resolvedUrl("../presentation/QuickScreenPage.qml"))
             }
 
             MenuTile {
@@ -144,9 +137,7 @@ Item {
                 title: qsTr("Ustawienia")
                 description: qsTr("Konfiguracja systemu")
 
-                onClicked: Navigation.push(
-                    Qt.resolvedUrl("../settings/SettingsPage.qml")
-                )
+                onClicked: Navigation.push(Qt.resolvedUrl("../settings/SettingsPage.qml"))
             }
 
             MenuTile {
@@ -160,9 +151,7 @@ Item {
                 title: qsTr("O aplikacji")
                 description: qsTr("Informacje i licencje")
 
-                onClicked: Navigation.push(
-                    Qt.resolvedUrl("../about/AboutPage.qml")
-                )
+                onClicked: Navigation.push(Qt.resolvedUrl("../about/AboutPage.qml"))
             }
 
             MenuTile {
@@ -198,10 +187,7 @@ Item {
             Text {
                 anchors.centerIn: parent
 
-                text: "Copyright © " +
-                      root.copyrightText() +
-                      " " +
-                      AppInfo.company
+                text: "Copyright © " + root.copyrightText() + " " + AppInfo.company
 
                 color: Theme.textSecondary
                 font.pixelSize: 14
@@ -209,24 +195,11 @@ Item {
         }
     }
 
-    Dialog {
+    ConfirmDialog {
         id: shutdownDialog
 
         title: qsTr("Wyłączyć tablicę?")
-        modal: true
-
-        Overlay.modal: Rectangle {
-            color: Theme.dimBackground
-        }
-
-        parent: Overlay.overlay
-        anchors.centerIn: Overlay.overlay
-
-        standardButtons: Dialog.Yes | Dialog.No
-
-        Label {
-            text: qsTr("Czy na pewno chcesz wyłączyć tablicę?")
-        }
+        message: qsTr("Czy na pewno chcesz wyłączyć tablicę?")
 
         onAccepted: TablicaConnector.shutdown()
     }
@@ -240,40 +213,7 @@ Item {
         }
     }
 
-    Popup {
+    QuickPopup {
         id: infoPopup
-
-        parent: Overlay.overlay
-
-        x: (parent.width - width) / 2
-        y: parent.height - height - 40
-
-        padding: 14
-
-        background: Rectangle {
-            radius: 10
-            color: Theme.popup
-        }
-
-        Label {
-            id: infoText
-
-            color: "white"
-        }
-
-        Timer {
-            id: hideTimer
-
-            interval: 2500
-
-            onTriggered: infoPopup.close()
-        }
-
-        function show(text) {
-            infoText.text = text
-
-            open()
-            hideTimer.restart()
-        }
     }
 }

@@ -150,9 +150,9 @@ Item {
         }
 
         TapHandler {
-            onTapped: {
-                root.clicked()
-            }
+            id: tap
+            gesturePolicy: TapHandler.ReleaseWithinBounds
+            onTapped: root.clicked()
         }
     }
 }

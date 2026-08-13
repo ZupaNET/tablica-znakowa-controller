@@ -14,69 +14,17 @@ import Prezenter
 Item {
     id: root
 
-    ScreenModel {
-        id: screenModel
-    }
-
-    property var currentScreen: screenModel.emptyScreen()
-
-    Connections {
-        target: TablicaConnector
-
-        function onConnectionFailure() {
-            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
-        }
-    }
-
     Rectangle {
         anchors.fill: parent
         color: Theme.background
     }
 
-    Rectangle {
+    PageHeader {
         id: topBar
-
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-        }
-
-        height: 50
-        color: Theme.header
 
         visible: !Qt.inputMethod.visible
 
-        Button {
-            text: Icon.arrowLeft
-
-            Material.background: "transparent"
-            Material.foreground: "white"
-            font.family: "Material Design Icons"
-            font.pixelSize: 20
-
-            anchors {
-                left: parent.left
-                verticalCenter: parent.verticalCenter
-            }
-
-            flat: true
-
-            onClicked: {
-                Navigation.pop()
-            }
-        }
-
-        Label {
-            anchors.centerIn: parent
-
-            text: qsTr("Wyświetlanie tekstu")
-
-            color: "white"
-
-            font.pixelSize: 20
-            font.bold: true
-        }
+        title: qsTr("Wyświetlanie tekstu")
     }
 
     ColumnLayout {
@@ -111,6 +59,7 @@ Item {
                 TablicaScreen {
                     id: editor
 
+                    anchors.fill: parent
                     anchors.margins: 20
 
                     width: flick.width
@@ -127,8 +76,7 @@ Item {
                     }
 
                     onContentTextChanged: (c) => {
-                        if (content !== AppSettings.screenCustomText)
-                            AppSettings.screenCustomText = content
+                        AppSettings.screenCustomText = content
                     }
                 }
             }
@@ -145,18 +93,14 @@ Item {
             RowLayout {
                 id: toolBar
                 anchors.fill: parent
-                anchors.margins: 8
-
-                Label {
-                    text: qsTr("Rozmiar czcionki: ")
-
-                    color: Theme.text
-                }
+                anchors.margins: 10
 
                 ComboBox {
                     id: fontSelector
 
-                    Layout.preferredWidth: 140
+                    Layout.preferredWidth: 240
+
+                    displayText: qsTr("Rozmiar czcionki:") + " " + currentText
 
                     model: [
                         qsTr("Mała"),
@@ -171,15 +115,25 @@ Item {
                     }
                 }
 
-                Item {
-                    Layout.preferredWidth: 10
-                }
-
                 Button {
+                    Layout.leftMargin: 10
+
                     text: qsTr("Widok")
 
                     onClicked: {
-                        AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                        switch (AppSettings.screenView) {
+                        case "screenView":
+                            AppSettings.screenView = "textView"
+                            break
+
+                        case "textView":
+                            AppSettings.screenView = "textViewRev"
+                            break
+
+                        default:
+                            AppSettings.screenView = "screenView"
+                            break
+                        }
                     }
                 }
 
@@ -188,60 +142,49 @@ Item {
                 }
 
                 Button {
+                    Layout.rightMargin: 20
+
+                    text: qsTr("Wyczyść")
+
+                    onClicked: {
+                        editor.content = ""
+                        TablicaConnector.clearScreen()
+                    }
+                }
+
+                Button {
                     text: qsTr("Wyświetl")
 
                     onClicked: {
-                        currentScreen.text = editor.content
-                        currentScreen.font = fontSelector.currentIndex
+                        let screen = TablicaConnector.buffer
+
+                        screen.text = editor.content
+                        screen.font = fontSelector.currentIndex
+
                         TablicaConnector.enabled = true
 
-                        if(currentScreen === TablicaConnector.buffer)
+                        if(screen === TablicaConnector.buffer)
                         {
                             TablicaConnector.resendBuffer()
                             return
                         }
 
-                        TablicaConnector.buffer = currentScreen
-
+                        TablicaConnector.buffer = screen
                     }
                 }
             }
         }
     }
 
-    Popup {
+    Connections {
+        target: TablicaConnector
+
+        function onConnectionFailure() {
+            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
+        }
+    }
+
+    QuickPopup {
         id: infoPopup
-
-        parent: Overlay.overlay
-
-        x: (parent.width - width) / 2
-        y: parent.height - height - 40
-
-        padding: 12
-        modal: false
-        focus: false
-        closePolicy: Popup.NoAutoClose
-
-        background: Rectangle {
-            radius: 6
-            color: Theme.popup
-        }
-
-        Label {
-            id: infoText
-            color: "white"
-        }
-
-        Timer {
-            id: hideTimer
-            interval: 2500
-            onTriggered: infoPopup.close()
-        }
-
-        function show(message) {
-            infoText.text = message
-            open()
-            hideTimer.restart()
-        }
     }
 }

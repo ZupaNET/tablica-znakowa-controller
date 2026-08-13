@@ -14,7 +14,9 @@ import Prezenter
 Dialog {
     id: root
 
-    property alias existingModel: hymnProxy.membershipModel
+    property alias currentSetId: hymnBySetModel.parentId
+
+    signal selected(int hymnId)
 
     title: qsTr("Wybierz pieśń")
 
@@ -62,8 +64,6 @@ Dialog {
     leftPadding: 20
     rightPadding: 20
 
-    signal selected(int hymnId)
-
     CategoryModel {
         id: categoryModel
 
@@ -76,10 +76,15 @@ Dialog {
         parentId: -2
     }
 
+    SetHymnModel {
+        id: hymnBySetModel
+    }
+
     SetFilterProxyModel {
         id: hymnProxy
 
         sourceModel: hymnByCategoryModel
+        membershipModel: hymnBySetModel
     }
 
     onClosed: {
@@ -144,10 +149,6 @@ Dialog {
                 onSelected: row => {
                     root.selected(hymnByCategoryModel.get(hymnProxy.sourceRow(row)).hymnId)
                     root.close()
-                }
-
-                onModelChanged: {
-                    resetSelection()
                 }
             }
         }

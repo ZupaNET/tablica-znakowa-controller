@@ -66,6 +66,10 @@ set(APP_QML
     qml/components/controls/EnhancedTextArea.qml
     qml/components/controls/MenuTile.qml
     qml/components/controls/TablicaScreen.qml
+    qml/components/controls/QuickPopup.qml
+    qml/components/controls/PageHeader.qml
+    qml/components/controls/SettingsAction.qml
+    qml/components/controls/SwipeArea.qml
 
     qml/components/delegates/ListPanelDelegate.qml
     qml/components/delegates/ScreenPanelDelegate.qml

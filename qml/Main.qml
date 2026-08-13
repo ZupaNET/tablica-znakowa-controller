@@ -13,6 +13,10 @@ import Prezenter
 ApplicationWindow {
     id: mainWindow
 
+    readonly property int keyboardHeight: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom : 0
+
+    property bool closing: false
+
     width: 1280
     height: 800
 
@@ -24,56 +28,7 @@ ApplicationWindow {
     Material.theme: AppSettings.darkMode ? Material.Dark : Material.Light
     Material.accent: Material.Red
 
-    readonly property int keyboardHeight: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height / Screen.devicePixelRatio - SafeArea.margins.bottom : 0
-
-    property bool closing: false
-
     Overlay.overlay.height: mainWindow.height - mainWindow.keyboardHeight
-
-    onClosing: function(close) {
-        if(TablicaConnector.enabled === false)
-        {
-            close.accepted = true
-            return
-        }
-
-        if (closing)
-            return
-
-        close.accepted = false
-        closing = true
-
-        TablicaConnector.enabled = true
-        TablicaConnector.clearScreen()
-    }
-
-    Connections {
-        target: TablicaConnector
-
-        function onCommandQueueEmpty() {
-            if (!mainWindow.closing)
-                return
-
-            Qt.quit()
-        }
-
-        function onConnectionFailure() {
-            if(mainWindow.closing)
-                Qt.quit()
-        }
-    }
-
-    Component.onCompleted: {
-        Qt.uiLanguage = LanguageManager.language
-    }
-
-    Connections {
-        target: LanguageManager
-
-        function onLanguageChanged() {
-            Qt.uiLanguage = LanguageManager.language
-        }
-    }
 
     Item {
         id: rootContent
@@ -111,6 +66,51 @@ ApplicationWindow {
                 Navigation.stackView = stack
                 forceActiveFocus()
             }
+        }
+    }
+
+    Component.onCompleted: {
+        Qt.uiLanguage = LanguageManager.language
+    }
+
+    onClosing: function(close) {
+        if(TablicaConnector.enabled === false)
+        {
+            close.accepted = true
+            return
+        }
+
+        if (closing)
+            return
+
+        close.accepted = false
+        closing = true
+
+        TablicaConnector.enabled = true
+        TablicaConnector.clearScreen()
+    }
+
+    Connections {
+        target: LanguageManager
+
+        function onLanguageChanged() {
+            Qt.uiLanguage = LanguageManager.language
+        }
+    }
+
+    Connections {
+        target: TablicaConnector
+
+        function onCommandQueueEmpty() {
+            if (!mainWindow.closing)
+                return
+
+            Qt.quit()
+        }
+
+        function onConnectionFailure() {
+            if(mainWindow.closing)
+                Qt.quit()
         }
     }
 

@@ -16,190 +16,149 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-
         color: Theme.background
+    }
+
+    PageHeader {
+        id: topBar
+        title: qsTr("Licencje")
+    }
+
+    RowLayout {
+        anchors {
+            top: topBar.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+
+            margins: 24
+        }
 
         Rectangle {
-            id: topBar
+            Layout.preferredWidth: 260
+            Layout.fillHeight: true
 
-            height: 50
+            radius: 16
 
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-            }
+            color: Theme.surface
+            border.color: Theme.surfaceBorder
 
-            color: Theme.header
 
-            Button {
-                text: Icon.arrowLeft
+            ListView {
+                id: list
 
-                Material.background: "transparent"
-                Material.foreground: "white"
-                font.family: "Material Design Icons"
-                font.pixelSize: 20
+                anchors.fill: parent
+                anchors.margins: 8
 
-                anchors {
-                    left: parent.left
-                    verticalCenter: parent.verticalCenter
+                clip: true
+
+                spacing: 6
+
+                model: [
+                    {
+                        name: "GNU GPL 2.0-only",
+                        file: "qrc:/licenses/GPL-2.0-only.txt"
+                    },
+                    {
+                        name: "Qt Framework",
+                        file: "qrc:/licenses/Qt.txt"
+                    },
+                    {
+                        name: "Arimo",
+                        file: "qrc:/licenses/Arimo.txt"
+                    },
+                    {
+                        name: "FreeSans",
+                        file: "qrc:/licenses/FreeSans.txt"
+                    },
+                    {
+                        name: "Material Design Icons",
+                        file: "qrc:/licenses/MaterialDesignIcons.txt"
+                    },
+                    {
+                        name: "MiniForma2",
+                        file: "qrc:/licenses/MiniForma2.txt"
+                    },
+                    {
+                        name: "MiniSet2",
+                        file: "qrc:/licenses/MiniSet2.txt"
+                    }
+                ]
+
+                delegate: Rectangle {
+
+                    width: ListView.view.width
+
+                    height: 48
+
+                    radius: 8
+
+                    color:
+                        ListView.isCurrentItem
+                            ? Theme.selected
+                            : Theme.item
+
+                    Label {
+                        anchors.fill: parent
+
+                        anchors.leftMargin: 12
+
+                        verticalAlignment: Text.AlignVCenter
+
+                        text: modelData.name
+
+                        color: Theme.text
+                    }
+
+                    TapHandler {
+                        onTapped: {
+
+                            list.currentIndex = index
+
+                            licenses.load(
+                                modelData.file
+                            )
+                        }
+                    }
                 }
-
-                flat: true
-
-                onClicked: Navigation.pop()
-            }
-
-            Text {
-                anchors.centerIn: parent
-
-                text: qsTr("Licencje")
-
-                color: "white"
-
-                font.pixelSize: 22
-                font.bold: true
             }
         }
 
-        RowLayout {
-            anchors {
-                top: topBar.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
+        Rectangle {
 
-                margins: 24
-            }
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            Rectangle {
-                Layout.preferredWidth: 260
-                Layout.fillHeight: true
+            radius: 16
 
-                radius: 16
-
-                color: Theme.surface
-                border.color: Theme.surfaceBorder
+            color: Theme.surface
+            border.color: Theme.surfaceBorder
 
 
-                ListView {
-                    id: list
+            Flickable {
 
-                    anchors.fill: parent
-                    anchors.margins: 8
+                anchors.fill: parent
 
-                    clip: true
+                anchors.margins: 16
 
-                    spacing: 6
+                clip: true
 
-                    model: [
-                        {
-                            name: "GNU GPL 2.0-only",
-                            file: "qrc:/licenses/GPL-2.0-only.txt"
-                        },
-                        {
-                            name: "Qt Framework",
-                            file: "qrc:/licenses/Qt.txt"
-                        },
-                        {
-                            name: "Arimo",
-                            file: "qrc:/licenses/Arimo.txt"
-                        },
-                        {
-                            name: "FreeSans",
-                            file: "qrc:/licenses/FreeSans.txt"
-                        },
-                        {
-                            name: "Material Design Icons",
-                            file: "qrc:/licenses/MaterialDesignIcons.txt"
-                        },
-                        {
-                            name: "MiniForma2",
-                            file: "qrc:/licenses/MiniForma2.txt"
-                        },
-                        {
-                            name: "MiniSet2",
-                            file: "qrc:/licenses/MiniSet2.txt"
-                        }
-                    ]
+                contentWidth: width
+                contentHeight: licenseText.implicitHeight
 
-                    delegate: Rectangle {
+                Text {
 
-                        width: ListView.view.width
+                    id: licenseText
 
-                        height: 48
+                    width: parent.width
 
-                        radius: 8
+                    wrapMode: Text.WordWrap
 
-                        color:
-                            ListView.isCurrentItem
-                                ? Theme.selected
-                                : Theme.item
+                    textFormat: Text.PlainText
 
-                        Label {
-                            anchors.fill: parent
+                    color: Theme.text
 
-                            anchors.leftMargin: 12
-
-                            verticalAlignment: Text.AlignVCenter
-
-                            text: modelData.name
-
-                            color: Theme.text
-                        }
-
-                        TapHandler {
-                            onTapped: {
-
-                                list.currentIndex = index
-
-                                licenses.load(
-                                    modelData.file
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-
-            Rectangle {
-
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                radius: 16
-
-                color: Theme.surface
-                border.color: Theme.surfaceBorder
-
-
-                Flickable {
-
-                    anchors.fill: parent
-
-                    anchors.margins: 16
-
-                    clip: true
-
-
-                    contentWidth: width
-                    contentHeight: licenseText.implicitHeight
-
-
-                    Text {
-
-                        id: licenseText
-
-                        width: parent.width
-
-                        wrapMode: Text.WordWrap
-
-                        textFormat: Text.PlainText
-
-                        color: Theme.text
-
-                        text: licenses.text
-                    }
+                    text: licenses.text
                 }
             }
         }
@@ -207,7 +166,6 @@ Item {
 
     QtObject {
         id: licenses
-
 
         property string currentFile: "qrc:/licenses/GPL-2.0-only.txt"
 

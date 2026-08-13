@@ -7,21 +7,16 @@
 
 #include "presentationmodel.h"
 
-void PresentationModel::setSetId(int id) {
-    if (m_setId == id) return;
-
-    m_setId = id;
-    emit setIdChanged();
-
-    reload();
+int PresentationModel::presentId() const
+{
+    return m_presentId;
 }
 
-void PresentationModel::setShowAll(bool show)
-{
-    if(m_showAll == show) return;
+void PresentationModel::setPresentId(int id) {
+    if (m_presentId == id) return;
 
-    m_showAll = show;
-    emit showAllChanged();
+    m_presentId = id;
+    emit presentIdChanged();
 
     reload();
 }
@@ -101,86 +96,28 @@ void PresentationModel::update(int row, const QString& text, int font)
     emit dataChanged(idx, idx, { TextRole, FontRole, ExcerptRole });
 }
 
-void PresentationModel::changeScreenVisibility(int row, bool shown)
+void PresentationModel::reload()
 {
-    if(m_setId < 0 || m_hymnMode)
-        return;
-
-    if (row < 0 || row >= m_data.size())
-        return;
-
-    Screen screen = m_data[row];
-
-    if (screen.shown == shown)
-        return;
-
-    setRepo.changeScreenVisibility(m_setId, screen.id, shown);
-
-    if (!shown)
-    {
-        beginRemoveRows({}, row, row);
-
-        m_data.removeAt(row);
-
-        endRemoveRows();
-
-        return;
-    }
-
-    const QList<Screen> allScreens = service.build(m_setId, true);
-
-    Screen restored;
-    bool found = false;
-
-    int insertRow = 0;
-
-    for (const Screen &s : allScreens)
-    {
-        if (s.id == screen.id)
-        {
-            restored = s;
-            restored.shown = true;
-            found = true;
-            break;
-        }
-
-        if (s.shown)
-            ++insertRow;
-    }
-
-    if (!found)
-        return;
-
-    beginInsertRows({}, insertRow, insertRow);
-
-    m_data.insert(insertRow, restored);
-
-    endInsertRows();
-
-}
-
-Q_INVOKABLE void PresentationModel::reload()
-{
-    if (m_setId < 0) return;
+    if (m_presentId < 0) return;
 
     if(!m_hymnMode)
-        updateData(service.build(m_setId, m_showAll));
+        updateData(service.build(m_presentId));
     else
     {
         QList<Screen> list;
         auto emptyScreen = Screen::emptyScreen();
-        list.append(screenRepo.getByHymn(m_setId));
+        list.append(screenRepo.getByHymn(m_presentId));
         list.append(emptyScreen);
         updateData(list);
     }
 }
 
-Q_INVOKABLE Screen PresentationModel::get(int index) const
+Screen PresentationModel::get(int index) const
 {
     if(index < 0 || index >= m_data.size())
         return {};
 
-    const auto& s = m_data[index];
+    const Screen& s = m_data[index];
 
     return s;
 }

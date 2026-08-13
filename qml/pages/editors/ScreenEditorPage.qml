@@ -14,54 +14,23 @@ import Prezenter
 Item {
     id: root
 
-    property var screenModel
+    property alias content: editor.content
+    property alias fontIndex: fontSelector.currentIndex
+    property int row: -1
 
-    property int screenIdx: -1
-
-    property string initialText: ""
-    property int initialFont: 2
-
-    Component.onCompleted: {
-        if (root.screenIdx >= 0 && root.screenModel) {
-
-            let screen = root.screenModel.get(root.screenIdx)
-
-            root.initialText = screen.text
-            root.initialFont = screen.font
-        }
-    }
+    signal accepted(string content, int fontIndex)
 
     Rectangle {
         anchors.fill: parent
         color: Theme.background
     }
 
-    Rectangle {
+    PageHeader {
         id: topBar
-
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-        }
-
-        height: 50
-        color: Theme.header
 
         visible: !Qt.inputMethod.visible
 
-        Label {
-            anchors.centerIn: parent
-
-            text: root.screenIdx < 0
-                  ? qsTr("Nowy slajd")
-                  : qsTr("Edycja slajdu")
-
-            color: "white"
-
-            font.pixelSize: 20
-            font.bold: true
-        }
+        title: root.row < 0 ? qsTr("Nowy slajd") : qsTr("Edycja slajdu")
     }
 
     ColumnLayout {
@@ -96,6 +65,7 @@ Item {
                 TablicaScreen {
                     id: editor
 
+                    anchors.fill: parent
                     anchors.margins: 20
 
                     width: flick.width
@@ -104,7 +74,7 @@ Item {
                     implicitHeight: 600
 
                     editable: true
-                    content: root.initialText
+
                     hymnFont: fontSelector.currentIndex
                 }
             }
@@ -121,18 +91,14 @@ Item {
             RowLayout {
                 id: toolBar
                 anchors.fill: parent
-                anchors.margins: 8
-
-                Label {
-                    text: qsTr("Rozmiar czcionki: ")
-
-                    color: Theme.text
-                }
+                anchors.margins: 10
 
                 ComboBox {
                     id: fontSelector
 
-                    Layout.preferredWidth: 140
+                    Layout.preferredWidth: 240
+
+                    displayText: qsTr("Rozmiar czcionki:") + " " + currentText
 
                     model: [
                         qsTr("Mała"),
@@ -140,18 +106,28 @@ Item {
                         qsTr("Duża")
                     ]
 
-                    currentIndex: root.initialFont
-                }
-
-                Item {
-                    Layout.preferredWidth: 10
+                    currentIndex: 2
                 }
 
                 Button {
+                    Layout.leftMargin: 10
+
                     text: qsTr("Widok")
 
                     onClicked: {
-                        AppSettings.screenView === "screenView" ? AppSettings.screenView = "textView" : AppSettings.screenView === "textView" ? AppSettings.screenView = "textViewRev" : AppSettings.screenView = "screenView";
+                        switch (AppSettings.screenView) {
+                        case "screenView":
+                            AppSettings.screenView = "textView"
+                            break
+
+                        case "textView":
+                            AppSettings.screenView = "textViewRev"
+                            break
+
+                        default:
+                            AppSettings.screenView = "screenView"
+                            break
+                        }
                     }
                 }
 
@@ -160,6 +136,8 @@ Item {
                 }
 
                 Button {
+                    Layout.rightMargin: 20
+
                     text: qsTr("Anuluj")
 
                     onClicked: {
@@ -171,19 +149,7 @@ Item {
                     text: qsTr("Zapisz")
 
                     onClicked: {
-                        if (!root.screenModel) {
-                            console.error("Brak screenModel")
-                            return
-                        }
-
-
-                        if (root.screenIdx < 0) {
-                            root.screenModel.add(editor.content, fontSelector.currentIndex)
-                        }
-                        else {
-                            root.screenModel.update(root.screenIdx, editor.content, fontSelector.currentIndex)
-                        }
-
+                        root.accepted(root.content, root.fontIndex)
                         Navigation.pop()
                     }
                 }
