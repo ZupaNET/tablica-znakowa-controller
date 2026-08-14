@@ -16,6 +16,8 @@ Dialog {
 
     property alias currentSetId: hymnBySetModel.parentId
 
+    property bool selectionInProgress: false
+
     signal selected(int hymnId)
 
     title: qsTr("Wybierz pieśń")
@@ -87,16 +89,19 @@ Dialog {
         membershipModel: hymnBySetModel
     }
 
+    function reloadDialog() {
+        hymnBySetModel.reload()
+    }
+
     onClosed: {
-        categoryPanel.resetSelection()
         hymnPanel.resetSelection()
 
         categoryPanel.searchClearAndUnfocus()
         hymnPanel.searchClearAndUnfocus()
 
-        hymnByCategoryModel.parentId = -2
-
         Qt.inputMethod.hide()
+
+        root.selectionInProgress = false
     }
 
 
@@ -145,9 +150,20 @@ Dialog {
                 menuEnabled: false
                 editEnabled: false
                 toolbarEnabled: false
+                selectInserted: false
 
                 onSelected: row => {
-                    root.selected(hymnByCategoryModel.get(hymnProxy.sourceRow(row)).hymnId)
+                    if (root.selectionInProgress)
+                        return
+
+                    root.selectionInProgress = true
+
+                    const hymnId =
+                        hymnByCategoryModel.get(
+                            hymnProxy.sourceRow(row)
+                        ).hymnId
+
+                    root.selected(hymnId)
                     root.close()
                 }
             }

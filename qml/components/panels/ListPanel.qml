@@ -28,6 +28,7 @@ Item {
     property int minIndexReorder: 0
     property string searchText: ""
     property bool toolbarEnabled: true
+    property bool selectInserted: true
 
     property int selectedId: -1
 
@@ -101,6 +102,10 @@ Item {
                 listView.currentIndex = index
                 root.selectedId = model.id
                 root.selected(proxy.sourceRow(index))
+            }
+
+            onDoubleClicked: {
+                // Do nothing
             }
 
             onMoveRequested: (from, to) => {
@@ -276,9 +281,11 @@ Item {
                 return
 
             Qt.callLater(function() {
-                list.currentIndex = last
-
-                root.selected(last)
+                if (root.selectInserted)
+                {
+                    list.currentIndex = last
+                    root.selected(last)
+                }
 
                 list.positionViewAtIndex(last, ListView.End)
             })
@@ -299,9 +306,11 @@ Item {
                     return
                 }
 
-                list.currentIndex = newIndex
-
-                root.selected(newIndex)
+                if (root.selectInserted)
+                {
+                    list.currentIndex = newIndex
+                    root.selected(newIndex)
+                }
             }
             else if(list.currentIndex > last) {
                 list.currentIndex -= last - first + 1

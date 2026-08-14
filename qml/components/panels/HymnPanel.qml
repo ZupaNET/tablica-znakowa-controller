@@ -56,7 +56,10 @@ Item {
 
         onAddRequested: {
             if(root.setMode)
+            {
+                hymnPicker.reloadDialog()
                 hymnPicker.open()
+            }
             else
                 addDialog.open()
         }
