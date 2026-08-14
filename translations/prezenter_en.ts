@@ -218,7 +218,7 @@
 <context>
     <name>ListPanel</name>
     <message>
-        <location filename="../qml/components/panels/ListPanel.qml" line="22"/>
+        <location filename="../qml/components/panels/ListPanel.qml" line="23"/>
         <source>Szukaj...</source>
         <translation>Search...</translation>
     </message>
@@ -226,17 +226,17 @@
 <context>
     <name>ListPanelDelegate</name>
     <message>
-        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="62"/>
+        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="144"/>
         <source>Bez nazwy</source>
         <translation>Untitled</translation>
     </message>
     <message>
-        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="126"/>
+        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="178"/>
         <source>Edytuj</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="141"/>
+        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="193"/>
         <source>Usuń</source>
         <translation>Delete</translation>
     </message>
@@ -489,37 +489,37 @@
 <context>
     <name>ScreenPanel</name>
     <message>
-        <location filename="../qml/components/panels/ScreenPanel.qml" line="150"/>
+        <location filename="../qml/components/panels/ScreenPanel.qml" line="217"/>
         <source>Pokaż wszystkie</source>
         <translation>Show all</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/ScreenPanel.qml" line="168"/>
+        <location filename="../qml/components/panels/ScreenPanel.qml" line="235"/>
         <source>Ukryj wszystkie</source>
         <translation>Hide all</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/ScreenPanel.qml" line="185"/>
+        <location filename="../qml/components/panels/ScreenPanel.qml" line="252"/>
         <source>Pokaż podgląd</source>
         <translation>Show preview</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/ScreenPanel.qml" line="199"/>
+        <location filename="../qml/components/panels/ScreenPanel.qml" line="266"/>
         <source>Usunąć slajd?</source>
         <translation>Delete the slide?</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/ScreenPanel.qml" line="201"/>
+        <location filename="../qml/components/panels/ScreenPanel.qml" line="268"/>
         <source>Czy na pewno chcesz usunąć ten slajd?</source>
         <translation>Are you sure you want to delete this slide?</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/ScreenPanel.qml" line="43"/>
+        <location filename="../qml/components/panels/ScreenPanel.qml" line="81"/>
         <source>Slajdy</source>
         <translation>Slides</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/ScreenPanel.qml" line="130"/>
+        <location filename="../qml/components/panels/ScreenPanel.qml" line="197"/>
         <source>+ Dodaj slajd</source>
         <translation>+ Add a slide</translation>
     </message>
@@ -527,7 +527,7 @@
 <context>
     <name>ScreenPanelDelegate</name>
     <message>
-        <location filename="../qml/components/delegates/ScreenPanelDelegate.qml" line="99"/>
+        <location filename="../qml/components/delegates/ScreenPanelDelegate.qml" line="155"/>
         <source>Slajd</source>
         <translation>Slide</translation>
     </message>
