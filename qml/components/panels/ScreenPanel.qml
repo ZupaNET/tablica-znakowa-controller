@@ -8,13 +8,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQml.Models
 
 import Prezenter
 
 Item {
     id: root
 
-    property alias model: list.model
+    property alias model: delegateModel.model
 
     property bool setMode: false
     property bool showPreview: AppSettings.showPreview
@@ -31,6 +32,43 @@ Item {
     function resetSelection()
     {
         list.currentIndex = -1
+    }
+
+    DelegateModel {
+        id: delegateModel
+
+        delegate: ScreenPanelDelegate {
+            listView: list
+            dm: delegateModel
+
+            setMode: root.setMode
+            showPreview: root.showPreview
+
+            onClicked: {
+                list.currentIndex = index
+                root.selected(model.id, index)
+            }
+
+            onMove: (from, to) => {
+                root.moveScreen(from, to)
+            }
+
+            onDuplicate: {
+                root.duplicateScreen(index)
+            }
+
+            onRemove: {
+                deleteDialog.row = index
+                deleteDialog.open()
+            }
+
+            onToggleShown: shown => {
+                root.toggleScreen(index, shown)
+            }
+
+            onDragStarted: it => list.draggedItem = it
+            onDragFinished: list.draggedItem = null
+        }
     }
 
     ColumnLayout {
@@ -55,11 +93,15 @@ Item {
             ListView {
                 id: list
 
+                property Item draggedItem: null
+
                 anchors.fill: parent
 
                 spacing: 8
 
                 clip: true
+
+                model: delegateModel
 
                 currentIndex: -1
 
@@ -68,36 +110,61 @@ Item {
                     policy: ScrollBar.AlwaysOn
                 }
 
-                delegate: ScreenPanelDelegate {
-                    listView: list
+                Timer {
+                    id: autoScrollTimer
 
-                    setMode: root.setMode
-                    showPreview: root.showPreview
+                    interval: 16
+                    repeat: true
+                    running: list.draggedItem !== null
 
-                    onClicked: {
-                        list.currentIndex = index
-                        root.selected(model.id, index)
-                    }
+                    onTriggered: {
+                        const item = list.draggedItem
 
-                    onMoveUp: {
-                        root.moveScreen(index, index-1)
-                    }
+                        if (!item || !item.Drag.active)
+                            return
 
-                    onMoveDown: {
-                        root.moveScreen(index, index+1)
-                    }
+                        const y = item.y + item.height / 2
 
-                    onDuplicate: {
-                        root.duplicateScreen(index)
-                    }
+                        const edge = 60
+                        const maxSpeed = 12
 
-                    onRemove: {
-                        deleteDialog.row = index
-                        deleteDialog.open()
-                    }
+                        let newContentY = list.contentY
 
-                    onToggleShown: shown => {
-                        root.toggleScreen(index, shown)
+                        if (y < edge) {
+                            const factor = 1 - Math.max(0, y) / edge
+
+                            newContentY = Math.max(
+                                0,
+                                list.contentY - (2 + factor * maxSpeed)
+                            )
+                        }
+                        else if (y > list.height - edge) {
+                            const distance = y - (list.height - edge)
+                            const factor = Math.min(1, distance / edge)
+
+                            const maxContentY = Math.max(
+                                0,
+                                list.contentHeight - list.height
+                            )
+
+                            newContentY = Math.min(
+                                maxContentY,
+                                list.contentY + (2 + factor * maxSpeed)
+                            )
+                        }
+
+                        if (newContentY !== list.contentY) {
+                            list.contentY = newContentY
+
+                            const hotSpot = item.Drag.hotSpot
+
+                            item.Drag.hotSpot = Qt.point(
+                                hotSpot.x,
+                                hotSpot.y + 0.01
+                            )
+
+                            item.Drag.hotSpot = hotSpot
+                        }
                     }
                 }
             }
