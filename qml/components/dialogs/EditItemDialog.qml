@@ -77,6 +77,22 @@ Dialog {
             model: categoryModel
             textRole: "name"
 
+            popup: Popup {
+                y: (categoryBox.height - height) / 2
+                width: categoryBox.width
+                height: Math.min(contentItem.implicitHeight, 400)
+
+                contentItem: ListView {
+                    clip: true
+                    implicitHeight: contentHeight
+
+                    model: categoryBox.delegateModel
+                    currentIndex: categoryBox.highlightedIndex
+
+                    ScrollIndicator.vertical: ScrollIndicator {}
+                }
+            }
+
             function updateSelection() {
                 currentIndex = -1
 
@@ -92,6 +108,7 @@ Dialog {
     }
 
     onOpened: {
+        categoryModel.reload()
         field.text = root.initialName
         if(root.initialCategory > -2)
             categoryBox.updateSelection()
