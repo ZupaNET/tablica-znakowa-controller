@@ -76,12 +76,12 @@ QtObject {
 
     readonly property color listItem: item
     readonly property color listItemLighter: AppSettings.darkMode ? "#5a5a5a" : "#f4f4f4"
-    readonly property color listItemSelected: AppSettings.darkMode ? "#204a75" : "#d7ecff"
-    readonly property color listItemDrag: AppSettings.darkMode ? "#383838" : "#e5e5e5"
-    readonly property color listItemSelectedDrag: AppSettings.darkMode ? "#285d8f" : "#c4e2ff"
+    readonly property color listItemSelected: AppSettings.darkMode ? "#245a8d" : "#d7ecff"
+    readonly property color listItemDrag: AppSettings.darkMode ? "#4a4a4a" : "#d6e9ff"
+    readonly property color listItemSelectedDrag: AppSettings.darkMode ? "#367fc1" : "#acd5ff"
     readonly property color listItemReorderDisabled: AppSettings.darkMode ? "#303030" : "#ebebeb"
     readonly property color listItemSelectedReorderDisabled: AppSettings.darkMode ? "#273b4d" : "#e0eaf2"
-    readonly property color listItemDropIndicator: listItemSelected
+    readonly property color listItemDropIndicator: AppSettings.darkMode ? "#5da9e9" : "#1976d2"
 
     readonly property color inactiveBorder: AppSettings.darkMode ? "#444444" : "#d0d0d0"
 

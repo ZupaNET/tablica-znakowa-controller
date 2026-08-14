@@ -8,6 +8,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQml.Models
 
 import Prezenter
 
@@ -15,9 +16,7 @@ MouseArea {
     id: root
 
     property ListView listView: null
-    property int itemIndex: -1
-    property int dragStartIndex: -1
-    property int dropIndex: -1
+    property DelegateModel dm: null
 
     property bool isSearching: false
     property int minIndexReorder: 0
@@ -28,12 +27,14 @@ MouseArea {
 
     property bool current: false
     property bool held: false
-    property bool dropTarget: false
-    property bool dropAfter: false
+    property int dragStartIndex: -1
 
     signal moveRequested(int from, int to)
     signal editRequested()
     signal removeRequested()
+
+    signal dragStarted(Item item)
+    signal dragFinished()
 
     width: listView ? listView.width - listView.rightMargin - listView.ScrollBar.vertical.width - 1 : 0
 
@@ -51,52 +52,34 @@ MouseArea {
         if (index < minIndexReorder)
             return
 
-        dragStartIndex = index
-        dropIndex = index
+        dragStartIndex = DelegateModel.itemsIndex
         held = true
+
+        dragStarted(content)
     }
 
     onReleased: {
         if (held) {
-            const from = dragStartIndex
-            const to = dropIndex
+            dragFinished()
 
-            if (from >= minIndexReorder && to >= minIndexReorder && from !== to) {
+            const from = dragStartIndex
+            const to = DelegateModel.itemsIndex
+
+            if (from >= minIndexReorder &&
+                to >= minIndexReorder &&
+                from !== to) {
                 moveRequested(from, to)
             }
         }
 
         held = false
         dragStartIndex = -1
-        dropIndex = -1
-        dropTarget = false
-        dropAfter = false
     }
 
     Behavior on height {
         NumberAnimation {
             duration: 150
         }
-    }
-
-    Rectangle {
-        id: dropIndicator
-
-        visible: root.dropTarget
-
-        anchors.left: parent.left
-        anchors.right: parent.right
-
-        y: root.dropAfter
-           ? root.height - height
-           : 0
-
-        height: 3
-        radius: 1.5
-
-        color: Theme.listItemDropIndicator
-
-        z: 100
     }
 
     Rectangle {
@@ -130,8 +113,6 @@ MouseArea {
         }
 
         border.color: Theme.listItemBorder
-
-        opacity: root.held ? 0.60 : 1
 
         Drag.active: root.held
         Drag.source: root
@@ -243,41 +224,23 @@ MouseArea {
         anchors.fill: parent
         anchors.margins: 10
 
-        enabled: root.reorderable && !root.isSearching && root.itemIndex >= root.minIndexReorder
+        enabled: root.reorderable && !root.isSearching && index >= root.minIndexReorder
 
         onEntered: drag => {
             const source = drag.source
 
-            if (!source || source === root)
+            if (!source || source === root || !source.held)
                 return
 
-            if (!source.held)
+            const from = source.DelegateModel.itemsIndex
+            const to = root.DelegateModel.itemsIndex
+
+            if (from < root.minIndexReorder ||
+                to < root.minIndexReorder ||
+                from === to)
                 return
 
-            const from = source.dragStartIndex
-            const to = root.itemIndex
-
-            if (from < 0 || to < 0)
-                return
-
-            if (from < root.minIndexReorder)
-                return
-
-            if (to < root.minIndexReorder)
-                return
-
-            if (from === to)
-                return
-
-            root.dropTarget = true
-            root.dropAfter = from < to
-
-            source.dropIndex = to
-        }
-
-        onExited: {
-            root.dropTarget = false
-            root.dropAfter = false
+            root.dm.items.move(from, to)
         }
     }
 }
