@@ -13,6 +13,9 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QDir>
+#ifdef Q_OS_ANDROID
+#include <QStyleHints>
+#endif
 
 #include "app/appinfo.h"
 
