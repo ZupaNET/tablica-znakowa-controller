@@ -14,7 +14,7 @@
 #include <QLocale>
 #include <QDir>
 
-#include "core/appinfo.h"
+#include "app/appinfo.h"
 
 
 QStringList availableLanguages();

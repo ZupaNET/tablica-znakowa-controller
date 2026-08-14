@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+﻿cmake_minimum_required(VERSION 3.16)
 
 # --------------------------------------
 # Version
@@ -148,11 +148,21 @@ qt_add_translations(prezenter
 
 target_include_directories(prezenter PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/utils
+    ${CMAKE_CURRENT_BINARY_DIR}/generated
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/app
     ${CMAKE_CURRENT_SOURCE_DIR}/src/database
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/models
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/networking
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/devices/board
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/domain/dto
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/helpers/
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/helpers/qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models/category
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models/hymn
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models/presentation
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models/proxy
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models/screen
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/models/set
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/platform
     ${CMAKE_CURRENT_SOURCE_DIR}/src/settings
 )
 
@@ -185,15 +195,10 @@ endif()
 # Application compile definitions
 # --------------------------------------
 
-target_compile_definitions(prezenter PRIVATE
-    APP_NAME="${APP_NAME}"
-    APP_SLOGAN="${APP_SLOGAN}"
-    APP_COMPANY="${APP_COMPANY}"
-    APP_COMPANY_DOMAIN="${APP_COMPANY_DOMAIN}"
-    APP_VERSION_STRING="${APP_VERSION_STRING}"
-    APP_VERSION_MAJOR=${APP_VERSION_MAJOR}
-    APP_VERSION_MINOR=${APP_VERSION_MINOR}
-    APP_VERSION_PATCH=${APP_VERSION_PATCH}
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/app/appinfo_config.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/generated/appinfo_config.h
+    @ONLY
 )
 
 # --------------------------------------

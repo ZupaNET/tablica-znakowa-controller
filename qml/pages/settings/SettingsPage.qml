@@ -416,7 +416,7 @@ Item {
         message: qsTr("Czy na pewno chcesz zresetować śpiewnik?")
 
         onAccepted: {
-            if(!DatabaseManager.resetDatabase())
+            if(!DatabaseBackupService.resetDatabase())
                 infoPopup.show(qsTr("Wystąpił problem podczas resetowania śpiewnika"))
             else
                 infoPopup.show(qsTr("Zresetowano śpiewnik"))
@@ -429,7 +429,7 @@ Item {
         nameFilters: [qsTr("Śpiewnik (*.db)")]
 
         onAccepted: {
-            if(!DatabaseManager.importDatabase(selectedFiles[0]))
+            if(!DatabaseBackupService.importDatabase(selectedFiles[0]))
                 infoPopup.show(qsTr("Wystąpił problem podczas wczytywania śpiewnika"))
             else
                 infoPopup.show(qsTr("Wczytano śpiewnik"))
@@ -447,7 +447,7 @@ Item {
         nameFilters: [qsTr("Śpiewnik (*.db)")]
 
         onAccepted: {
-            if(!DatabaseManager.exportDatabase(selectedFile))
+            if(!DatabaseBackupService.exportDatabase(selectedFile))
                 infoPopup.show(qsTr("Wystąpił problem podczas zapisywania śpiewnika"))
             else
                 infoPopup.show(qsTr("Zapisano śpiewnik"))

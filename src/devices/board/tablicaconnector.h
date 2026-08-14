@@ -11,7 +11,7 @@
 #include <QObject>
 #include <QtQml/QtQml>
 
-#include "core/dto/screen.h"
+#include "domain/dto/screen.h"
 
 class TablicaConnector : public QObject
 {

@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Tablica Znakowa - Kontroler
+ *
+ * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ */
+
+#pragma once
+
+#define APP_NAME "@APP_NAME@"
+#define APP_SLOGAN "@APP_SLOGAN@"
+#define APP_COMPANY "@APP_COMPANY@"
+#define APP_COMPANY_DOMAIN "@APP_COMPANY_DOMAIN@"
+
+#define APP_VERSION_STRING "@APP_VERSION_STRING@"
+#define APP_VERSION_MAJOR @APP_VERSION_MAJOR@
+#define APP_VERSION_MINOR @APP_VERSION_MINOR@
+#define APP_VERSION_PATCH @APP_VERSION_PATCH@

@@ -8,9 +8,9 @@
 #ifndef CATEGORYHYMNMODEL_H
 #define CATEGORYHYMNMODEL_H
 
-#include "hymnrelationmodel.h"
-#include "repositories/categoryrepository.h"
-#include "repositories/hymnrepository.h"
+#include "models/hymn/hymnrelationmodel.h"
+#include "database/repositories/categoryrepository.h"
+#include "database/repositories/hymnrepository.h"
 
 class CategoryHymnModel : public HymnRelationModel
 {

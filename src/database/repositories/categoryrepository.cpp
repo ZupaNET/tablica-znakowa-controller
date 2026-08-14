@@ -11,7 +11,7 @@
 #include <QSqlError>
 
 #include "database/databaseconnector.h"
-#include "core/utils/naturalsort.h"
+#include "helpers/naturalsort.h"
 
 QList<Category> CategoryRepository::getAll()
 {

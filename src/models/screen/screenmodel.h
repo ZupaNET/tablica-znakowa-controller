@@ -8,9 +8,9 @@
 #ifndef SCREENMODEL_H
 #define SCREENMODEL_H
 
-#include "entitylistmodel.h"
-#include "roles/screenroles.h"
-#include "repositories/screenrepository.h"
+#include "models/base/entitylistmodel.h"
+#include "domain/roles/screenroles.h"
+#include "database/repositories/screenrepository.h"
 
 class ScreenModel : public EntityListModel<Screen>, public ScreenRoles
 {

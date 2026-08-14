@@ -10,7 +10,7 @@
 
 #include <QList>
 
-#include "core/dto/hymn.h"
+#include "domain/dto/hymn.h"
 
 class HymnRepository
 {

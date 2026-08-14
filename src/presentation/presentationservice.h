@@ -9,8 +9,8 @@
 #define PRESENTATIONSERVICE_H
 
 #include <QList>
-#include "core/dto/screen.h"
-#include "repositories/setrepository.h"
+#include "domain/dto/screen.h"
+#include "database/repositories/setrepository.h"
 
 class PresentationService
 {

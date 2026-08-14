@@ -5,14 +5,14 @@
  * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
  */
 
-#include "databasemanager.h"
+#include "databasebackupservice.h"
 #include "databaseconnector.h"
 #include <QFile>
 #include <QUrl>
 #include <QDebug>
 #include <QSqlDatabase>
 
-DatabaseManager *DatabaseManager::create(QQmlEngine *, QJSEngine *engine)
+DatabaseBackupService *DatabaseBackupService::create(QQmlEngine *, QJSEngine *engine)
 {
     // The instance has to exist before it is used. We cannot replace it.
     Q_ASSERT(&instance());
@@ -32,7 +32,7 @@ DatabaseManager *DatabaseManager::create(QQmlEngine *, QJSEngine *engine)
     return &instance();
 }
 
-bool DatabaseManager::importDatabase(const QString& sourceUrl)
+bool DatabaseBackupService::importDatabase(const QString& sourceUrl)
 {
     qDebug() << "Ścieżka źródłowa:" << sourceUrl;
 
@@ -95,7 +95,7 @@ bool DatabaseManager::importDatabase(const QString& sourceUrl)
     return true;
 }
 
-bool DatabaseManager::exportDatabase(const QString& destinationUrl)
+bool DatabaseBackupService::exportDatabase(const QString& destinationUrl)
 {
     qDebug() << "Ścieżka docelowa:" << destinationUrl;
 
@@ -161,7 +161,7 @@ bool DatabaseManager::exportDatabase(const QString& destinationUrl)
     return true;
 }
 
-bool DatabaseManager::resetDatabase()
+bool DatabaseBackupService::resetDatabase()
 {
     const QString destinationPath = DatabaseConnector::getDatabasePath();
 

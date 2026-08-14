@@ -10,8 +10,8 @@
 
 #include <QList>
 
-#include "core/dto/catagory.h"
-#include "core/dto/hymn.h"
+#include "domain/dto/catagory.h"
+#include "domain/dto/hymn.h"
 
 class CategoryRepository
 {

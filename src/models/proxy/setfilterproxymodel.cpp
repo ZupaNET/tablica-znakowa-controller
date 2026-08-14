@@ -6,7 +6,7 @@
  */
 
 #include "setfilterproxymodel.h"
-#include "roles/hymnroles.h"
+#include "domain/roles/hymnroles.h"
 
 SetFilterProxyModel::SetFilterProxyModel(QObject *parent)
     : QSortFilterProxyModel{parent}

@@ -10,9 +10,9 @@
 
 #include <QList>
 
-#include "core/dto/set.h"
-#include "core/dto/hymn.h"
-#include "core/dto/screen.h"
+#include "domain/dto/set.h"
+#include "domain/dto/hymn.h"
+#include "domain/dto/screen.h"
 
 class SetRepository
 {

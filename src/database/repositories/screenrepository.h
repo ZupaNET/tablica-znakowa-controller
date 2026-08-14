@@ -10,7 +10,7 @@
 
 #include <QList>
 
-#include "core/dto/screen.h"
+#include "domain/dto/screen.h"
 
 class ScreenRepository
 {

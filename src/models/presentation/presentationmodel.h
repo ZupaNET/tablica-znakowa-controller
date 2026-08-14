@@ -8,12 +8,12 @@
 #ifndef PRESENTATIONMODEL_H
 #define PRESENTATIONMODEL_H
 
-#include "entitylistmodel.h"
-#include "core/dto/screen.h"
-#include "roles/screenroles.h"
-#include "services/presentationservice.h"
-#include "repositories/screenrepository.h"
-#include "repositories/setrepository.h"
+#include "models/base/entitylistmodel.h"
+#include "domain/dto/screen.h"
+#include "domain/roles/screenroles.h"
+#include "presentation/presentationservice.h"
+#include "database/repositories/screenrepository.h"
+#include "database/repositories/setrepository.h"
 
 class PresentationModel : public EntityListModel<Screen>, public ScreenRoles
 {

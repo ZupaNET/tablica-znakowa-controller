@@ -8,8 +8,8 @@
 #ifndef SETHYMNMODEL_H
 #define SETHYMNMODEL_H
 
-#include "hymnrelationmodel.h"
-#include "repositories/setrepository.h"
+#include "models/hymn/hymnrelationmodel.h"
+#include "database/repositories/setrepository.h"
 
 class SetHymnModel : public HymnRelationModel
 {

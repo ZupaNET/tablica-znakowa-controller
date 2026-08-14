@@ -8,9 +8,9 @@
 #ifndef HYMNRELATIONMODEL_H
 #define HYMNRELATIONMODEL_H
 
-#include "entitylistmodel.h"
-#include "roles/hymnroles.h"
-#include "core/dto/hymn.h"
+#include "models/base/entitylistmodel.h"
+#include "domain/roles/hymnroles.h"
+#include "domain/dto/hymn.h"
 
 class HymnRelationModel : public EntityListModel<Hymn>, public HymnRoles
 {
