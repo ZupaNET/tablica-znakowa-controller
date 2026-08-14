@@ -28,6 +28,8 @@ Item {
     property string searchText: ""
     property bool toolbarEnabled: true
 
+    property int selectedId: -1
+
     signal selected(int row)
     signal addRequested()
     signal editRequested(int row)
@@ -49,6 +51,22 @@ Item {
 
         filterText: root.searchText
         filterRole: "name"
+    }
+
+    function restoreSelection() {
+        if (root.selectedId < 0) {
+            list.currentIndex = -1
+            return
+        }
+
+        for (let i = 0; i < list.count; ++i) {
+            if (list.model.data(list.model.index(i, 0), Qt.UserRole + 1) === root.selectedId) {
+                list.currentIndex = i
+                return
+            }
+        }
+
+        list.currentIndex = -1
     }
 
     ColumnLayout {
@@ -92,19 +110,16 @@ Item {
 
                 clip: true
 
-                model: proxy
+                model: root.searchText !== "" ? proxy : proxy.sourceModel
 
                 ScrollBar.vertical: ScrollBar {
                     width: 8
                     policy: ScrollBar.AlwaysOn
                 }
 
-                Component.onCompleted: {
-                    currentIndex = -1
-                }
-
                 delegate: ListPanelDelegate {
                     listView: list
+                    itemIndex: index
 
                     isSearching: root.searchText !== ""
 
@@ -118,6 +133,7 @@ Item {
 
                     onClicked: {
                         listView.currentIndex = index
+                        root.selectedId = model.id
                         root.selected(proxy.sourceRow(index))
                     }
 
@@ -135,6 +151,14 @@ Item {
                     onRemoveRequested: {
                         root.removeRequested(proxy.sourceRow(index))
                     }
+                }
+
+                onModelChanged: {
+                    Qt.callLater(root.restoreSelection)
+                }
+
+                Component.onCompleted: {
+                    currentIndex = -1
                 }
             }
 
