@@ -52,7 +52,7 @@ Dialog {
     }
 
     width: 650
-    height: 600
+    height: 450
 
     padding: 20
 
