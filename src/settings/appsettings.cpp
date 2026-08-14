@@ -42,6 +42,7 @@ void AppSettings::init()
     m_ipAddress         = m_settings.value("ipAddress", "192.168.0.100").toString();
     m_port              = m_settings.value("port", "60023").toUInt();
     m_brightness        = m_settings.value("brightness", "4").toUInt();
+    m_singleConnection  = m_settings.value("singleConnection", false).toBool();
     m_darkMode          = m_settings.value("darkMode", false).toBool();
     m_language          = m_settings.value("language", QLocale::system().name()).toString();
 
@@ -157,7 +158,7 @@ void AppSettings::setIpAddress(const QString &address)
     m_ipAddress = address;
     m_settings.setValue("ipAddress", address);
 
-    emit ipAddressChanged(address);
+    emit ipAddressChanged();
 }
 
 quint16 AppSettings::port() const
@@ -173,7 +174,7 @@ void AppSettings::setPort(const quint16 &portNumber)
     m_port = portNumber;
     m_settings.setValue("port", portNumber);
 
-    emit portChanged(portNumber);
+    emit portChanged();
 }
 
 quint8 AppSettings::brightness() const
@@ -189,7 +190,23 @@ void AppSettings::setBrightness(const quint8 &level)
     m_brightness = level;
     m_settings.setValue("brightness", level);
 
-    emit brightnessChanged(level);
+    emit brightnessChanged();
+}
+
+bool AppSettings::singleConnection() const
+{
+    return m_singleConnection;
+}
+
+void AppSettings::setSingleConnection(const bool &enabled)
+{
+    if(m_singleConnection == enabled)
+        return;
+
+    m_singleConnection = enabled;
+    m_settings.setValue("singleConnection", enabled);
+
+    emit singleConnectionChanged();
 }
 
 bool AppSettings::darkMode() const

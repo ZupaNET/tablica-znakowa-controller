@@ -57,7 +57,7 @@ Item {
 
             text: qsTr("Transmisja") + " " + Icon.cast
 
-            highlighted: TablicaConnector.enabled
+            highlighted: BoardController.enabled
             flat: true
 
             Material.background: "transparent"
@@ -66,7 +66,7 @@ Item {
             font.pixelSize: 20
 
             onClicked: {
-                TablicaConnector.enabled = !TablicaConnector.enabled
+                BoardController.enabled = !BoardController.enabled
             }
         }
     }
@@ -339,7 +339,7 @@ Item {
 
                                 let item = presentationModel.get(currentIndex)
 
-                                TablicaConnector.buffer = item
+                                BoardController.buffer = item
 
                                 root.updateScreenListPosition()
                             }
@@ -462,21 +462,21 @@ Item {
 
     Component.onCompleted: {
         ScreenAwake.preventSleep()
-        TablicaConnector.enabled = false
+        BoardController.enabled = false
     }
 
     Component.onDestruction: {
         root.presentationClosed()
 
         ScreenAwake.allowSleep()
-        TablicaConnector.enabled = false
+        BoardController.enabled = false
     }
 
     Connections {
-        target: TablicaConnector
+        target: BoardController
 
-        function onConnectionFailure() {
-            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
+        function onTransmissionFailed(error) {
+            infoPopup.show(qsTr("Nie można połączyć się z tablicą:") + " " + error)
         }
     }
 
@@ -485,7 +485,7 @@ Item {
 
         function onDataChanged() {
             let item = presentationModel.get(screenList.currentIndex)
-            TablicaConnector.buffer = item
+            BoardController.buffer = item
         }
     }
 
@@ -505,5 +505,9 @@ Item {
                 screenListAnimation.enabled = true
             })
         }
+    }
+
+    QuickPopup {
+        id: infoPopup
     }
 }

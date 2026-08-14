@@ -201,15 +201,15 @@ Item {
         title: qsTr("Wyłączyć tablicę?")
         message: qsTr("Czy na pewno chcesz wyłączyć tablicę?")
 
-        onAccepted: TablicaConnector.shutdown()
+        onAccepted: BoardController.powerOff()
     }
 
     Connections {
-        target: TablicaConnector
+        target: BoardController
 
-        function onConnectionFailure() {
+        function onTransmissionFailed(error) {
             if (root.focus)
-                infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
+                infoPopup.show(qsTr("Nie można połączyć się z tablicą:") + " " + error)
         }
     }
 

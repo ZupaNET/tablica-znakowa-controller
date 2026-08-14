@@ -35,6 +35,34 @@ ApplicationWindow {
 
         anchors.fill: parent
 
+        Rectangle {
+            anchors.fill: parent
+
+            visible: mainWindow.closing
+
+            color: Theme.dimBackground
+
+            z: 10
+
+            Row {
+               spacing: 10
+               anchors.centerIn: parent
+
+               BusyIndicator {
+                   width: 32
+                   height: 32
+                   running: mainWindow.closing
+               }
+
+               Label {
+                   anchors.verticalCenter: parent.verticalCenter
+
+                   text: qsTr("Trwa zamykanie...")
+                   color: Theme.text
+               }
+            }
+        }
+
         FocusScope {
             id: viewport
 
@@ -74,7 +102,7 @@ ApplicationWindow {
     }
 
     onClosing: function(close) {
-        if(TablicaConnector.enabled === false)
+        if(BoardController.enabled === false)
         {
             close.accepted = true
             return
@@ -86,8 +114,7 @@ ApplicationWindow {
         close.accepted = false
         closing = true
 
-        TablicaConnector.enabled = true
-        TablicaConnector.clearScreen()
+        BoardController.enabled = false
     }
 
     Connections {
@@ -99,16 +126,16 @@ ApplicationWindow {
     }
 
     Connections {
-        target: TablicaConnector
+        target: BoardController
 
-        function onCommandQueueEmpty() {
+        function onTransmissionFinished() {
             if (!mainWindow.closing)
                 return
 
             Qt.quit()
         }
 
-        function onConnectionFailure() {
+        function onTransmissionFailed() {
             if(mainWindow.closing)
                 Qt.quit()
         }

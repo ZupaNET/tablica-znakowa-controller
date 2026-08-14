@@ -148,7 +148,7 @@ Item {
 
                     onClicked: {
                         editor.content = ""
-                        TablicaConnector.clearScreen()
+                        BoardController.clearScreen()
                     }
                 }
 
@@ -156,20 +156,20 @@ Item {
                     text: qsTr("Wyświetl")
 
                     onClicked: {
-                        let screen = TablicaConnector.buffer
+                        let screen = BoardController.buffer
 
                         screen.text = editor.content
                         screen.font = fontSelector.currentIndex
 
-                        TablicaConnector.enabled = true
+                        BoardController.enabled = true
 
-                        if(screen === TablicaConnector.buffer)
+                        if(screen === BoardController.buffer)
                         {
-                            TablicaConnector.resendBuffer()
+                            BoardController.sendBuffer()
                             return
                         }
 
-                        TablicaConnector.buffer = screen
+                        BoardController.buffer = screen
                     }
                 }
             }
@@ -177,10 +177,10 @@ Item {
     }
 
     Connections {
-        target: TablicaConnector
+        target: BoardController
 
-        function onConnectionFailure() {
-            infoPopup.show(qsTr("Nie można połączyć się z tablicą"))
+        function onTransmissionFailed(error) {
+            infoPopup.show(qsTr("Nie można połączyć się z tablicą:") + " " + error)
         }
     }
 

@@ -27,6 +27,7 @@ class AppSettings : public QObject
     Q_PROPERTY(QString ipAddress            READ ipAddress          WRITE setIpAddress          NOTIFY ipAddressChanged)
     Q_PROPERTY(quint16 port                 READ port               WRITE setPort               NOTIFY portChanged)
     Q_PROPERTY(quint8 brightness            READ brightness         WRITE setBrightness         NOTIFY brightnessChanged)
+    Q_PROPERTY(bool singleConnection        READ singleConnection   WRITE setSingleConnection   NOTIFY singleConnectionChanged)
     Q_PROPERTY(bool darkMode                READ darkMode           WRITE setDarkMode           NOTIFY darkModeChanged)
     Q_PROPERTY(QString language             READ language           WRITE setLanguage           NOTIFY languageChanged)
 
@@ -80,6 +81,9 @@ public:
     quint8 brightness() const;
     void setBrightness(const quint8 &level);
 
+    bool singleConnection() const;
+    void setSingleConnection(const bool &enabled);
+
     bool darkMode() const;
     void setDarkMode(const bool &dark);
 
@@ -93,9 +97,10 @@ signals:
     void screenViewButtonsChanged();
     void showPreviewChanged();
     void setViewChanged();
-    void ipAddressChanged(QString);
-    void portChanged(quint16);
-    void brightnessChanged(quint8);
+    void ipAddressChanged();
+    void portChanged();
+    void brightnessChanged();
+    void singleConnectionChanged();
     void darkModeChanged();
     void languageChanged();
 
@@ -112,6 +117,7 @@ private:
     QString m_ipAddress;
     quint16 m_port;
     quint8 m_brightness;
+    bool m_singleConnection;
     bool m_darkMode;
     QString m_language;
 

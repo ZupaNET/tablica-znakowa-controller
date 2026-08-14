@@ -85,6 +85,47 @@ Item {
                         }
                     }
 
+                    RowLayout {
+
+                        Layout.fillWidth: true
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+
+                                text: qsTr("Tryb pojedynczej sesji")
+
+                                color: Theme.text
+
+                                font.bold: true
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+
+                                text: qsTr("Każdy slajd jest wysyłany do tablicy w ramach jednej sesji zamiast wielu sesji.")
+
+                                color: Theme.textSecondary
+
+                                font.pixelSize: 12
+                                font.bold: true
+                            }
+                        }
+
+                        Switch {
+
+                            checked: AppSettings.singleConnection
+
+                            onToggled: {
+                                AppSettings.singleConnection = checked
+                            }
+                        }
+                    }
+
                     Label {
                         text: qsTr("Adres IP")
                         font.bold: true
