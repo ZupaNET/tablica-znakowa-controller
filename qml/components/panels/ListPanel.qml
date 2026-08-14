@@ -117,12 +117,15 @@ Item {
                     current: ListView.isCurrentItem
 
                     onClicked: {
-                        list.currentIndex = index
+                        listView.currentIndex = index
                         root.selected(proxy.sourceRow(index))
                     }
 
                     onMoveRequested: (from, to) => {
                         root.moveRequested(proxy.sourceRow(from), proxy.sourceRow(to))
+                        if(listView.currentIndex === from) {
+                            listView.currentIndex = to
+                        }
                     }
 
                     onEditRequested: {
