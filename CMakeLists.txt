@@ -282,7 +282,7 @@ set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
         "${APP_FULL_NAME} to otwartoźródłowa alternatywa dla oprogramowania obsługującego tablicę LED firmy MKEiA.")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://zupanet.pl")
-set(CPACK_PACKAGE_CONTACT "devel@zupanet.pl")
+set(CPACK_PACKAGE_CONTACT "dev@zupanet.pl")
 set(CPACK_PACKAGE_FILE_NAME "${APP_PACKAGE_NAME}-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 if(NOT WIN32)
         set(CPACK_PACKAGE_INSTALL_DIRECTORY "prezenter")

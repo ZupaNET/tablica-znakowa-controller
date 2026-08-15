@@ -2,7 +2,7 @@
 /*
  * Tablica Znakowa - Kontroler
  *
- * Copyright (C) 2026 ŻupaNET Development <devel@zupanet.pl>
+ * Copyright (C) 2026 ŻupaNET Development <dev@zupanet.pl>
  */
 
 #ifndef DATABASEBACKUPSERVICE_H
