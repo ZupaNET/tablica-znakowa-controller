@@ -151,6 +151,43 @@ void SetRepository::move(int setId, int from, int to)
     db.commit();
 }
 
+void SetRepository::reorder()
+{
+    QSqlDatabase db = DatabaseConnector::instance().db();
+
+    if(!db.transaction())
+        return;
+
+    QSqlQuery q(db);
+
+    q.prepare(R"(
+        WITH Ordered AS (
+            SELECT
+                Id,
+                ROW_NUMBER() OVER (
+                    ORDER BY Name COLLATE NOCASE, Id
+                ) - 1 AS NewDisplayOrder
+            FROM Sets
+        )
+        UPDATE Sets
+        SET DisplayOrder = (
+            SELECT NewDisplayOrder
+            FROM Ordered
+            WHERE Ordered.Id = Sets.Id
+        )
+    )");
+
+    if (!q.exec()) {
+        db.rollback();
+        qWarning() << "Failed to reorder sets:" << q.lastError().text();
+        return;
+    }
+
+    if (!db.commit()) {
+        qWarning() << "Failed to commit set reorder:" << db.lastError().text();
+    }
+}
+
 QList<Hymn> SetRepository::getHymns(int setId)
 {
     QList<Hymn> list;

@@ -151,28 +151,28 @@
 <context>
     <name>HymnPanel</name>
     <message>
-        <location filename="../qml/components/panels/HymnPanel.qml" line="83"/>
+        <location filename="../qml/components/panels/HymnPanel.qml" line="86"/>
         <source>Nowa pieśń</source>
         <translation>Nowa pieśń</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/HymnPanel.qml" line="84"/>
-        <location filename="../qml/components/panels/HymnPanel.qml" line="95"/>
+        <location filename="../qml/components/panels/HymnPanel.qml" line="87"/>
+        <location filename="../qml/components/panels/HymnPanel.qml" line="98"/>
         <source>Nazwa pieśni</source>
         <translation>Nazwa pieśni</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/HymnPanel.qml" line="94"/>
+        <location filename="../qml/components/panels/HymnPanel.qml" line="97"/>
         <source>Edytuj pieśń</source>
         <translation>Edytuj pieśń</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/HymnPanel.qml" line="115"/>
+        <location filename="../qml/components/panels/HymnPanel.qml" line="118"/>
         <source>Usunąć pieśń?</source>
         <translation>Usunąć pieśń?</translation>
     </message>
     <message>
-        <location filename="../qml/components/panels/HymnPanel.qml" line="117"/>
+        <location filename="../qml/components/panels/HymnPanel.qml" line="120"/>
         <source>Czy na pewno chcesz usunąć tę pieśń?</source>
         <translation>Czy na pewno chcesz usunąć tę pieśń?</translation>
     </message>
@@ -200,17 +200,17 @@
 <context>
     <name>HymnPickerDialog</name>
     <message>
-        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="21"/>
+        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="23"/>
         <source>Wybierz pieśń</source>
         <translation>Wybierz pieśń</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="118"/>
+        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="123"/>
         <source>Szukaj kategorii...</source>
         <translation>Szukaj kategorii...</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="139"/>
+        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="144"/>
         <source>Szukaj pieśni...</source>
         <translation>Szukaj pieśni...</translation>
     </message>
@@ -236,7 +236,7 @@
         <translation>Edytuj</translation>
     </message>
     <message>
-        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="193"/>
+        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="194"/>
         <source>Usuń</source>
         <translation>Usuń</translation>
     </message>
@@ -335,42 +335,42 @@
 <context>
     <name>PresentationPage</name>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="49"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="67"/>
         <source>Prezentacja pieśni</source>
         <translation>Prezentacja pieśni</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="49"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="67"/>
         <source>Prezentacja zestawu</source>
         <translation>Prezentacja zestawu</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="58"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="76"/>
         <source>Transmisja</source>
         <translation>Transmisja</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="153"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="171"/>
         <source>Widok</source>
         <translation>Widok</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="177"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="195"/>
         <source>Właściwości</source>
         <translation>Właściwości</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="191"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="209"/>
         <source>Edytuj slajd</source>
         <translation>Edytuj slajd</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="288"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="306"/>
         <source>Zestaw:</source>
         <translation>Zestaw:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/PresentationPage.qml" line="479"/>
+        <location filename="../qml/pages/presentation/PresentationPage.qml" line="499"/>
         <source>Nie można połączyć się z tablicą:</source>
         <translation>Nie można połączyć się z tablicą:</translation>
     </message>
@@ -398,42 +398,42 @@
         <translation>Wyświetlanie tekstu</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="103"/>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="36"/>
+        <source>Transmisja</source>
+        <translation>Transmisja</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="127"/>
         <source>Rozmiar czcionki:</source>
         <translation>Rozmiar czcionki:</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="106"/>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="130"/>
         <source>Mała</source>
         <translation>Mała</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="107"/>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="131"/>
         <source>Średnia</source>
         <translation>Średnia</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="108"/>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="132"/>
         <source>Duża</source>
         <translation>Duża</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="121"/>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="151"/>
         <source>Widok</source>
         <translation>Widok</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="147"/>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="177"/>
         <source>Wyczyść</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="156"/>
-        <source>Wyświetl</source>
-        <translation>Wyświetl</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="183"/>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="200"/>
         <source>Nie można połączyć się z tablicą:</source>
         <translation>Nie można połączyć się z tablicą:</translation>
     </message>
@@ -600,43 +600,43 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="469"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="516"/>
         <source>Import śpiewnika</source>
         <translation>Import śpiewnika</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="470"/>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="488"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="517"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="535"/>
         <source>Śpiewnik (*.db)</source>
         <translation>Śpiewnik (*.db)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="474"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="521"/>
         <source>Wystąpił problem podczas wczytywania śpiewnika</source>
         <translation>Wystąpił problem podczas wczytywania śpiewnika</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="476"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="523"/>
         <source>Wczytano śpiewnik</source>
         <translation>Wczytano śpiewnik</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="483"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="530"/>
         <source>Eksport śpiewnika</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="492"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="539"/>
         <source>Wystąpił problem podczas zapisywania śpiewnika</source>
         <translation>Wystąpił problem podczas zapisywania śpiewnika</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="494"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="541"/>
         <source>Zapisano śpiewnik</source>
         <translation>Zapisano śpiewnik</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="456"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="503"/>
         <source>Zresetować śpiewnik?</source>
         <translation>Zresetować śpiewnik?</translation>
     </message>
@@ -661,11 +661,6 @@
         <translation>Importuj śpiewnik</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="426"/>
-        <source>Wczytaj śpiewnik z pliku</source>
-        <translation>Wczytaj śpiewnik z pliku</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/settings/SettingsPage.qml" line="433"/>
         <source>Eksportuj śpiewnik</source>
         <translation>Eksportuj śpiewnik</translation>
@@ -686,17 +681,67 @@
         <translation>Usuń własne dane i przywróć domyślny śpiewnik</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="457"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="458"/>
+        <source>Posortuj kategorie</source>
+        <translation>Posortuj kategorie</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="459"/>
+        <source>Zresetuj ustaloną kolejność kategorii i ustaw je alfabetycznie</source>
+        <translation>Zresetuj ustaloną kolejność kategorii i ustaw je alfabetycznie</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="466"/>
+        <source>Posortuj zestawy</source>
+        <translation>Posortuj zestawy</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="467"/>
+        <source>Zresetuj ustaloną kolejność zestawów i ustaw je alfabetycznie</source>
+        <translation>Zresetuj ustaloną kolejność zestawów i ustaw je alfabetycznie</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="479"/>
+        <source>Posortować kategorie?</source>
+        <translation>Posortować kategorie?</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="480"/>
+        <source>Czy na pewno chcesz posortować kategorie alfabetycznie?</source>
+        <translation>Czy na pewno chcesz posortować kategorie alfabetycznie?</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="484"/>
+        <source>Posortowano kategorie alfabetycznie</source>
+        <translation>Posortowano kategorie alfabetycznie</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="491"/>
+        <source>Posortować zestawy?</source>
+        <translation>Posortować zestawy?</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="492"/>
+        <source>Czy na pewno chcesz posortować zestawy alfabetycznie?</source>
+        <translation>Czy na pewno chcesz posortować zestawy alfabetycznie?</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="496"/>
+        <source>Posortowano zestawy alfabetycznie</source>
+        <translation>Posortowano zestawy alfabetycznie</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="504"/>
         <source>Czy na pewno chcesz zresetować śpiewnik?</source>
         <translation>Czy na pewno chcesz zresetować śpiewnik?</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="461"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="508"/>
         <source>Wystąpił problem podczas resetowania śpiewnika</source>
         <translation>Wystąpił problem podczas resetowania śpiewnika</translation>
     </message>
     <message>
-        <location filename="../qml/pages/settings/SettingsPage.qml" line="463"/>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="510"/>
         <source>Zresetowano śpiewnik</source>
         <translation>Zresetowano śpiewnik</translation>
     </message>
@@ -749,6 +794,11 @@
         <location filename="../qml/pages/settings/SettingsPage.qml" line="347"/>
         <source>Język</source>
         <translation>Język</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/settings/SettingsPage.qml" line="426"/>
+        <source>Wczytaj śpiewnik z pliku. Zastępuje poprzedni śpiewnik</source>
+        <translation>Wczytaj śpiewnik z pliku. Zastępuje poprzedni śpiewnik</translation>
     </message>
     <message>
         <location filename="../qml/pages/settings/SettingsPage.qml" line="323"/>

@@ -22,6 +22,7 @@ public:
     void remove(int id);
     QList<Hymn> getHymns(int categoryId);
     void move(int categoryId, int from, int to);
+    void reorder();
 };
 
 #endif // CATEGORYREPOSITORY_H

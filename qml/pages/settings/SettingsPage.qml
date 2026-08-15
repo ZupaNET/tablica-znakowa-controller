@@ -423,7 +423,7 @@ Item {
                     SettingsAction {
                         icon: Icon.databaseImport
                         title: qsTr("Importuj śpiewnik")
-                        description: qsTr("Wczytaj śpiewnik z pliku")
+                        description: qsTr("Wczytaj śpiewnik z pliku. Zastępuje poprzedni śpiewnik")
 
                         onClicked: dbImportDialog.open()
                     }
@@ -445,8 +445,55 @@ Item {
 
                         onClicked: dbResetDialog.open()
                     }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 1
+
+                        color: Theme.divider
+                    }
+
+                    SettingsAction {
+                        icon: Icon.sortAlphabeticalAscending
+                        title: qsTr("Posortuj kategorie")
+                        description: qsTr("Zresetuj ustaloną kolejność kategorii i ustaw je alfabetycznie")
+
+                        onClicked: dbCategoryReorderDialog.open()
+                    }
+
+                    SettingsAction {
+                        icon: Icon.sortAlphabeticalAscending
+                        title: qsTr("Posortuj zestawy")
+                        description: qsTr("Zresetuj ustaloną kolejność zestawów i ustaw je alfabetycznie")
+
+                        onClicked: dbSetReorderDialog.open()
+                    }
                 }
             }
+        }
+    }
+
+    ConfirmDialog {
+        id: dbCategoryReorderDialog
+
+        title: qsTr("Posortować kategorie?")
+        message: qsTr("Czy na pewno chcesz posortować kategorie alfabetycznie?")
+
+        onAccepted: {
+            DatabaseCleanupService.reorderCategoriesByName()
+            infoPopup.show(qsTr("Posortowano kategorie alfabetycznie"))
+        }
+    }
+
+    ConfirmDialog {
+        id: dbSetReorderDialog
+
+        title: qsTr("Posortować zestawy?")
+        message: qsTr("Czy na pewno chcesz posortować zestawy alfabetycznie?")
+
+        onAccepted: {
+            DatabaseCleanupService.reorderSetsByName()
+            infoPopup.show(qsTr("Posortowano zestawy alfabetycznie"))
         }
     }
 

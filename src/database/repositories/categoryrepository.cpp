@@ -198,3 +198,40 @@ void CategoryRepository::move(int categoryId, int from, int to)
 
     db.commit();
 }
+
+void CategoryRepository::reorder()
+{
+    QSqlDatabase db = DatabaseConnector::instance().db();
+
+    if(!db.transaction())
+        return;
+
+    QSqlQuery q(db);
+
+    q.prepare(R"(
+        WITH Ordered AS (
+            SELECT
+                Id,
+                ROW_NUMBER() OVER (
+                    ORDER BY Name COLLATE NOCASE, Id
+                ) - 1 AS NewDisplayOrder
+            FROM Categories
+        )
+        UPDATE Categories
+        SET DisplayOrder = (
+            SELECT NewDisplayOrder
+            FROM Ordered
+            WHERE Ordered.Id = Categories.Id
+        )
+    )");
+
+    if (!q.exec()) {
+        db.rollback();
+        qWarning() << "Failed to reorder categories:" << q.lastError().text();
+        return;
+    }
+
+    if (!db.commit()) {
+        qWarning() << "Failed to commit category reorder:" << db.lastError().text();
+    }
+}

@@ -22,6 +22,7 @@ public:
     void update(int id, const QString& name);
     void remove(int id);
     void move(int setId, int from, int to);
+    void reorder();
     QList<Hymn> getHymns(int setId);
     QList<Screen> getScreens(int setId, int hymnId);
     Hymn addHymn(int setId, int hymnId);
