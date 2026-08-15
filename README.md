@@ -5,7 +5,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Made_in-Żupawa-000000?style=for-the-badge&"/>
   <img src="https://img.shields.io/badge/Coded_by-ŻupaNET-000000?style=for-the-badge&"/>
-  <img src="https://img.shields.io/badge/Written_in-Qt!-000000?style=for-the-badge&logo=Qt"/>
+  <img src="https://img.shields.io/badge/Written_in-Qt!-00414A?style=for-the-badge&logo=Qt"/>
 </p>
 
 ## Przegląd
@@ -21,7 +21,7 @@ Tablica Znakowa - Kontroler to nieskomplikowany, lekki i otwartoźródłowy mena
 Aplikację najlepiej się obsługuje za pomocą komputera, bądź tabletu.
 
 **Uwaga!** Tablica Znakowa - Kontroler to jedynie sterownik! Nie posiada funkcji projekcji pieśni.
-Do pełnego działania wymagana jest oryginalna tablica LED od firmy MKEiA (z obsługą uproszczonego protokołu MKEiA), bądź emulator [*Tablica Znakowa*](http://192.168.40.2:3000/ZupaNET-publiczne/vmkeia) od ŻupaNET Development.
+Do pełnego działania wymagana jest oryginalna tablica LED od firmy MKEiA (z obsługą uproszczonego protokołu MKEiA), bądź emulator *Tablica Znakowa* od ŻupaNET Development.
 
 <p align=center>
   <img height="128" alt="2" src="./fastlane/metadata/android/pl-PL/images/sevenInchScreenshots/01.png" />
