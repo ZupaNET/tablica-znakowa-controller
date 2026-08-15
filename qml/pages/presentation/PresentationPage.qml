@@ -12,7 +12,7 @@ import QtQuick.Effects
 
 import Prezenter
 
-Item {
+FocusScope {
     id: root
 
     property alias presentId: presentationModel.presentId
@@ -29,6 +29,24 @@ Item {
     }
 
     signal presentationClosed()
+
+    focus: true
+
+    Keys.onPressed: event => {
+        switch (event.key) {
+        case Qt.Key_Left:
+        case Qt.Key_Up:
+            if (screenBack())
+                event.accepted = true
+            break
+
+        case Qt.Key_Right:
+        case Qt.Key_Down:
+            if (screenNext())
+                event.accepted = true
+            break
+        }
+    }
 
     PresentationModel {
         id: presentationModel
@@ -461,6 +479,8 @@ Item {
     }
 
     Component.onCompleted: {
+        forceActiveFocus()
+
         ScreenAwake.preventSleep()
         BoardController.enabled = false
     }
