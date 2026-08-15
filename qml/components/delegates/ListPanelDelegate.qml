@@ -162,11 +162,11 @@ MouseArea {
                 font.family: "Material Design Icons"
                 font.pixelSize: 20
 
-                onClicked: menu.open()
+                onClicked: contextMenu.open()
             }
 
             Menu {
-                id: menu
+                id: contextMenu
 
                 x: moreButton.x + moreButton.width - width
                 y: moreButton.height
@@ -179,6 +179,7 @@ MouseArea {
 
                         onTriggered: {
                             root.editRequested()
+                            contextMenu.close()
                         }
                     }
                 }
@@ -196,6 +197,7 @@ MouseArea {
 
                     onTriggered: {
                         root.removeRequested()
+                        contextMenu.close()
                     }
                 }
             }
