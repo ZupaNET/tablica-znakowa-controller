@@ -177,7 +177,7 @@ Item {
                     text: qsTr("Wyczyść")
 
                     onClicked: {
-                        editor.content = ""
+                        clearConfirmDialog.open()
                     }
                 }
             }
@@ -191,6 +191,17 @@ Item {
     Component.onDestruction: {
         BoardController.enabled = false
         ScreenAwake.allowSleep()
+    }
+
+    ConfirmDialog {
+        id: clearConfirmDialog
+
+        title: qsTr("Wyczyścić tablicę?")
+        message: qsTr("Czy na pewno chcesz wyczyścić tablicę?")
+
+        onAccepted: {
+            editor.content = ""
+        }
     }
 
     Connections {

@@ -433,7 +433,17 @@
         <translation>Wyczyść</translation>
     </message>
     <message>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="199"/>
+        <source>Wyczyścić tablicę?</source>
+        <translation>Wyczyścić tablicę?</translation>
+    </message>
+    <message>
         <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="200"/>
+        <source>Czy na pewno chcesz wyczyścić tablicę?</source>
+        <translation>Czy na pewno chcesz wyczyścić tablicę?</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="211"/>
         <source>Nie można połączyć się z tablicą:</source>
         <translation>Nie można połączyć się z tablicą:</translation>
     </message>

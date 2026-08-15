@@ -259,7 +259,7 @@
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="95"/>
         <source>Lista pieśni</source>
-        <translation>List of Hymnals</translation>
+        <translation>List of Hymns</translation>
     </message>
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="96"/>
@@ -433,7 +433,17 @@
         <translation>Clear</translation>
     </message>
     <message>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="199"/>
+        <source>Wyczyścić tablicę?</source>
+        <translation>Clear the board?</translation>
+    </message>
+    <message>
         <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="200"/>
+        <source>Czy na pewno chcesz wyczyścić tablicę?</source>
+        <translation>Are you sure you want to clear the board?</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="211"/>
         <source>Nie można połączyć się z tablicą:</source>
         <translation>Unable to connect to the board:</translation>
     </message>
