@@ -25,6 +25,28 @@ Item {
         visible: !Qt.inputMethod.visible
 
         title: qsTr("Wyświetlanie tekstu")
+
+        Button {
+            anchors {
+                right: parent.right
+                rightMargin: 10
+                verticalCenter: parent.verticalCenter
+            }
+
+            text: qsTr("Transmisja") + " " + Icon.cast
+
+            highlighted: BoardController.enabled
+            flat: true
+
+            Material.background: "transparent"
+            Material.foreground: "white"
+            font.family: "Material Design Icons"
+            font.pixelSize: 20
+
+            onClicked: {
+                BoardController.enabled = !BoardController.enabled
+            }
+        }
     }
 
     ColumnLayout {
@@ -77,6 +99,8 @@ Item {
 
                     onContentTextChanged: (c) => {
                         AppSettings.screenCustomText = content
+
+                        BoardController.buffer.text = content
                     }
                 }
             }
@@ -112,6 +136,12 @@ Item {
 
                     onActivated: {
                         AppSettings.screenCustomFont = currentIndex
+
+                        BoardController.buffer.font = currentIndex
+                    }
+
+                    Component.onCompleted: {
+                        BoardController.buffer.font = currentIndex
                     }
                 }
 
@@ -142,38 +172,25 @@ Item {
                 }
 
                 Button {
-                    Layout.rightMargin: 20
+                    Layout.rightMargin: 10
 
                     text: qsTr("Wyczyść")
 
                     onClicked: {
                         editor.content = ""
-                        BoardController.clearScreen()
-                    }
-                }
-
-                Button {
-                    text: qsTr("Wyświetl")
-
-                    onClicked: {
-                        let screen = BoardController.buffer
-
-                        screen.text = editor.content
-                        screen.font = fontSelector.currentIndex
-
-                        BoardController.enabled = true
-
-                        if(screen === BoardController.buffer)
-                        {
-                            BoardController.sendBuffer()
-                            return
-                        }
-
-                        BoardController.buffer = screen
                     }
                 }
             }
         }
+    }
+
+    Component.onCompleted: {
+        ScreenAwake.allowSleep()
+    }
+
+    Component.onDestruction: {
+        BoardController.enabled = false
+        ScreenAwake.allowSleep()
     }
 
     Connections {
