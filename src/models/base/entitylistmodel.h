@@ -14,7 +14,7 @@ template<typename T>
 class EntityListModel : public BaseListModel
 {
 public:
-    explicit EntityListModel<T>(QObject* parent = nullptr)
+    explicit EntityListModel(QObject* parent = nullptr)
         : BaseListModel(parent)
     {}
 
