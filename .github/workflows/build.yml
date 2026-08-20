@@ -78,69 +78,14 @@ jobs:
         
         - name: Generate changelog
           id: changelog
-          uses: mikepenz/release-changelog-builder-action@v6
+          uses: requarks/changelog-action@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            mode: COMMIT
-            configurationJson: |
-              {
-                  "template": "# Changelog\n\n{{CHANGELOG}}",
-                  "commitFormat": {
-                    "message": "^- ({{COMMIT_TYPE}}): {{COMMIT_SUBJECT}}"
-                  },
-                  "categories": [
-                    {
-                      "title": "## Features",
-                      "labels": [
-                        "feat"
-                      ]
-                    },
-                    {
-                      "title": "## Bug Fixes",
-                      "labels": [
-                        "fix"
-                      ]
-                    },
-                    {
-                      "title": "## Performance",
-                      "labels": [
-                        "perf"
-                      ]
-                    },
-                    {
-                      "title": "## Refactoring",
-                      "labels": [
-                        "refactor"
-                      ]
-                    },
-                    {
-                      "title": "## Documentation",
-                      "labels": [
-                        "docs"
-                      ]
-                    },
-                    {
-                      "title": "## Tests",
-                      "labels": [
-                        "test"
-                      ]
-                    },
-                    {
-                      "title": "## Build / CI",
-                      "labels": [
-                        "build",
-                        "ci"
-                      ]
-                    },
-                    {
-                      "title": "## Chores",
-                      "labels": [
-                        "chore"
-                      ]
-                    }
-                  ]
-              }
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            tag: ${{ github.ref_name }}
+            writeToFile: false
+            useGitmojis: false
+            includeInvalidCommits: false
         
         - name: Download build artifacts
           uses: actions/download-artifact@v4
