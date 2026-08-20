@@ -141,7 +141,13 @@ jobs:
                 -DQT_ANDROID_KEYSTORE_KEY_PASS="$QT_ANDROID_KEYSTORE_KEY_PASS"
                 
           - name: Build APK
-            run: cmake --build build-android --target apk --config Release --parallel 2
+            env:
+              QT_ANDROID_SIGN_APK: 'ON'
+              QT_ANDROID_KEYSTORE_PATH: ${{ steps.decode_keystore.outputs.filePath }}
+              QT_ANDROID_KEYSTORE_ALIAS: ${{ secrets.KEY_ALIAS }}
+              QT_ANDROID_KEYSTORE_STORE_PASS: ${{ secrets.KEYSTORE_PASSWORD }}
+              QT_ANDROID_KEYSTORE_KEY_PASS: ${{ secrets.KEY_PASSWORD }}
+            run: cmake --build build-android --target apk --config Release
             
           - name: Rename APK
             run: |
