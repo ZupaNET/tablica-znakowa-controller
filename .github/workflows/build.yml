@@ -104,7 +104,7 @@ jobs:
               cache: true
           
           - name: Set up Android NDK for Qt
-            uses: android-action/setup-ndk@v0.3.3
+            uses: nttld/setup-ndk@v1
             id: ndk
             with:
                ndk-version: '27.2.12479018'
