@@ -42,8 +42,6 @@ jobs:
                   -B "${env:BUILD_DIR}" `
                   -G Ninja `
                   -DCMAKE_BUILD_TYPE=Release
-                  -DCMAKE_C_COMPILER="$env:CC"
-                  -DCMAKE_CXX_COMPILER="$env:CXX"
             
             - name: Build
               shell: pwsh
