@@ -1,0 +1,165 @@
+name: Build & Preapre to release
+
+on:
+    push:
+        tags:
+          - 'v[0-9]+.[0-9]+.[0-9]+'
+    
+    workflow_dispatch:
+
+env:
+    QT_VERSION: '6.11.*'
+    BUILD_DIR: build
+
+jobs:
+    build:
+        name: Build for Windows
+        runs-on: windows-2022
+        
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+             
+            - name: Install Qt
+              uses: jurplel/install-qt-action@v4
+              with:
+                version: ${{ env.QT_VERSION }}
+                host: windows
+                target: desktop
+                arch: win64_llvm_mingw
+                cache: true
+                
+            - name: Configure
+              shell: pwsh
+              run: |
+                cmake `
+                  -S . `
+                  -B "${env:BUILD_DIR}" `
+                  -G Ninja `
+                  -DCMAKE_BUILD_TYPE=Release
+            
+            - name: Build
+              shell: pwsh
+              run: |
+                cmake `
+                  --build "${env:BUILD_DIR}" `
+                  --config Release `
+                  --parallel
+                  
+            - name: Package with CPack
+              shell: pwsh
+              working-directory: ${{ env.BUILD_DIR }}
+              run: |
+                cpack
+            
+            - name: Upload packages
+              uses: actions/upload-artifact@v4
+              with:
+                name: tablica-znakowa-kontroler-${{ github.ref_name }}
+                if-no-files-found: error
+                path: |
+                  build/tablica-znakowa-kontroler*.exe
+                  build/tablica-znakowa-kontroler*.zip
+                  build/tablica-znakowa-kontroler*.sha256
+                  
+    release:
+      name: Create Draft Release
+      runs-on: ubuntu-latest
+      needs: build
+      if: startsWith(github.ref, 'refs/tags/v')
+      
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        
+        - name: Generate changelog
+          id: changelog
+          uses: mikepenz/release-changelog-builder-action@v6
+          with:
+            mode: COMMIT
+            configurationJson: |
+              {
+                  "template": "# Changelog\n\n{{CHANGELOG}}",
+                  "commitFormat": {
+                    "message": "^- ({{COMMIT_TYPE}}): {{COMMIT_SUBJECT}}"
+                  },
+                  "categories": [
+                    {
+                      "title": "## Features",
+                      "labels": [
+                        "feat"
+                      ]
+                    },
+                    {
+                      "title": "## Bug Fixes",
+                      "labels": [
+                        "fix"
+                      ]
+                    },
+                    {
+                      "title": "## Performance",
+                      "labels": [
+                        "perf"
+                      ]
+                    },
+                    {
+                      "title": "## Refactoring",
+                      "labels": [
+                        "refactor"
+                      ]
+                    },
+                    {
+                      "title": "## Documentation",
+                      "labels": [
+                        "docs"
+                      ]
+                    },
+                    {
+                      "title": "## Tests",
+                      "labels": [
+                        "test"
+                      ]
+                    },
+                    {
+                      "title": "## Build / CI",
+                      "labels": [
+                        "build",
+                        "ci"
+                      ]
+                    },
+                    {
+                      "title": "## Chores",
+                      "labels": [
+                        "chore"
+                      ]
+                    }
+                  ]
+              }
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+        - name: Download build artifacts
+          uses: actions/download-artifact@v4
+          with:
+            name: tablica-znakowa-kontroler-${{ github.ref_name }}
+            path: release-assets
+        
+        - name: Create draft release
+          uses: softprops/action-gh-release@v2
+          with:
+            tag_name: ${{ github.ref_name }}
+            name: Release ${{ github.ref_name }}
+            
+            body: |
+              ${{ steps.changelog.outputs.changelog }}
+            draft: true
+            prerelease: false
+            
+            files: |
+              release-assets/tablica-znakowa-kontroler*.exe
+              release-assets/tablica-znakowa-kontroler*.zip
+              release-assets/tablica-znakowa-kontroler*.sha256
