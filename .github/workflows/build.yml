@@ -47,7 +47,7 @@ jobs:
                 cmake `
                   --build "${env:BUILD_DIR}" `
                   --config Release `
-                  --parallel
+                  --parallel 2
                   
             - name: Package with CPack
               shell: pwsh
