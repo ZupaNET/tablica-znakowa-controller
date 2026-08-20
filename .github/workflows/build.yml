@@ -30,9 +30,7 @@ jobs:
                 host: windows
                 target: desktop
                 arch: win64_llvm_mingw
-                tools: | 
-                  tools_llvm_mingw1706 
-                  tools_ninja
+                tools: 'tools_llvm_mingw1706 tools_ninja'
                 set-env: true
                 cache: true
                 
