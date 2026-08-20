@@ -25,6 +25,7 @@ jobs:
             - name: Install Qt
               uses: jurplel/install-qt-action@v4
               with:
+                aqtsource: git+https://github.com/miurahr/aqtinstall.git@refs/pull/1000/head
                 version: ${{ env.QT_VERSION }}
                 host: windows
                 target: desktop
