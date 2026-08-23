@@ -118,7 +118,8 @@ void BoardTransaction::startCommand()
     connect(m_session, &BoardCommandSession::connectedChanged, this, &BoardTransaction::connectedChanged);
 
     m_session->start();
-    m_session->send(command);
+    if(m_session != nullptr)
+        m_session->send(command);
 }
 
 void BoardTransaction::commandFinished()
