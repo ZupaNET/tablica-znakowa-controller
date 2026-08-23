@@ -112,7 +112,8 @@ Dialog {
         field.text = root.initialName
         if(root.initialCategory > -2)
             categoryBox.updateSelection()
-        field.forceActiveFocus()
+        else
+            field.forceActiveFocus()
     }
 
     onAccepted: {
