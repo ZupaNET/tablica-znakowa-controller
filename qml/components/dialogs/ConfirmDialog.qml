@@ -33,4 +33,6 @@ Dialog {
         text: root.message
         color: Theme.text
     }
+
+    onAccepted: viewport.forceActiveFocus()
 }

@@ -131,5 +131,7 @@ Dialog {
         }
         else
             root.acceptedWithName(value)
+
+        viewport.forceActiveFocus()
     }
 }
