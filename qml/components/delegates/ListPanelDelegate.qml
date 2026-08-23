@@ -162,14 +162,24 @@ MouseArea {
                 font.family: "Material Design Icons"
                 font.pixelSize: 20
 
-                onClicked: contextMenu.open()
+                onClicked: {
+                    var pos = mapToItem(root.listView.contentItem, 0, 0)
+                    var bottom = pos.y + height
+                    var viewportBottom = root.listView.contentY + root.listView.height
+
+                    if (bottom + contextMenu.height > viewportBottom)
+                        contextMenu.y = -contextMenu.height
+                    else
+                        contextMenu.y = moreButton.height
+
+                    contextMenu.open()
+                }
             }
 
             Menu {
                 id: contextMenu
 
                 x: moreButton.x + moreButton.width - width
-                y: moreButton.height
 
                 Loader {
                     active: root.editEnabled
