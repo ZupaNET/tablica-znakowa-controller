@@ -30,6 +30,13 @@ Item {
             reload()
     }
 
+    HymnModel {
+        id: fullHymnModel
+
+        Component.onCompleted:
+            reload()
+    }
+
     ScreenModel {
         id: screenModel
     }
@@ -89,6 +96,9 @@ Item {
             model: categoryModel
 
             onSelected: id => {
+                if(hymnModel.parentId === -2)
+                    hymnPanel.model = hymnModel
+
                 hymnModel.parentId = id
                 screenModel.hymnId = -1
                 hymnPanel.resetSelection()
@@ -121,7 +131,7 @@ Item {
             Layout.fillHeight: true
             Layout.preferredWidth: parent.width * 0.30
 
-            model: hymnModel
+            model: fullHymnModel
 
             onSelected: id => {
                 screenModel.hymnId = id

@@ -105,7 +105,7 @@ Item {
     HymnPickerDialog {
         id: hymnPicker
 
-        currentSetId: root.model.parentId
+        currentSetId: root.model.parentId ? root.model.parentId : -1
 
         onSelected: hymnId => {
             root.addHymnToSet(hymnId)

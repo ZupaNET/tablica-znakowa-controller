@@ -78,6 +78,13 @@ Dialog {
         parentId: -2
     }
 
+    HymnModel {
+        id: hymnModel
+
+        Component.onCompleted:
+            reload()
+    }
+
     SetHymnModel {
         id: hymnBySetModel
     }
@@ -85,7 +92,7 @@ Dialog {
     SetFilterProxyModel {
         id: hymnProxy
 
-        sourceModel: hymnByCategoryModel
+        sourceModel: hymnModel
         membershipModel: hymnBySetModel
     }
 
@@ -131,6 +138,9 @@ Dialog {
                 toolbarEnabled: false
 
                 onSelected: row => {
+                    if(hymnByCategoryModel.parentId === -2)
+                        hymnProxy.sourceModel = hymnByCategoryModel
+
                     hymnByCategoryModel.parentId = categoryModel.get(row).categoryId
                 }
             }
@@ -158,10 +168,12 @@ Dialog {
 
                     root.selectionInProgress = true
 
-                    const hymnId =
-                        hymnByCategoryModel.get(
-                            hymnProxy.sourceRow(row)
-                        ).hymnId
+                    let hymnId
+
+                    if(hymnByCategoryModel.parentId === -2)
+                        hymnId = hymnModel.get(hymnProxy.sourceRow(row)).hymnId
+                    else
+                        hymnId = hymnByCategoryModel.get(hymnProxy.sourceRow(row)).hymnId
 
                     root.selected(hymnId)
                     root.close()
