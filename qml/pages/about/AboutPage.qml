@@ -207,6 +207,38 @@ Item {
 
                     spacing: 10
 
+                    Label {
+                        Layout.fillWidth: true
+
+                        textFormat: Text.RichText;
+
+                        text: qsTr("Strona WWW:") + " " + '<a href="https://zupanet.pl/tablica-znakowa-controller/">https://zupanet.pl/tablica-znakowa-controller</a>'
+
+                        color: Theme.textMuted
+
+                        wrapMode: Text.Wrap
+
+                        font.pixelSize: 13
+
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+
+                        textFormat: Text.RichText;
+
+                        text: qsTr("Repozytorium:") + " " + '<a href="https://github.com/ZupaNET/tablica-znakowa-controller">https://github.com/ZupaNET/tablica-znakowa-controller</a>'
+
+                        color: Theme.textMuted
+
+                        wrapMode: Text.Wrap
+
+                        font.pixelSize: 13
+
+                        onLinkActivated: (link) => Qt.openUrlExternally(link)
+                    }
+
                     Button {
                         text: qsTr("Licencje i informacje prawne")
 
