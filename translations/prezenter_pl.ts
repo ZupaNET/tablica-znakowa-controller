@@ -65,7 +65,17 @@
         <translation>w katalogu resources/licenses w repozytorium oraz poniżej.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/about/AboutPage.qml" line="211"/>
+        <location filename="../qml/pages/about/AboutPage.qml" line="215"/>
+        <source>Strona WWW:</source>
+        <translation>Strona WWW:</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/about/AboutPage.qml" line="231"/>
+        <source>Repozytorium:</source>
+        <translation>Repozytorium:</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/about/AboutPage.qml" line="243"/>
         <source>Licencje i informacje prawne</source>
         <translation>Licencje i informacje prawne</translation>
     </message>
@@ -138,12 +148,12 @@
 <context>
     <name>HymnListPage</name>
     <message>
-        <location filename="../qml/pages/hymns/HymnListPage.qml" line="45"/>
+        <location filename="../qml/pages/hymns/HymnListPage.qml" line="52"/>
         <source>Lista pieśni</source>
         <translation>Lista pieśni</translation>
     </message>
     <message>
-        <location filename="../qml/pages/hymns/HymnListPage.qml" line="54"/>
+        <location filename="../qml/pages/hymns/HymnListPage.qml" line="61"/>
         <source>Prezentuj</source>
         <translation>Prezentuj</translation>
     </message>
@@ -205,12 +215,12 @@
         <translation>Wybierz pieśń</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="123"/>
+        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="130"/>
         <source>Szukaj kategorii...</source>
         <translation>Szukaj kategorii...</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="144"/>
+        <location filename="../qml/components/dialogs/HymnPickerDialog.qml" line="154"/>
         <source>Szukaj pieśni...</source>
         <translation>Szukaj pieśni...</translation>
     </message>
@@ -231,12 +241,12 @@
         <translation>Bez nazwy</translation>
     </message>
     <message>
-        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="178"/>
+        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="188"/>
         <source>Edytuj</source>
         <translation>Edytuj</translation>
     </message>
     <message>
-        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="194"/>
+        <location filename="../qml/components/delegates/ListPanelDelegate.qml" line="204"/>
         <source>Usuń</source>
         <translation>Usuń</translation>
     </message>
