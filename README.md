@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-   <a href="https://github.com/ZupaNET/tablica-znakowa-controller/blob/main/README_PL.md">
+   <a href="https://github.com/ZupaNET/tablica-znakowa-controller/blob/master/README_PL.md">
      <img src="https://img.shields.io/badge/Dostępne_w_języku-polskim-blue?style=for-the-badge&color=000000" alt="Dostępne w języku polskim"/>
    </a>
 </p>
