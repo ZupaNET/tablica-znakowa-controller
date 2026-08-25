@@ -22,7 +22,7 @@
 
 ## Overview
 
-Sign Board - Controller is a simple, lightweight, and open-source manager for managing a database of church hymns and displaying them on LED sign boards formerly manufactured by MKEiA.
+Tablica Znakowa - Controller is a simple, lightweight, and open-source manager for managing a database of church hymns and displaying them on LED sign boards formerly manufactured by MKEiA.
 
 - Compatible with original MKEiA LED sign boards!
 - Built-in fonts used on the actual hardware!
