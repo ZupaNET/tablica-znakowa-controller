@@ -98,18 +98,18 @@
     <message>
         <location filename="../qml/components/panels/CategoryPanel.qml" line="63"/>
         <source>Nowa kategoria</source>
-        <translation>New Category</translation>
+        <translation>New category</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/CategoryPanel.qml" line="64"/>
         <location filename="../qml/components/panels/CategoryPanel.qml" line="75"/>
         <source>Nazwa kategorii</source>
-        <translation>Category Name</translation>
+        <translation>Category name</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/CategoryPanel.qml" line="74"/>
         <source>Zmiana nazwy kategorii</source>
-        <translation>Renaming a Category</translation>
+        <translation>Renaming a category</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/CategoryPanel.qml" line="85"/>
@@ -150,7 +150,7 @@
     <message>
         <location filename="../qml/pages/hymns/HymnListPage.qml" line="52"/>
         <source>Lista pieśni</source>
-        <translation>List of Hymns</translation>
+        <translation>List of hymns</translation>
     </message>
     <message>
         <location filename="../qml/pages/hymns/HymnListPage.qml" line="61"/>
@@ -163,18 +163,18 @@
     <message>
         <location filename="../qml/components/panels/HymnPanel.qml" line="86"/>
         <source>Nowa pieśń</source>
-        <translation>New Hymn</translation>
+        <translation>New hymn</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/HymnPanel.qml" line="87"/>
         <location filename="../qml/components/panels/HymnPanel.qml" line="98"/>
         <source>Nazwa pieśni</source>
-        <translation>Hymn Name</translation>
+        <translation>Hymn name</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/HymnPanel.qml" line="97"/>
         <source>Edytuj pieśń</source>
-        <translation>Edit Hymn</translation>
+        <translation>Edit hymn</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/HymnPanel.qml" line="118"/>
@@ -269,12 +269,12 @@
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="95"/>
         <source>Lista pieśni</source>
-        <translation>List of Hymns</translation>
+        <translation>List of hymns</translation>
     </message>
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="96"/>
         <source>Zarządzanie śpiewnikiem</source>
-        <translation>Hymnal Management</translation>
+        <translation>Hymnal management</translation>
     </message>
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="109"/>
@@ -284,7 +284,7 @@
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="110"/>
         <source>Wyświetlanie slajdów</source>
-        <translation>Slide Show</translation>
+        <translation>Slide show</translation>
     </message>
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="123"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="138"/>
         <source>Konfiguracja systemu</source>
-        <translation>System Configuration</translation>
+        <translation>System configuration</translation>
     </message>
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="151"/>
@@ -314,7 +314,7 @@
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="152"/>
         <source>Informacje i licencje</source>
-        <translation>Licenses and Legal Information</translation>
+        <translation>Licenses and legal information</translation>
     </message>
     <message>
         <location filename="../qml/pages/menu/MenuPage.qml" line="165"/>
@@ -347,12 +347,12 @@
     <message>
         <location filename="../qml/pages/presentation/PresentationPage.qml" line="67"/>
         <source>Prezentacja pieśni</source>
-        <translation>Hymn Presentation</translation>
+        <translation>Hymn presentation</translation>
     </message>
     <message>
         <location filename="../qml/pages/presentation/PresentationPage.qml" line="67"/>
         <source>Prezentacja zestawu</source>
-        <translation>Set Presentation</translation>
+        <translation>Set presentation</translation>
     </message>
     <message>
         <location filename="../qml/pages/presentation/PresentationPage.qml" line="76"/>
@@ -405,7 +405,7 @@
     <message>
         <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="27"/>
         <source>Wyświetlanie tekstu</source>
-        <translation>Quick Text Display</translation>
+        <translation>Arbitrary slide</translation>
     </message>
     <message>
         <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="36"/>
@@ -468,7 +468,7 @@
     <message>
         <location filename="../qml/pages/editors/ScreenEditorPage.qml" line="33"/>
         <source>Edycja slajdu</source>
-        <translation>Editing a Slide</translation>
+        <translation>Editing a slide</translation>
     </message>
     <message>
         <location filename="../qml/pages/editors/ScreenEditorPage.qml" line="101"/>
@@ -557,7 +557,7 @@
     <message>
         <location filename="../qml/components/dialogs/ScreenSwitcherDialog.qml" line="21"/>
         <source>Widoczność slajdów</source>
-        <translation>Slide Visibility</translation>
+        <translation>Slide visibility</translation>
     </message>
 </context>
 <context>
@@ -583,13 +583,13 @@
     <message>
         <location filename="../qml/components/panels/SetPanel.qml" line="61"/>
         <source>Nowy zestaw</source>
-        <translation>New Set</translation>
+        <translation>New set</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/SetPanel.qml" line="62"/>
         <location filename="../qml/components/panels/SetPanel.qml" line="73"/>
         <source>Nazwa zestawu</source>
-        <translation>Set Name</translation>
+        <translation>Set name</translation>
     </message>
     <message>
         <location filename="../qml/components/panels/SetPanel.qml" line="72"/>
@@ -773,7 +773,7 @@
     <message>
         <location filename="../qml/pages/settings/SettingsPage.qml" line="130"/>
         <source>Adres IP</source>
-        <translation>IP Address</translation>
+        <translation>IP address</translation>
     </message>
     <message>
         <location filename="../qml/pages/settings/SettingsPage.qml" line="148"/>

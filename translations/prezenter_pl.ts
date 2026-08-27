@@ -405,7 +405,7 @@
     <message>
         <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="27"/>
         <source>Wyświetlanie tekstu</source>
-        <translation>Wyświetlanie tekstu</translation>
+        <translation>Dowolny slajd</translation>
     </message>
     <message>
         <location filename="../qml/pages/presentation/QuickScreenPage.qml" line="36"/>
